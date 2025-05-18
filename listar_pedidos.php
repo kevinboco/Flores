@@ -1,17 +1,52 @@
 <?php
 include 'conexion.php';
+// Contar pedidos por estado
+$conteo = [
+    'En proceso' => 0,
+    'Listo' => 0,
+    'Enviado' => 0
+];
+
+$sql_conteo = "SELECT estado, COUNT(*) as cantidad FROM pedido GROUP BY estado";
+$result_conteo = $conn->query($sql_conteo);
+while ($row_conteo = $result_conteo->fetch_assoc()) {
+    $conteo[$row_conteo['estado']] = $row_conteo['cantidad'];
+    
+}
+
 
 // Obtener filtro si existe
-$filtro = isset($_GET['estado']) ? $_GET['estado'] : '';
-$sql = "SELECT * FROM pedido";
-if ($filtro != '') {
-    $stmt = $conn->prepare("SELECT * FROM pedido WHERE estado = ? ORDER BY fecha_entrega ASC");
-    $stmt->bind_param("s", $filtro);
+$filtro = $_GET['estado'] ?? '';
+$busqueda = $_GET['busqueda'] ?? '';
+
+if ($filtro !== '' || $busqueda !== '') {
+    $sql = "SELECT * FROM pedido WHERE 1=1";
+    $tipos = '';
+    $parametros = [];
+
+    if ($filtro !== '') {
+        $sql .= " AND estado = ?";
+        $tipos .= 's';
+        $parametros[] = $filtro;
+    }
+
+    if ($busqueda !== '') {
+        $sql .= " AND (nombre_cliente LIKE ? OR celular LIKE ?)";
+        $tipos .= 'ss';
+        $parametros[] = "%$busqueda%";
+        $parametros[] = "%$busqueda%";
+    }
+
+    $sql .= " ORDER BY fecha_entrega ASC";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param($tipos, ...$parametros);
     $stmt->execute();
     $result = $stmt->get_result();
 } else {
     $result = $conn->query("SELECT * FROM pedido ORDER BY fecha_entrega ASC");
 }
+
 
 // Procesar pago completo si se envió el formulario
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pago_completo'])) {
@@ -62,11 +97,29 @@ function siguienteEstado($estado) {
 
 <!-- Botones de filtro -->
 <div class="mb-4">
-    <a href="listar_pedidos.php" class="btn btn-outline-secondary <?= $filtro == '' ? 'active' : '' ?>">Todos</a>
-    <a href="listar_pedidos.php?estado=En proceso" class="btn btn-outline-warning <?= $filtro == 'En proceso' ? 'active' : '' ?>">En proceso</a>
-    <a href="listar_pedidos.php?estado=Listo" class="btn btn-outline-info <?= $filtro == 'Listo' ? 'active' : '' ?>">Listo</a>
-    <a href="listar_pedidos.php?estado=Enviado" class="btn btn-outline-success <?= $filtro == 'Enviado' ? 'active' : '' ?>">Enviado</a>
+    <a href="listar_pedidos.php" class="btn btn-outline-secondary <?= $filtro == '' ? 'active' : '' ?>">
+        Todos (<?= array_sum($conteo) ?>)
+    </a>
+    <a href="listar_pedidos.php?estado=En proceso" class="btn btn-outline-warning <?= $filtro == 'En proceso' ? 'active' : '' ?>">
+        En proceso (<?= $conteo['En proceso'] ?>)
+    </a>
+    <a href="listar_pedidos.php?estado=Listo" class="btn btn-outline-info <?= $filtro == 'Listo' ? 'active' : '' ?>">
+        Listo (<?= $conteo['Listo'] ?>)
+    </a>
+    <a href="listar_pedidos.php?estado=Enviado" class="btn btn-outline-success <?= $filtro == 'Enviado' ? 'active' : '' ?>">
+        Enviado (<?= $conteo['Enviado'] ?>)
+    </a>
+    
+
 </div>
+<a href="listar_catalogo.php" class="btn btn-secondary mb-4">Listado de Catálogo</a>
+<a href="crear_ramo.php" class="btn btn-primary mb-3">Agregar Nuevo Ramo</a>
+
+<form method="get" class="mb-4 d-flex gap-2">
+    <input type="text" name="busqueda" class="form-control" placeholder="Buscar por nombre o celular" value="<?= htmlspecialchars($_GET['busqueda'] ?? '') ?>">
+    <button type="submit" class="btn btn-secondary">Buscar</button>
+</form>
+
 
 <a href="crear_pedido.php" class="btn btn-primary mb-4">Nuevo Pedido</a>
 <a href="gananciasG.php" class="btn btn-info mb-4 ms-2">Ver Ganancias</a>
@@ -119,6 +172,10 @@ function siguienteEstado($estado) {
                     <a href="eliminar_pedido.php?id=<?= $row['id'] ?>" class="btn btn-outline-danger btn-sm" onclick="return confirm('¿Eliminar este pedido?')">
                         Eliminar
                     </a>
+                    <a href="editar_pedido.php?id=<?= $row['id'] ?>" class="btn btn-outline-secondary btn-sm">
+                        Editar
+                    </a>
+
                 </div>
             </div>
         </div>

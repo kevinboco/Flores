@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.2
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: localhost:3306
--- Tiempo de generación: 18-05-2025 a las 00:22:10
--- Versión del servidor: 8.0.30
--- Versión de PHP: 8.1.10
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 19-05-2025 a las 01:42:17
+-- Versión del servidor: 10.4.32-MariaDB
+-- Versión de PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,37 +24,42 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `catalogo_ramos`
+--
+
+CREATE TABLE `catalogo_ramos` (
+  `id` int(11) NOT NULL,
+  `titulo` varchar(255) NOT NULL,
+  `valor` decimal(10,2) NOT NULL,
+  `imagen` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `pedido`
 --
 
 CREATE TABLE `pedido` (
-  `id` int NOT NULL,
-  `nombre_cliente` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `celular` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `direccion` text COLLATE utf8mb4_general_ci NOT NULL,
-  `valor_ramo` int NOT NULL,
-  `cantidad_pagada` int DEFAULT '0',
-  `estado` enum('En proceso','Listo','Enviado') COLLATE utf8mb4_general_ci DEFAULT 'En proceso',
+  `id` int(11) NOT NULL,
+  `nombre_cliente` varchar(100) NOT NULL,
+  `celular` varchar(20) DEFAULT NULL,
+  `direccion` text NOT NULL,
+  `valor_ramo` decimal(10,2) NOT NULL,
+  `cantidad_pagada` decimal(10,2) DEFAULT 0.00,
+  `estado` enum('En proceso','Listo','Enviado') DEFAULT 'En proceso',
   `fecha_entrega` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `pedido`
---
-
-INSERT INTO `pedido` (`id`, `nombre_cliente`, `celular`, `direccion`, `valor_ramo`, `cantidad_pagada`, `estado`, `fecha_entrega`) VALUES
-(6, 'pru3', '30440404', 'allo3', 0, 10, 'En proceso', '2025-05-17'),
-(7, 'yo', '304334', 'lol', 100000, 30, 'En proceso', '2025-06-01'),
-(8, 'pedido2', '00303343', '2dd', 0, 50, 'En proceso', '2025-05-17'),
-(9, 'calis', '3043434', 'd', 100000, 100000, 'Enviado', '2027-01-17'),
-(10, 'lopez3', '033423', 'c', 100000, 100000, '', '2027-01-17'),
-(11, 'f', '32432423', 'r', 3434, 3434, 'Enviado', '2027-02-28'),
-(13, 'carlos junior villarreal', '3044868656', 'calle23 k1', 33000, 33000, 'En proceso', '2025-05-18'),
-(14, 'alfonzo', '44556554', 'santa', 25000, 25000, 'En proceso', '2025-05-20');
-
---
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `catalogo_ramos`
+--
+ALTER TABLE `catalogo_ramos`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `pedido`
@@ -67,10 +72,16 @@ ALTER TABLE `pedido`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `catalogo_ramos`
+--
+ALTER TABLE `catalogo_ramos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `pedido`
 --
 ALTER TABLE `pedido`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
