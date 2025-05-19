@@ -1,5 +1,11 @@
+<?php include 'texto circular.php'; ?>
+<?php include 'nav.php'; ?>
 <?php
+
 include 'conexion.php';
+
+
+
 // Contar pedidos por estado
 $conteo = [
     'En proceso' => 0,
@@ -76,6 +82,10 @@ function siguienteEstado($estado) {
     <title>Pedidos</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        body {
+          background: url('uploads/63a7cb6a-ba55-4583-9daf-971cd26453e5.jpeg') no-repeat center center;
+          background-size: cover;
+        }
         .card {
             transition: transform 0.2s;
         }
@@ -112,8 +122,7 @@ function siguienteEstado($estado) {
     
 
 </div>
-<a href="listar_catalogo.php" class="btn btn-secondary mb-4">Listado de Catálogo</a>
-<a href="crear_ramo.php" class="btn btn-primary mb-3">Agregar Nuevo Ramo</a>
+
 
 <form method="get" class="mb-4 d-flex gap-2">
     <input type="text" name="busqueda" class="form-control" placeholder="Buscar por nombre o celular" value="<?= htmlspecialchars($_GET['busqueda'] ?? '') ?>">
@@ -121,8 +130,7 @@ function siguienteEstado($estado) {
 </form>
 
 
-<a href="crear_pedido.php" class="btn btn-primary mb-4">Nuevo Pedido</a>
-<a href="gananciasG.php" class="btn btn-info mb-4 ms-2">Ver Ganancias</a>
+
 
 <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
 <?php if ($result->num_rows > 0): ?>

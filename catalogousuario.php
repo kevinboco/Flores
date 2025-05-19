@@ -48,6 +48,7 @@
 </head>
 <body>
 
+<button class="back-button" onclick="location.href='index.php'">Volver a Inicio</button>
 <div class="stack-container" id="carousel">
   <?php
     $folder = "uploads/";
