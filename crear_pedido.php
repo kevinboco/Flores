@@ -1,5 +1,6 @@
 <?php include 'conexion.php'; 
-
+include 'texto circular.php';
+include 'nav.php';
 
 ?>
 <!DOCTYPE html>

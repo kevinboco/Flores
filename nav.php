@@ -110,6 +110,13 @@
       <div class="dock-label">catalogo</div>
     
     </div>
+    <div class="dock-item" tabindex="0" role="button" aria-haspopup="true" aria-label="catalogo" onclick="window.location.href='ajustar_precios.php'">
+      <div class="dock-icon">
+        <img src="privado/precio.png" alt="Configuración" width="32" height="32" />
+      </div>
+      <div class="dock-label">ajustar precio ramo</div>
+    
+    </div>
     <div class="dock-item" tabindex="0" role="button" aria-haspopup="true" aria-label="catalogo" onclick="window.location.href='gananciasG.php'">
       <div class="dock-icon">
         <img src="privado/ganancia.png" alt="Configuración" width="32" height="32" />

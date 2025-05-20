@@ -1,6 +1,7 @@
 <?php
 include 'conexion.php';
-
+include 'texto circular.php';
+include 'nav.php';
 $result = $conn->query("SELECT * FROM catalogo_ramos ORDER BY titulo ASC");
 ?>
 

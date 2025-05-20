@@ -1,6 +1,7 @@
 <?php
 include 'conexion.php';
-
+include 'texto circular.php';
+include 'nav.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $titulo = $_POST['titulo'];
     $valor = $_POST['valor'];

@@ -4,8 +4,6 @@
 
 include 'conexion.php';
 
-
-
 // Contar pedidos por estado
 $conteo = [
     'En proceso' => 0,
@@ -17,9 +15,7 @@ $sql_conteo = "SELECT estado, COUNT(*) as cantidad FROM pedido GROUP BY estado";
 $result_conteo = $conn->query($sql_conteo);
 while ($row_conteo = $result_conteo->fetch_assoc()) {
     $conteo[$row_conteo['estado']] = $row_conteo['cantidad'];
-    
 }
-
 
 // Obtener filtro si existe
 $filtro = $_GET['estado'] ?? '';
@@ -53,17 +49,16 @@ if ($filtro !== '' || $busqueda !== '') {
     $result = $conn->query("SELECT * FROM pedido ORDER BY fecha_entrega ASC");
 }
 
-
 // Procesar pago completo si se envió el formulario
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pago_completo'])) {
     $id_pedido = $_POST['id_pedido'];
     $falta_pagar = $_POST['falta_pagar'];
-    
+
     // Actualizar el pago en la base de datos
     $stmt = $conn->prepare("UPDATE pedido SET cantidad_pagada = cantidad_pagada + ? WHERE id = ?");
     $stmt->bind_param("di", $falta_pagar, $id_pedido);
     $stmt->execute();
-    
+
     // Recargar la página para ver los cambios
     header("Location: listar_pedidos.php" . ($filtro ? "?estado=$filtro" : ""));
     exit;
@@ -83,8 +78,8 @@ function siguienteEstado($estado) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-          background: url('uploads/63a7cb6a-ba55-4583-9daf-971cd26453e5.jpeg') no-repeat center center;
-          background-size: cover;
+            background: url('uploads/63a7cb6a-ba55-4583-9daf-971cd26453e5.jpeg') no-repeat center center;
+            background-size: cover;
         }
         .card {
             transition: transform 0.2s;
@@ -102,7 +97,7 @@ function siguienteEstado($estado) {
     </style>
 </head>
 <body class="container py-4">
-
+<a href="index.php" class="btn btn-primary mb-4">ir a vista de usuario</a>
 <h2 class="mb-4">Pedidos</h2>
 
 <!-- Botones de filtro -->
@@ -119,18 +114,12 @@ function siguienteEstado($estado) {
     <a href="listar_pedidos.php?estado=Enviado" class="btn btn-outline-success <?= $filtro == 'Enviado' ? 'active' : '' ?>">
         Enviado (<?= $conteo['Enviado'] ?>)
     </a>
-    
-
 </div>
-
 
 <form method="get" class="mb-4 d-flex gap-2">
     <input type="text" name="busqueda" class="form-control" placeholder="Buscar por nombre o celular" value="<?= htmlspecialchars($_GET['busqueda'] ?? '') ?>">
     <button type="submit" class="btn btn-secondary">Buscar</button>
 </form>
-
-
-
 
 <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
 <?php if ($result->num_rows > 0): ?>
@@ -143,12 +132,10 @@ function siguienteEstado($estado) {
             <div class="card-body">
                 <h5 class="card-title"><?= htmlspecialchars($row['nombre_cliente']) ?></h5>
                 <h6 class="card-subtitle mb-2 text-muted">
-
                     <a href="https://wa.me/57<?= preg_replace('/\D/', '', $row['celular']) ?>?text=<?= urlencode('Hola, su pedido está listo. ¿Prefiere que se lo enviemos o desea recogerlo personalmente?') ?>"
                         target="_blank">
                         <?= htmlspecialchars($row['celular']) ?>
                     </a>
-
                 </h6>
                 <p class="card-text">
                     <strong>Dirección:</strong> <?= htmlspecialchars($row['direccion']) ?><br>
@@ -166,7 +153,7 @@ function siguienteEstado($estado) {
                     <a href="cambiar_estado.php?id=<?= $row['id'] ?>&estado=<?= siguienteEstado($row['estado']) ?>" class="btn btn-outline-primary btn-sm">
                         Pasar a <?= siguienteEstado($row['estado']) ?>
                     </a>
-                    
+
                     <?php if ($falta > 0): ?>
                     <form method="post" class="d-inline">
                         <input type="hidden" name="id_pedido" value="<?= $row['id'] ?>">
@@ -176,14 +163,26 @@ function siguienteEstado($estado) {
                         </button>
                     </form>
                     <?php endif; ?>
-                    
+
                     <a href="eliminar_pedido.php?id=<?= $row['id'] ?>" class="btn btn-outline-danger btn-sm" onclick="return confirm('¿Eliminar este pedido?')">
                         Eliminar
                     </a>
+
                     <a href="editar_pedido.php?id=<?= $row['id'] ?>" class="btn btn-outline-secondary btn-sm">
                         Editar
                     </a>
 
+                    <?php if ($row['estado'] == 'Listo'): ?>
+                        <a href="https://wa.me/573043859242?text=<?= urlencode('Hola, para pedir un domicilio estoy en la cra 25 #18-40 y el pedido va para  ' . $row['direccion']) ?>" 
+                            class="btn btn-outline-dark btn-sm" target="_blank">
+                            Pedir domicilio
+                        </a>
+
+                        <a href="https://wa.me/57<?= preg_replace('/\D/', '', $row['celular']) ?>?text=<?= urlencode("Ya puede pasar por su pedido") ?>"
+                           target="_blank" class="btn btn-outline-success btn-sm">
+                            Avisar que está listo
+                        </a>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
