@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.2
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 19-05-2025 a las 01:42:17
--- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.2.12
+-- Servidor: localhost:3306
+-- Tiempo de generación: 22-05-2025 a las 16:55:06
+-- Versión del servidor: 8.0.30
+-- Versión de PHP: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -28,11 +28,22 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `catalogo_ramos` (
-  `id` int(11) NOT NULL,
-  `titulo` varchar(255) NOT NULL,
+  `id` int NOT NULL,
+  `titulo` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
   `valor` decimal(10,2) NOT NULL,
-  `imagen` varchar(255) NOT NULL
+  `imagen` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `description` text COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `catalogo_ramos`
+--
+
+INSERT INTO `catalogo_ramos` (`id`, `titulo`, `valor`, `imagen`, `description`) VALUES
+(1, 'primera oferta', 40.00, 'link', 'este es un producto de primera oferta, probando prueba'),
+(2, 'segunda prueba', 50000.00, 'likea', 'esta es la segunda prueba del producto'),
+(3, 'tercera pueba', 35000.00, 'linkea', 'esta es la tercera prueba'),
+(4, 'cuarta prueba', 90000.00, 'limk', 'descrihvhvhgvhg');
 
 -- --------------------------------------------------------
 
@@ -41,13 +52,13 @@ CREATE TABLE `catalogo_ramos` (
 --
 
 CREATE TABLE `pedido` (
-  `id` int(11) NOT NULL,
-  `nombre_cliente` varchar(100) NOT NULL,
-  `celular` varchar(20) DEFAULT NULL,
-  `direccion` text NOT NULL,
+  `id` int NOT NULL,
+  `nombre_cliente` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `celular` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `direccion` text COLLATE utf8mb4_general_ci NOT NULL,
   `valor_ramo` decimal(10,2) NOT NULL,
-  `cantidad_pagada` decimal(10,2) DEFAULT 0.00,
-  `estado` enum('En proceso','Listo','Enviado') DEFAULT 'En proceso',
+  `cantidad_pagada` decimal(10,2) DEFAULT '0.00',
+  `estado` enum('En proceso','Listo','Enviado') COLLATE utf8mb4_general_ci DEFAULT 'En proceso',
   `fecha_entrega` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -75,13 +86,13 @@ ALTER TABLE `pedido`
 -- AUTO_INCREMENT de la tabla `catalogo_ramos`
 --
 ALTER TABLE `catalogo_ramos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `pedido`
 --
 ALTER TABLE `pedido`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

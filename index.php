@@ -1,10 +1,10 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <title>Animación con Botones Separados</title>
+  <link rel="stylesheet" href="style/style_index.css">
   <style>
     body {
       background: url('uploads/63a7cb6a-ba55-4583-9daf-971cd26453e5.jpeg') no-repeat center center;
@@ -16,7 +16,8 @@
       justify-content: flex-start;
       height: 100vh;
       margin: 0;
-      padding: 2em 1em 4em; /* padding abajo para espacio de botones */
+      padding: 2em 1em 4em;
+      /* padding abajo para espacio de botones */
       font-family: 'Compressa VF', sans-serif;
     }
 
@@ -24,10 +25,12 @@
     .text-container {
       width: 100%;
       max-width: 900px;
-      min-height: 20vw; /* fija la altura mínima para evitar que cambie con escala */
+      min-height: 20vw;
+      /* fija la altura mínima para evitar que cambie con escala */
       display: flex;
       justify-content: center;
-      margin-bottom: 3em; /* espacio fijo antes de botones */
+      margin-bottom: 3em;
+      /* espacio fijo antes de botones */
     }
 
     .text-pressure {
@@ -66,10 +69,12 @@
         font-variation-settings: 'wght' 100, 'wdth' 50, 'ital' 0;
         transform: scale(1);
       }
+
       50% {
         font-variation-settings: 'wght' 500, 'wdth' 200, 'ital' 1;
         transform: scale(1.2);
       }
+
       100% {
         font-variation-settings: 'wght' 100, 'wdth' 50, 'ital' 0;
         transform: scale(0.5);
@@ -86,25 +91,25 @@
     }
 
     .animated-button {
-        background: linear-gradient(135deg, #6b8ce3, #4a90e2);
-        color: white;
-        border: none;
-        padding: 14px 28px;
-        font-size: 18px;
-        font-weight: 600;
-        border-radius: 12px;
-        cursor: pointer;
-        margin: 8px 0;
-        box-shadow: 0 6px 12px rgba(74, 144, 226, 0.4);
-        transition: 
-          transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
-          box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-          background-position 0.5s ease;
-        background-size: 200% 200%;
-        background-position: left center;
-        opacity: 0;
-        transform: translateY(100px);
-  }
+      background: linear-gradient(135deg, #6b8ce3, #4a90e2);
+      color: white;
+      border: none;
+      padding: 14px 28px;
+      font-size: 18px;
+      font-weight: 600;
+      border-radius: 12px;
+      cursor: pointer;
+      margin: 8px 0;
+      box-shadow: 0 6px 12px rgba(74, 144, 226, 0.4);
+      transition:
+        transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        background-position 0.5s ease;
+      background-size: 200% 200%;
+      background-position: left center;
+      opacity: 0;
+      transform: translateY(100px);
+    }
 
     .animated-button:hover {
       transform: scale(1.08);
@@ -121,9 +126,9 @@
       opacity: 1;
       transform: translateY(0);
     }
-
   </style>
 </head>
+
 <body>
   <div class="text-container">
     <h1 class="text-pressure stroke">
@@ -142,21 +147,49 @@
       <span data-char="D">D</span>
     </h1>
   </div>
- <?php include 'botonesindex.php'; ?>
- <style>
-.dock-outer {
-  transition: transform 0.6s ease-in-out;
-}
-</style>
 
-<script>
-window.addEventListener('load', () => {
-  const dock = document.querySelector('.dock-outer');
-  if (dock) {
-    dock.style.transform = 'translateY(-40px)'; // súbelo 40px
-  }
-});
-</script>
+  <div class="banner">
+    <div class="slider" style="--quantity: 8">
+      <div class="item" style="--position: 1"><img src="image/1.jpg" alt=""></div>
+      <div class="item" style="--position: 2"><img src="image/2.jpg" alt=""></div>
+      <div class="item" style="--position: 3"><img src="image/3.jpg" alt=""></div>
+      <div class="item" style="--position: 4"><img src="image/4.jpg" alt=""></div>
+      <div class="item" style="--position: 5"><img src="image/5.jpg" alt=""></div>
+      <div class="item" style="--position: 6"><img src="image/6.jpg" alt=""></div>
+      <div class="item" style="--position: 7"><img src="image/7.jpg" alt=""></div>
+      <div class="item" style="--position: 8"><img src="image/8.jpg" alt=""></div>
+    </div>
+    <div class="content">
+    <h1 data-content="">flor en casa</h1>
+  </div>
+  <div class="author">
+    <h2>melany</h2>
+    <p><b>ramos y fechas especiales</b></p>
+    <p>En cada fecha especial, las flores no son solo un detalle: son un símbolo de cariño, un homenaje a la vida y una forma elegante de estar presente, incluso en la distancia.
+
+</p>
+  </div>
+  <div class="model"></div>
+  </div>
+  
+
+
+  <?php include 'botonesindex.php'; ?>
+  <style>
+    .dock-outer {
+      transition: transform 0.6s ease-in-out;
+    }
+  </style>
+
+  <script>
+    window.addEventListener('load', () => {
+      const dock = document.querySelector('.dock-outer');
+      if (dock) {
+        dock.style.transform = 'translateY(-40px)'; // súbelo 40px
+      }
+    });
+  </script>
 
 </body>
+
 </html>

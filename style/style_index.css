@@ -1,0 +1,99 @@
+@import url("https://fonts.cdnfonts.com/css/ica-rurik-black");
+@import url("https://fonts.cdnfonts.com/css/poppins");
+
+.banner {
+    width: 100%;
+    height: 100vh;
+    text-align: center;
+    overflow: hidden;
+    position: relative;
+}
+
+.banner .slider {
+    position: absolute;
+    width: 200px;
+    height: 250px;
+    top: 18%;
+    left: calc(50% - 100px);
+    transform-style: preserve-3d;
+    transform: perspective(1000px);
+    animation: autoRun 20s linear infinite;
+    z-index: 2;
+}
+
+@keyframes autoRun {
+    from {
+        transform: perspective(1000px) rotateX(-18deg) rotateY(0deg);
+    }
+
+    to {
+        transform: perspective(1000px) rotateX(-18deg) rotateY(360deg);
+    }
+}
+
+.banner .slider .item {
+    position: absolute;
+    inset: 0 0 0 0;
+    transform: rotateY(calc((var(--position) - 1) * (360 / var(--quantity)) * 1deg)) translateZ(500px);
+    /*que tan angosto sera el radio en el que giran las img */
+}
+
+.banner .slider .item img {
+    width: 100%;
+    /*aqui cambio el tamaño de la imagen*/
+    height: 100%;
+    object-fit: cover;
+}
+
+.banner .content {
+    position: absolute;
+    bottom: -150px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(1400px, 100vh);
+    height: max-content;
+    padding-bottom: 100px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 0;
+}
+
+.banner .content h1 {
+    font-family: "Ica Rurik", sans-serif;
+    padding: 250px;
+    font-size: 10em; /* ← Aquí cambias el tamaño */
+    line-height: 1em;
+    color: plum;
+    border-color: black 4px solid;
+    position: relative;
+}
+
+.banner .content h1::after {
+    position: absolute;
+    inset: 0 0 0 0;
+    content: attr(data-content);
+    z-index: 0;
+    -webkit-text-stroke: 2px black;
+}
+
+.banner .content .author {
+    font-family: "Poppins", sans-serif;
+    text-align: right;
+    max-width: 100px;
+
+}
+.banner .author {
+    position: relative;
+    margin-top: 1450px; /* o usa padding-top si prefieres */
+    z-index: 0;
+    color: black;
+}
+
+
+.banner .content h2 {
+    font-size: 3em;
+}
+
+

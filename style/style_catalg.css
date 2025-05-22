@@ -1,0 +1,347 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+body {
+    margin: 0; /* Elimina márgenes del cuerpo */
+    background-color: #000; /* Fondo negro */
+    color: #eee; /* Texto gris claro */
+    font-family: Poppins; /* Fuente principal */
+    font-size: 12px; /* Tamaño de fuente base */
+}
+
+a {
+    text-decoration: none; /* Quita subrayado de enlaces */
+}
+
+header {
+    width: 1140px; /* Ancho base */
+    max-width: 80%; /* Ancho máximo relativo */
+    margin: auto; /* Centrado horizontal */
+    height: 50px; /* Altura fija */
+    display: flex; /* Flexbox para alinear contenido */
+    align-items: center; /* Centrado vertical */
+    position: relative; /* Posicionamiento para superposición */
+    z-index: 100; /* Se mantiene al frente */
+}
+
+header a {
+    color: #eee; /* Color de texto */
+    margin-right: 40px; /* Separación entre enlaces */
+}
+
+/* Carrusel principal */
+.carousel {
+    height: 100vh; /* Altura de pantalla completa */
+    margin-top: -50px; /* Ajuste para solapar el header */
+    width: 100vw; /* Ancho completo de la ventana */
+    overflow: hidden; /* Oculta contenido desbordado */
+    position: relative; /* Base para posicionamiento absoluto interno */
+}
+
+.carousel .list .item {
+    width: 100%;
+    height: 100%;
+    position: absolute; /* Apila los elementos */
+    inset: 0 0 0 0; /* Ocupa todo el contenedor */
+}
+
+.carousel .list .item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ajusta imagen sin deformarla */
+}
+
+.carousel .list .item .content {
+    position: absolute; /* Superposición sobre la imagen */
+    top: 20%; /* Se posiciona desde arriba */
+    width: 1140px;
+    max-width: 80%; /* Ancho adaptable */
+    left: 50%;
+    transform: translateX(-50%); /* Centrado horizontal */
+    padding-right: 30%; /* Espacio a la derecha */
+    box-sizing: border-box; /* Incluye padding en el ancho */
+    color: #fff; /* Texto blanco */
+    text-shadow: 0 5px 10px #0004; /* Sombra para mejorar legibilidad */
+}
+.carousel .list .item .author {
+    font-weight: bold; /* Texto en negrita */
+    letter-spacing: 10px; /* Espaciado entre letras */
+}
+
+.carousel .list .item .title,
+.carousel .list .item .topic {
+    font-size: 5em; /* Tamaño de fuente grande */
+    font-weight: bold; /* Texto en negrita */
+    line-height: 1.3em; /* Espaciado entre líneas */
+}
+
+.carousel .list .item .topic {
+    color: #f1683a; /* Color naranja para el tema */
+}
+
+.carousel .list .item .buttons {
+    display: grid; /* Disposición en cuadrícula */
+    grid-template-columns: repeat(2, 130px); /* Dos columnas de 130px */
+    grid-template-rows: 40px; /* Altura de fila fija */
+    gap: 5px; /* Separación entre botones */
+    margin-top: 20px; /* Espacio superior */
+}
+
+.carousel .list .item .buttons button {
+    border: none; /* Sin bordes */
+    background-color: #eee; /* Fondo gris claro */
+    letter-spacing: 3px; /* Espaciado entre letras */
+    font-family: Poppins; /* Fuente */
+    font-weight: 500; /* Seminegrita */
+}
+
+.carousel .list .item .buttons button:nth-child(2) {
+    background-color: transparent; /* Fondo transparente */
+    border: 1px solid #fff; /* Borde blanco */
+    color: #eee; /* Texto gris claro */
+}
+
+/* Miniaturas (thumbnails) */
+.thumbnail {
+    position: absolute; /* Posición flotante */
+    bottom: 50px; /* Desde el fondo */
+    left: 50%; /* Centrado horizontal */
+    width: max-content; /* Ancho según contenido */
+    z-index: 100; /* Sobreposición alta */
+    display: flex; /* Distribución en línea */
+    gap: 20px; /* Separación entre items */
+}
+
+.thumbnail .item {
+    width: 150px;
+    height: 220px;
+    flex-shrink: 0; /* No se encoge */
+    position: relative; /* Base para contenido posicionado */
+}
+
+.thumbnail .item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Imagen ajustada sin deformarse */
+    border-radius: 20px; /* Bordes redondeados */
+}
+
+.thumbnail .item .content {
+    color: #fff; /* Texto blanco */
+    position: absolute;
+    bottom: 10px; /* Desde abajo */
+    left: 10px;
+    right: 10px;
+}
+
+.thumbnail .item .content .title {
+    font-weight: 500; /* Seminegrita */
+}
+
+.thumbnail .item .content .description {
+    font-weight: 300; /* Texto más fino */
+}
+
+/* Flechas del carrusel */
+.arrows {
+    position: absolute;
+    top: 80%; /* Posicionadas desde arriba */
+    right: 52%; /* A la izquierda del centro */
+    z-index: 100; /* En primer plano */
+    width: 300px;
+    max-width: 30%;
+    display: flex; /* En línea */
+    gap: 10px; /* Espacio entre flechas */
+    align-items: center; /* Alineación vertical */
+}
+.arrows button {
+    width: 40px; /* Tamaño del botón */
+    height: 40px;
+    border-radius: 50%; /* Forma circular */
+    background-color: #eee4; /* Fondo semitransparente */
+    border: none; /* Sin borde */
+    color: #fff; /* Texto blanco */
+    font-family: monospace; /* Fuente tipo máquina */
+    font-weight: bold;
+    transition: .5s; /* Transición suave */
+}
+
+.arrows button:hover {
+    background-color: #fff; /* Fondo blanco al pasar el mouse */
+    color: #000; /* Texto negro */
+}
+
+/* Primer ítem visible al frente */
+.carousel .list .item:nth-child(1) {
+    z-index: 1;
+}
+
+/* Animación para los textos del primer ítem */
+.carousel .list .item:nth-child(1) .content .author,
+.carousel .list .item:nth-child(1) .content .title,
+.carousel .list .item:nth-child(1) .content .topic,
+.carousel .list .item:nth-child(1) .content .des,
+.carousel .list .item:nth-child(1) .content .buttons {
+    transform: translateY(50px); /* Inicia desplazado hacia abajo */
+    filter: blur(20px); /* Difuminado */
+    opacity: 0; /* Invisible */
+    animation: showContent .5s 1s linear 1 forwards; /* Aparece con animación */
+}
+
+/* Animación para mostrar contenido */
+@keyframes showContent {
+    to {
+        transform: translateY(0px); /* Vuelve a su lugar */
+        filter: blur(0px); /* Nitidez normal */
+        opacity: 1; /* Totalmente visible */
+    }
+}
+
+/* Retrasos personalizados para cada parte del contenido */
+.carousel .list .item:nth-child(1) .content .title {
+    animation-delay: 1.2s!important;
+}
+.carousel .list .item:nth-child(1) .content .topic {
+    animation-delay: 1.4s!important;
+}
+.carousel .list .item:nth-child(1) .content .des {
+    animation-delay: 1.6s!important;
+}
+.carousel .list .item:nth-child(1) .content .buttons {
+    animation-delay: 1.8s!important;
+}
+
+/* Animación cuando se hace clic en "siguiente" */
+.carousel.next .list .item:nth-child(1) img {
+    width: 150px;
+    height: 220px;
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    border-radius: 30px;
+    animation: showImage .5s linear 1 forwards;
+}
+
+/* Transición de imagen a pantalla completa */
+@keyframes showImage {
+    to {
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 0;
+    }
+}
+
+/* Miniatura final aparece con animación */
+.carousel.next .thumbnail .item:nth-last-child(1) {
+    overflow: hidden;
+    animation: showThumbnail .5s linear 1 forwards;
+}
+
+/* En transición "prev", imagen va al frente */
+.carousel.prev .list .item img {
+    z-index: 100;
+}
+
+/* Aparición progresiva de miniatura */
+@keyframes showThumbnail {
+    from {
+        width: 0;
+        opacity: 0;
+    }
+}
+
+/* Movimiento general de miniaturas al avanzar */
+.carousel.next .thumbnail {
+    animation: effectNext .5s linear 1 forwards;
+}
+
+/* Transición lateral en miniaturas */
+@keyframes effectNext {
+    from {
+        transform: translateX(150px);
+    }
+}
+
+/* Línea superior de progreso de tiempo */
+.carousel .time {
+    position: absolute;
+    z-index: 1000;
+    width: 0%; /* Comienza vacía */
+    height: 3px;
+    background-color: #f1683a; /* Color naranja */
+    left: 0;
+    top: 0;
+}
+
+/* Animación de la barra de tiempo al cambiar de slide */
+.carousel.next .time,
+.carousel.prev .time {
+    animation: runningTime 3s linear 1 forwards; /* Dura 3 segundos */
+}
+
+@keyframes runningTime {
+    from { width: 100%; } /* Comienza llena */
+    to { width: 0; }       /* Se vacía */
+}
+
+/* Al hacer clic en "prev" */
+.carousel.prev .list .item:nth-child(2) {
+    z-index: 2; /* Trae al frente el segundo ítem */
+}
+
+.carousel.prev .list .item:nth-child(2) img {
+    animation: outFrame 0.5s linear 1 forwards; /* Imagen se reduce */
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+@keyframes outFrame {
+    to {
+        width: 150px;
+        height: 220px;
+        bottom: 50px;
+        left: 50%;
+        border-radius: 20px; /* Imagen se achica como miniatura */
+    }
+}
+
+/* Miniatura más antigua desaparece */
+.carousel.prev .thumbnail .item:nth-child(1) {
+    overflow: hidden;
+    opacity: 0;
+    animation: showThumbnail .5s linear 1 forwards;
+}
+
+/* Botones desactivados mientras hay transición */
+.carousel.next .arrows button,
+.carousel.prev .arrows button {
+    pointer-events: none;
+}
+
+/* Texto se va hacia arriba y se difumina en retroceso */
+.carousel.prev .list .item:nth-child(2) .content .author,
+.carousel.prev .list .item:nth-child(2) .content .title,
+.carousel.prev .list .item:nth-child(2) .content .topic,
+.carousel.prev .list .item:nth-child(2) .content .des,
+.carousel.prev .list .item:nth-child(2) .content .buttons {
+    animation: contentOut 1.5s linear 1 forwards!important;
+}
+
+@keyframes contentOut {
+    to {
+        transform: translateY(-150px); /* Sale hacia arriba */
+        filter: blur(20px); /* Se difumina */
+        opacity: 0; /* Se desvanece */
+    }
+}
+
+/* Estilos responsivos para pantallas pequeñas */
+@media screen and (max-width: 678px) {
+    .carousel .list .item .content {
+        padding-right: 0; /* Elimina margen derecho */
+    }
+    .carousel .list .item .content .title {
+        font-size: 30px; /* Texto más pequeño */
+    }
+}
