@@ -74,6 +74,7 @@ $result = $conn->query("SELECT * FROM catalogo_ramos ORDER BY titulo ASC");
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title"><?= htmlspecialchars($row['titulo']) ?></h5>
                             <p class="card-text"><?= nl2br(htmlspecialchars($row['description'])) ?></p>
+                            <p class="card-text"><?= nl2br(htmlspecialchars($row['categoria'])) ?></p>
                             <p class="card-text fw-bold text-success">$<?= number_format($row['valor'], 2) ?></p>
                             <div class="mt-auto">
                                 <a href="editar_ramo.php?id=<?= $row['id'] ?>"

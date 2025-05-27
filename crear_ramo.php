@@ -13,16 +13,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] === UPLOAD_ERR_OK) {
         $archivoTmp = $_FILES['imagen']['tmp_name'];
         $nombreArchivo = basename($_FILES['imagen']['name']);
+        $categoria = $_POST['categoria']; // Nuevo campo
         $rutaDestino = 'uploads/' . $nombreArchivo;
 
         // Mover archivo a la carpeta uploads
         if (move_uploaded_file($archivoTmp, $rutaDestino)) {
-            $stmt = $conn->prepare("INSERT INTO catalogo_ramos (titulo, valor, imagen, description) VALUES (?, ?, ?, ?)");
-            $stmt->bind_param("sdss", $titulo, $valor, $nombreArchivo, $descripcion);
+            $stmt = $conn->prepare("INSERT INTO catalogo_ramos (titulo, valor, imagen, description, categoria) VALUES (?, ?, ?, ?, ?)");
+            $stmt->bind_param("sdsss", $titulo, $valor, $nombreArchivo, $descripcion, $categoria);
             $stmt->execute();
-
-            header('Location: listar_catalogo.php');
-            exit;
         } else {
             $error = "Error al subir la imagen.";
         }
@@ -70,6 +68,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="mb-3">
         <label class="form-label">Descripción</label>
         <textarea name="description" class="form-control" rows="3" required></textarea>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Categoría</label>
+        <input type="text" name="categoria" class="form-control" required>
     </div>
 
     <div class="mb-3">
