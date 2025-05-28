@@ -29,7 +29,7 @@ header a {
 
 /* Carrusel principal */
 .carousel {
-    height: 100vh; /* Altura de pantalla completa */
+    height: 80vh; /* Altura de pantalla completa */
     margin-top: -50px; /* Ajuste para solapar el header */
     width: 100vw; /* Ancho completo de la ventana */
     overflow: hidden; /* Oculta contenido desbordado */
@@ -46,20 +46,21 @@ header a {
 .carousel .list .item img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Ajusta imagen sin deformarla */
+    object-fit: contain; /* Ajusta imagen sin deformarla */
 }
 
 .carousel .list .item .content {
-    position: absolute; /* Superposición sobre la imagen */
-    top: 20%; /* Se posiciona desde arriba */
-    width: 1140px;
-    max-width: 80%; /* Ancho adaptable */
-    left: 50%;
-    transform: translateX(-50%); /* Centrado horizontal */
-    padding-right: 30%; /* Espacio a la derecha */
-    box-sizing: border-box; /* Incluye padding en el ancho */
-    color: #fff; /* Texto blanco */
-    text-shadow: 0 5px 10px #0004; /* Sombra para mejorar legibilidad */
+    position: static;        /* Quita absolute para que esté a la derecha de la imagen */
+    width: 28vw;             /* Ajusta el ancho del texto */
+    max-width: 400px;
+    margin-left: 5vw;    
+    margin-top: 65vh;     /* Espacio entre imagen y texto */
+    color: #fff;
+    text-shadow: 0 5px 10px #0004;
+    background: none;
+    padding: 0;
+    box-sizing: border-box;
+    z-index: 2;
 }
 .carousel .list .item .author {
     font-weight: bold; /* Texto en negrita */

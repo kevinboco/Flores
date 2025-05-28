@@ -1,13 +1,26 @@
 <?php
-// conexion.php debe contener la conexión a MySQL en $conn
 include 'conexion.php';
 
-// Ejecutar consulta y guardar resultados
-$sql = "SELECT id, titulo, valor, description, imagen FROM catalogo_ramos ORDER BY id ASC";
-$result = mysqli_query($conn, $sql);
-if (!$result) {
-  die("Error en la consulta: " . mysqli_error($conn));
+// Obtener categorías disponibles
+$categoriasDisponibles = [];
+$catQuery = mysqli_query($conn, "SELECT DISTINCT categoria FROM catalogo_ramos");
+while ($catRow = mysqli_fetch_assoc($catQuery)) {
+  $categoriasDisponibles[] = $catRow['categoria'];
 }
+
+// Obtener filtro de categoría
+$categoriaSeleccionada = isset($_GET['categoria']) ? $_GET['categoria'] : '';
+
+// Preparar consulta con filtro si hay categoría
+if ($categoriaSeleccionada && in_array($categoriaSeleccionada, $categoriasDisponibles)) {
+  $stmt = mysqli_prepare($conn, "SELECT id, titulo, valor, description, imagen FROM catalogo_ramos WHERE categoria = ? ORDER BY id ASC");
+  mysqli_stmt_bind_param($stmt, "s", $categoriaSeleccionada);
+} else {
+  $stmt = mysqli_prepare($conn, "SELECT id, titulo, valor, description, imagen FROM catalogo_ramos ORDER BY id ASC");
+}
+
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
 
 $productos = [];
 while ($row = mysqli_fetch_assoc($result)) {
@@ -15,9 +28,8 @@ while ($row = mysqli_fetch_assoc($result)) {
 }
 mysqli_close($conn);
 
-// Función reutilizable para mostrar un producto
-function renderProducto($p, $modo = 'carousel')
-{
+// Función reutilizable para mostrar productos
+function renderProducto($p, $modo = 'carousel') {
   $html = '<div class="item">';
   $html .= '<img src="uploads/' . $p['imagen'] . '" alt="' . htmlspecialchars($p['titulo']) . '">';
   $html .= '<div class="content">';
@@ -40,13 +52,33 @@ function renderProducto($p, $modo = 'carousel')
 
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Catálogo Ramos</title>
   <link rel="stylesheet" href="style/style_catalg.css">
   <style>
+    .filter-form {
+      text-align: center;
+      margin: 20px;
+    }
+
+    .filter-form select {
+      padding: 8px;
+      font-size: 16px;
+      border-radius: 6px;
+    }
+
+    .filter-form button {
+      padding: 8px 16px;
+      font-size: 16px;
+      margin-left: 10px;
+      border-radius: 6px;
+      background: #25D366;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
     .form-container {
       background: #222;
       padding: 20px 30px;
@@ -108,9 +140,20 @@ function renderProducto($p, $modo = 'carousel')
     #btnEnviar:hover {
       background: #1ebe57;
     }
+    .filter-form {
+      font-size: 30px;
+      color:rgb(255, 0, 0);
+      position: relative;
+      z-index: 10;
+      background: #white;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(255, 253, 253, 0);
+       margin-top: -20px; /* Súbelo 20px, ajusta el valor según lo necesites */
+    }
+
   </style>
 </head>
-
 <body>
 
   <header>
@@ -121,11 +164,24 @@ function renderProducto($p, $modo = 'carousel')
     </nav>
   </header>
 
-  <!-- ================================
-       CARRUSEL PRINCIPAL (en pares)
-       ================================ -->
-  <div class="carousel">
+  <!-- Filtro por categoría -->
+  <div class="filter-form">
+    <form method="get" action="">
+      <label for="categoria">Filtrar por categoría:</label>
+      <select name="categoria" id="categoria">
+        <option value="">-- Todas --</option>
+        <?php foreach ($categoriasDisponibles as $cat): ?>
+          <option value="<?= htmlspecialchars($cat) ?>" <?= ($cat === $categoriaSeleccionada) ? 'selected' : '' ?>>
+            <?= htmlspecialchars($cat) ?>
+          </option>
+        <?php endforeach; ?>
+      </select>
+      <button type="submit">Filtrar</button>
+    </form>
+  </div>
 
+  <!-- Carrusel -->
+  <div class="carousel">
     <div class="list">
       <?php
       for ($i = 0; $i < count($productos); $i += 2) {
@@ -135,11 +191,7 @@ function renderProducto($p, $modo = 'carousel')
         }
       }
       ?>
-    </div> <!-- /.list -->
-
-    <!-- ================================
-         MINIATURAS (también en pares)
-         ================================ -->
+    </div>
     <div class="thumbnail">
       <?php
       for ($i = 0; $i < count($productos); $i += 2) {
@@ -149,47 +201,17 @@ function renderProducto($p, $modo = 'carousel')
         }
       }
       ?>
-    </div> <!-- /.thumbnail -->
-
-    <!-- Controles de navegación -->
-    <div class="arrows">
-      <button id="prev">
-        < </button>
-          <button id="next">></button>
     </div>
-
-    <!-- Barra de tiempo -->
+    <div class="arrows">
+      <button id="prev"><</button>
+      <button id="next">></button>
+    </div>
     <div class="time"></div>
-  </div> <!-- /.carousel -->
+  </div>
 
-
-<!--
-  <div class="catalogo">
-    <?php foreach ($productos as $p): ?>
-      <div class="producto">
-        <img src="uploads/<?= htmlspecialchars($p['imagen'] ?? 'default.png') ?>" alt="<?= htmlspecialchars($p['titulo'] ?? 'Producto') ?>">
-
-        <h3><?= htmlspecialchars($p['titulo']) ?></h3>
-        <p><?= htmlspecialchars($p['description']) ?></p>
-        <strong>$<?= number_format($p['valor'], 0, ',', '.') ?></strong>
-
-        <form target="_blank" action="https://api.whatsapp.com/send" method="get">
-          <input type="hidden" name="phone" value="573245123986">
-          <input type="hidden" name="text"
-            value="Hola, estoy interesado en '<?= htmlspecialchars($p['titulo']) ?>' con precio $<?= number_format($p['valor'], 0, ',', '.') ?>">
-          <button type="submit">Pedir por WhatsApp</button>
-        </form>
-      </div>
-    <?php endforeach; ?>
-  </div> -->
-
-
-
-
-
+  <!-- Formulario Personalización -->
   <div class="form-container">
     <h2>Personaliza tu ramo</h2>
-
     <label for="color">Escoge el color:</label>
     <select id="color">
       <option value="rojo">Rojo</option>
@@ -209,26 +231,19 @@ function renderProducto($p, $modo = 'carousel')
     <input type="number" id="cantidadFlores" value="1" min="1" disabled>
 
     <div id="precioTotal">Precio total: $0</div>
-
     <button id="btnEnviar">Enviar por WhatsApp</button>
   </div>
-
-
-
 
   <script>
     function calcularPrecio() {
       let base = 20000;
-
       if (document.getElementById('luces').checked) base += 10000;
       if (document.getElementById('oso').checked) base += 15000;
       if (document.getElementById('cinta').checked) base += 5000;
-
       if (document.getElementById('agregarFlores').checked) {
         const cantidad = parseInt(document.getElementById('cantidadFlores').value) || 0;
         base += cantidad * 3000;
       }
-
       document.getElementById('precioTotal').innerText = "Precio total: $" + base.toLocaleString();
       return base;
     }
@@ -270,14 +285,10 @@ function renderProducto($p, $modo = 'carousel')
 
       const telefono = "573215116044";
       const url = `https://wa.me/${telefono}?text=${texto}`;
-
       window.open(url, '_blank');
     });
   </script>
 
-
-
   <script src="javascript/app.js"></script>
 </body>
-
 </html>
