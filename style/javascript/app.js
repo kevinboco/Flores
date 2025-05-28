@@ -12,8 +12,8 @@ let timeDom = document.querySelector('.carousel .time'); // Barra de progreso
 thumbnailBorderDom.appendChild(thumbnailItemsDom[0]);
 
 // Configuración de tiempos
-let timeRunning = 3000;     // Tiempo que dura la animación
-let timeAutoNext = 7000;    // Tiempo para avanzar automáticamente
+let timeRunning = 100000;     // Tiempo que dura la animación
+let timeAutoNext = 700000;    // Tiempo para avanzar automáticamente
 
 // Eventos al hacer clic en los botones
 nextDom.onclick = function(){
@@ -24,10 +24,6 @@ prevDom.onclick = function(){
 }
 
 // Avanza automáticamente al siguiente slide después de cierto tiempo
-let runTimeOut;
-let runNextAuto = setTimeout(() => {
-    next.click();
-}, timeAutoNext);
 
 // Función para mostrar el slide
 function showSlider(type){
@@ -53,9 +49,5 @@ function showSlider(type){
         carouselDom.classList.remove('prev');
     }, timeRunning);
 
-    // Reinicia el temporizador de avance automático
-    clearTimeout(runNextAuto);
-    runNextAuto = setTimeout(() => {
-        next.click();
-    }, timeAutoNext);
+    
 }

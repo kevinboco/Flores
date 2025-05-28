@@ -157,7 +157,7 @@ header a {
     width: 40px; /* Tamaño del botón */
     height: 40px;
     border-radius: 50%; /* Forma circular */
-    background-color: #eee4; /* Fondo semitransparente */
+    background-color: #25D366;; /* Fondo semitransparente */
     border: none; /* Sin borde */
     color: #fff; /* Texto blanco */
     font-family: monospace; /* Fuente tipo máquina */
@@ -314,11 +314,12 @@ header a {
     animation: showThumbnail .5s linear 1 forwards;
 }
 
-/* Botones desactivados mientras hay transición */
+/* Botones desactivados mientras hay transición 
 .carousel.next .arrows button,
 .carousel.prev .arrows button {
     pointer-events: none;
 }
+*/
 
 /* Texto se va hacia arriba y se difumina en retroceso */
 .carousel.prev .list .item:nth-child(2) .content .author,
