@@ -134,6 +134,55 @@ function renderProducto($p, $modo = 'carousel') {
       box-shadow: 0 0 10px rgba(255, 253, 253, 0);
        margin-top: -20px; /* Súbelo 20px, ajusta el valor según lo necesites */
     }
+    .btn {
+  position: relative;
+  padding: 1.5rem 3rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #fff;
+  background: none;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  min-width: 200px;
+  z-index: 1;
+}
+
+.neon-pulse {
+  background: #000;
+  border: 2px solid #0ff;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+  overflow: visible;
+  left: 750px;   /* X: distancia desde el borde izquierdo */
+  top: -550px; 
+}
+
+.neon-pulse::before,
+.neon-pulse::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border: 2px solid #0ff;
+  border-radius: inherit;
+  animation: pulseOut 2s ease-out infinite;
+  opacity: 0;
+}
+
+.neon-pulse::after {
+  animation-delay: 1s;
+}
+
+@keyframes pulseOut {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
 
   </style>
 </head>
@@ -216,7 +265,14 @@ function renderProducto($p, $modo = 'carousel') {
     <div id="precioTotal">Precio total: $0</div>
     <button id="btnEnviar">Enviar por WhatsApp</button>
   </div>
-
+  <div style="display: inline-flex; gap: 1.5em; align-items: center;">
+      
+      <button class="btn neon-pulse" onclick="window.location.href='https://wa.me/573215116044?text=Hola%2C+estoy+interesado+en+el+catálogo'">
+        <img src="privado/whatsapp.png" alt="Buscar" width="32" height="32" />
+        <span>lo quiero</span>
+      </button>
+    </div>
+  </div>
   <script>
     function calcularPrecio() {
       let base = 20000;
