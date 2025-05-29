@@ -267,13 +267,37 @@ function renderProducto($p, $modo = 'carousel') {
   </div>
   <div style="display: inline-flex; gap: 1.5em; align-items: center;">
       
-      <button class="btn neon-pulse" onclick="window.location.href='https://wa.me/573215116044?text=Hola%2C+estoy+interesado+en+el+catálogo'">
+      <button id="btnLoQuiero" class="btn neon-pulse">
         <img src="privado/whatsapp.png" alt="Buscar" width="32" height="32" />
         <span>lo quiero</span>
       </button>
-    </div>
+    
   </div>
   <script>
+    document.getElementById('btnLoQuiero').onclick = function(e) {
+      e.preventDefault();
+
+      // Encuentra el slide visible (el primero en el DOM)
+      const item = document.querySelector('.carousel .list .item');
+      if (!item) return;
+
+      // Obtén la imagen y el id (puedes guardar el id como data-id en el div.item desde PHP)
+      const img = item.querySelector('img');
+      const id = item.getAttribute('data-id') || '';
+
+      // Construye el mensaje
+      let texto = `Hola, quiero este ramo (ID: ${id})%0A`;
+      if (img) {
+        texto += `Foto: ${window.location.origin}/${img.getAttribute('src')}%0A`;
+      }
+
+      texto += "¿Está disponible?";
+
+      // Redirige a WhatsApp
+      const telefono = "573215116044";
+      const url = `https://wa.me/${telefono}?text=${texto}`;
+      window.open(url, '_blank');
+    };
     function calcularPrecio() {
       let base = 20000;
       if (document.getElementById('luces').checked) base += 10000;
