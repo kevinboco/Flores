@@ -48,6 +48,10 @@ include 'nav.php';
         <label class="form-label">Fecha de entrega</label>
         <input type="date" name="fecha_entrega" class="form-control" required>
     </div>
+    <div class="col-md-6">
+        <label class="form-label">Descripcion del ramo</label>
+        <input type="text" name="descripcion" class="form-control" required>
+    </div>
     <div class="col-12">
         <button type="submit" class="btn btn-success">Guardar pedido</button>
         <a href="listar_pedidos.php" class="btn btn-secondary">Ver pedidos</a>

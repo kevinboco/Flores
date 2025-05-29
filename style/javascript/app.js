@@ -13,7 +13,7 @@ thumbnailBorderDom.appendChild(thumbnailItemsDom[0]);
 
 // Configuración de tiempos
 let timeRunning = 100000;     // Tiempo que dura la animación
-let timeAutoNext = 700000;    // Tiempo para avanzar automáticamente
+
 
 // Eventos al hacer clic en los botones
 nextDom.onclick = function(){

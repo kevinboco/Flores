@@ -14,10 +14,11 @@
 }
 
 .dock-panel {
-  position: absolute;
+  position: fixed;
+  top: -10rem;
   bottom: 0.5rem;
   left: 50%;
-  transform: translateX(-50%);
+    transform: translateX(-50%);
   display: flex;
   align-items: flex-end;
   gap: 1rem;
@@ -50,6 +51,7 @@
   width: 70px;
   height: 70px;
   z-index: 10;
+  
 }
 
 .dock-icon {
@@ -63,7 +65,7 @@
 .dock-label {
   position: absolute;
   top: -1.5rem;
-  left: 50%;
+  left: 100%;
   white-space: nowrap;
   border-radius: 0.375rem;
   border: 1px solid #222;
@@ -74,12 +76,26 @@
   transform: translateX(-50%);
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.2s ease;
+   transition: .5s; /* Transición suave */
+     
+    
+    animation: pulseOut 2s ease-out infinite;
+    opacity: 0;
 }
 
 .dock-item:hover .dock-label,
 .dock-item:focus .dock-label {
   opacity: 1;
+}
+@keyframes pulseOut {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1.5);
+        opacity: 0;
+    }
 }
 </style>
 

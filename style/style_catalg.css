@@ -10,6 +10,171 @@ body {
 a {
     text-decoration: none; /* Quita subrayado de enlaces */
 }
+/*################## inicio del filtro #######################*/
+/* Estilo general para el formulario de filtrado */
+.filter-form {
+    text-align: right;
+    /* Centra el contenido del formulario horizontalmente */
+    margin: 20px;
+    /* Añade un margen de 20px alrededor del formulario */
+}
+
+/* Estilo elegante para el botón */
+.filter-form button {
+    padding: 10px 20px;
+    font-size: 16px;
+    margin-left: 10px;
+    border-radius: 8px;
+    color: white;
+    background: linear-gradient(45deg, #9400d3, #ff69b4, #8a2be2);
+    background-size: 300% 300%;
+    animation: waveColors 6s ease infinite;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(255, 105, 180, 0.6);
+    /* Resplandor suave rosado */
+    transition: transform 0.3s ease;
+}
+
+.filter-form button:hover {
+    transform: scale(1.05);
+}
+
+/* Animación que ya definiste antes */
+@keyframes waveColors {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+
+/* ####### Estilo "nube" para el <select> #########*/
+/* Animación de fondo degradado de blanco a gris claro y de regreso */
+@keyframes gradientPulse {
+0% {
+    background: linear-gradient(135deg, #841f84, #580e80); /* Blanco a gris claro */
+} 50% {
+    background: linear-gradient(135deg, #580e80, #841f84); /* Gris más oscuro */ }
+100% {
+    background: linear-gradient(135deg, #841f84, #580e80); /* Vuelta al inicio */
+}
+}
+
+/* Contenedor principal del dropdown personalizado */
+.custom-dropdown {
+  position: relative;        /* Para posicionar el contenido dentro con respecto a este contenedor */
+  display: inline-block;     /* Permite ajustar al tamaño del contenido */
+  font-family: sans-serif;   /* Fuente más moderna */
+  cursor: pointer;           /* Cursor tipo mano al pasar por encima */
+  user-select: none;         /* Desactiva la selección de texto al hacer clic */
+  z-index: 10;               /* Se asegura que esté por encima de otros elementos */
+}
+
+/* Estilo de la opción seleccionada del dropdown */
+.dropdown-selected {
+  padding: 10px 20px;        /* Espaciado interno */
+  border-radius: 16px;       /* Bordes redondeados estilo nube */
+  animation: gradientPulse 4s infinite ease-in-out; /* 💡 Aplica la animación del fondo */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Sombra ligera para destacar */
+  min-width: 30px;           /* Ancho mínimo para que no se colapse */
+  font-weight: 600;          /* Texto un poco más grueso */
+  transition: background 0.3s ease; /* Suaviza el cambio de fondo */
+}
+
+/* Contenedor de las opciones desplegables */
+.dropdown-options {
+  position: absolute;        /* Posición absoluta con respecto al dropdown */
+  top: 110%;                 /* Aparece un poco debajo del elemento seleccionado */
+  left: 0;                   /* Alineado a la izquierda */
+  border-radius: 16px;       /* Bordes redondeados */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Sombra para separar del fondo */
+  padding: 10px;             /* Espaciado interno */
+  display: none;             /* Se oculta hasta que se active vía JS */
+  flex-wrap: wrap;           /* Permite que las opciones se acomoden con separación */
+  gap: 10px;                 /* Espacio entre cada opción */
+  z-index: 100;              /* Mayor que el contenedor principal para aparecer encima */
+  animation: gradientPulse 4s infinite ease-in-out; /* 🌈 Misma animación que el seleccionado */
+}
+
+/* Cada opción del dropdown */
+.dropdown-option {
+  padding: 8px 16px;         /* Espaciado interno */
+  border-radius: 12px;       /* Bordes redondeados tipo botón/nube */
+  background: rgb(205, 15, 215);         /* Fondo blanco por defecto */
+  font-weight: 600;          /* Texto con mayor grosor */
+  transition: background 0.3s; /* Transición suave al pasar el mouse */
+  white-space: nowrap;       /* Evita que se parta en varias líneas */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Sombra leve para separación visual */
+}
+
+/* Efecto hover cuando el mouse pasa sobre una opción */
+.dropdown-option:hover {
+  background: #d8d8d8;       /* Fondo gris claro al pasar el mouse */
+}
+
+
+
+/*#########################################################*/
+
+/* ###################################################################### */
+/* Estilo base para el texto con efecto de onda */
+.wave-text {
+    font-size: 28px;
+    font-weight: bold;
+    position: relative;
+    display: inline-block;
+    color: white;
+    /* Texto blanco para contraste */
+    padding: 10px 20px;
+    border-radius: 8px;
+    z-index: 10;
+    margin-top: -50px;
+    /* Sube el formulario 20px respecto a su posición original */
+}
+
+/* Animación tipo onda alrededor del texto */
+.wave-text::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    background: linear-gradient(45deg, #9400d3, #ff69b4, #8a2be2);
+    /* rosado, morado, violeta */
+    background-size: 400% 400%;
+    z-index: -1;
+    border-radius: 12px;
+    animation: waveColors 5s ease infinite;
+    filter: blur(10px);
+    opacity: 0.8;
+}
+
+/* Definimos la animación de cambio de color */
+@keyframes waveColors {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+
+/*################# fin del filtro ##########################*/
 
 header {
     width: 1140px; /* Ancho base */
@@ -144,7 +309,7 @@ header a {
 /* Flechas del carrusel */
 .arrows {
     position: absolute;
-    top: 80%; /* Posicionadas desde arriba */
+    top: 90%; /* Posicionadas desde arriba */
     right: 52%; /* A la izquierda del centro */
     z-index: 100; /* En primer plano */
     width: 300px;
@@ -154,8 +319,8 @@ header a {
     align-items: center; /* Alineación vertical */
 }
 .arrows button {
-    width: 40px; /* Tamaño del botón */
-    height: 40px;
+    width: 120px; /* Tamaño del botón */
+    height: 120px;
     border-radius: 50%; /* Forma circular */
     background-color: #25D366;; /* Fondo semitransparente */
     border: none; /* Sin borde */
@@ -163,8 +328,22 @@ header a {
     font-family: monospace; /* Fuente tipo máquina */
     font-weight: bold;
     transition: .5s; /* Transición suave */
+     
+    
+    animation: pulseOut 2s ease-out infinite;
+    opacity: 0;
 }
 
+@keyframes pulseOut {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1.5);
+        opacity: 0;
+    }
+}
 .arrows button:hover {
     background-color: #fff; /* Fondo blanco al pasar el mouse */
     color: #000; /* Texto negro */

@@ -211,6 +211,7 @@ function siguienteEstado($estado)
                                 <strong>Fecha de entrega:</strong> <?= htmlspecialchars($row['fecha_entrega']) ?><br>
                                 <strong>Valor:</strong> $<?= number_format($row['valor_ramo'], 2) ?><br>
                                 <strong>Pagado:</strong> $<?= number_format($row['cantidad_pagada'], 2) ?><br>
+                                <strong>Descripción:</strong> <?= htmlspecialchars($row['descripcion']) ?><br>
                                 <strong>Falta por pagar:</strong>
                                 <span class="<?= $falta > 0 ? 'text-danger' : 'text-success' ?>">
                                     $<?= number_format($falta, 2) ?>

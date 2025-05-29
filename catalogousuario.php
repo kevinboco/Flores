@@ -57,28 +57,11 @@ function renderProducto($p, $modo = 'carousel') {
   <title>Catálogo Ramos</title>
   <link rel="stylesheet" href="style/style_catalg.css">
   <style>
-    .filter-form {
-      text-align: center;
-      margin: 20px;
-    }
+    
 
-    .filter-form select {
-      padding: 8px;
-      font-size: 16px;
-      border-radius: 6px;
-    }
+    
 
-    .filter-form button {
-      padding: 8px 16px;
-      font-size: 16px;
-      margin-left: 10px;
-      border-radius: 6px;
-      background: #25D366;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-
+    
     .form-container {
       background: #222;
       padding: 20px 30px;
