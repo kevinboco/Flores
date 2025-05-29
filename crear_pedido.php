@@ -25,20 +25,20 @@ include 'nav.php';
 <form action="guardar_pedido.php" method="POST" class="row g-3">
     <div class="col-md-6">
         <label class="form-label">Nombre del cliente</label>
-        <input type="text" name="nombre_cliente" class="form-control" required>
+        <input type="text" name="nombre_cliente" class="form-control" >
     </div>
     <div class="mb-3">
     <label for="celular" class="form-label">Celular</label>
-    <input type="text" class="form-control" name="celular" required>
+    <input type="text" class="form-control" name="celular" >
     </div>
 
     <div class="col-md-6">
         <label class="form-label">Dirección</label>
-        <input type="text" name="direccion" class="form-control" required>
+        <input type="text" name="direccion" class="form-control" >
     </div>
     <div class="col-md-4">
         <label class="form-label">Valor del ramo</label>
-        <input type="number" step="1000" name="valor_ramo" class="form-control" required>
+        <input type="number" step="1000" name="valor_ramo" class="form-control" >
     </div>
     <div class="col-md-4">
         <label class="form-label">Cantidad pagada</label>
@@ -46,11 +46,11 @@ include 'nav.php';
     </div>
     <div class="col-md-4">
         <label class="form-label">Fecha de entrega</label>
-        <input type="date" name="fecha_entrega" class="form-control" required>
+        <input type="date" name="fecha_entrega" class="form-control" >
     </div>
     <div class="col-md-6">
         <label class="form-label">Descripcion del ramo</label>
-        <input type="text" name="descripcion" class="form-control" required>
+        <input type="text" name="descripcion" class="form-control" >
     </div>
     <div class="col-12">
         <button type="submit" class="btn btn-success">Guardar pedido</button>

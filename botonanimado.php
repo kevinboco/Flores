@@ -1,36 +1,74 @@
-.animated-button {
-  background: linear-gradient(135deg, #6b8ce3, #4a90e2);
-  color: white;
-  border: none;
-  padding: 14px 28px;
-  font-size: 18px;
-  font-weight: 600;
-  border-radius: 12px;
-  cursor: pointer;
-  margin: 8px 0;
-  box-shadow: 0 6px 12px rgba(74, 144, 226, 0.4);
-  transition: 
-    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
-    box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    background-position 0.5s ease;
-  background-size: 200% 200%;
-  background-position: left center;
-  opacity: 0;
-  transform: translateY(100px);
-}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>catalogo</title>
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #0a0a0a;
+      font-family: "Inter", sans-serif;
+      perspective: 1000px;
+      overflow-x: hidden;
+    }
 
-.animated-button:hover {
-  transform: scale(1.08);
-  box-shadow: 0 10px 20px rgba(74, 144, 226, 0.6);
-  background-position: right center;
-}
+    .btn {
+      position: relative;
+      padding: 1.5rem 3rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #fff;
+      background: none;
+      border: none;
+      cursor: pointer;
+      overflow: hidden;
+      transition: all 0.4s ease;
+      min-width: 200px;
+      z-index: 1;
+    }
 
-.animated-button:active {
-  transform: scale(0.95);
-  box-shadow: 0 4px 10px rgba(74, 144, 226, 0.8);
-}
+    .neon-pulse {
+      background: #000;
+      border: 2px solid #0ff;
+      box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+      overflow: visible;
+    }
 
-.animated-button.animate-up {
-  opacity: 1;
-  transform: translateY(0);
-}
+    .neon-pulse::before,
+    .neon-pulse::after {
+      content: "";
+      position: absolute;
+      inset: -4px;
+      border: 2px solid #0ff;
+      border-radius: inherit;
+      animation: pulseOut 2s ease-out infinite;
+      opacity: 0;
+    }
+
+    .neon-pulse::after {
+      animation-delay: 1s;
+    }
+
+    @keyframes pulseOut {
+      0% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(1.5);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <button class="btn neon-pulse">
+    <span>catalogo</span>
+  </button>
+</body>
+</html>

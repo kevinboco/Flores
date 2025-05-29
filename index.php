@@ -126,10 +126,60 @@
       opacity: 1;
       transform: translateY(0);
     }
+    .btn {
+  position: relative;
+  padding: 1.5rem 3rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #fff;
+  background: none;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  min-width: 200px;
+  z-index: 1;
+}
+
+.neon-pulse {
+  background: #000;
+  border: 2px solid #0ff;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+  overflow: visible;
+}
+
+.neon-pulse::before,
+.neon-pulse::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border: 2px solid #0ff;
+  border-radius: inherit;
+  animation: pulseOut 2s ease-out infinite;
+  opacity: 0;
+}
+
+.neon-pulse::after {
+  animation-delay: 1s;
+}
+
+@keyframes pulseOut {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
   </style>
 </head>
 
 <body>
+  
+
   <div class="text-container">
     <h1 class="text-pressure stroke">
       <span data-char="M">M</span>
@@ -147,7 +197,7 @@
       <span data-char="D">D</span>
     </h1>
   </div>
-
+  
   <div class="banner">
     <div class="slider" style="--quantity: 8">
       <div class="item" style="--position: 1"><img src="image/1.jpg" alt=""></div>
@@ -155,13 +205,16 @@
       <div class="item" style="--position: 3"><img src="image/3.jpg" alt=""></div>
       <div class="item" style="--position: 4"><img src="image/4.jpg" alt=""></div>
       <div class="item" style="--position: 5"><img src="image/5.jpg" alt=""></div>
+      
       <div class="item" style="--position: 6"><img src="image/6.jpg" alt=""></div>
       <div class="item" style="--position: 7"><img src="image/7.jpg" alt=""></div>
       <div class="item" style="--position: 8"><img src="image/8.jpg" alt=""></div>
     </div>
+
     <div class="content">
-    <h1 data-content="">flor en casa</h1>
+    <h1 data-content="">Rosas eternas</h1>
   </div>
+  
   <div class="author">
     <h2>melany</h2>
     <p><b>ramos y fechas especiales</b></p>
@@ -172,9 +225,24 @@
   <div class="model"></div>
   </div>
   
+  <div style="margin-top: 2em; text-align: center;">
+    <div style="display: inline-flex; gap: 1.5em; align-items: center;">
+      <button class="btn neon-pulse" onclick="window.location.href='catalogousuario.php'">
+        <img src="privado/catalogar2.png" alt="Buscar" width="32" height="32" />
+        <span>catálogo</span>
+      </button>
+      <button class="btn neon-pulse" onclick="window.location.href='https://wa.me/573215116044?text=Hola%2C+estoy+interesado+en+el+catálogo'">
+        <img src="privado/whatsapp.png" alt="Buscar" width="32" height="32" />
+        <span>whatsapp</span>
+      </button>
+    </div>
+  </div>
 
 
-  <?php include 'botonesindex.php'; ?>
+
+
+
+
   <style>
     .dock-outer {
       transition: transform 0.6s ease-in-out;
