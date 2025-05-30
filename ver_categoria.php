@@ -81,7 +81,7 @@ $result = $stmt->get_result();
   <div class="container">
     <?php while($row = $result->fetch_assoc()): ?>
       <div class="card" data-aos="fade-up">
-        <img src="<?= htmlspecialchars($row['imagen']) ?>" alt="<?= htmlspecialchars($row['titulo']) ?>">
+        <img src="./uploads/<?= htmlspecialchars($row['imagen']) ?>" alt="<?= htmlspecialchars($row['titulo']) ?>">
         <div class="info">
           <h3><?= htmlspecialchars($row['titulo']) ?></h3>
           <p><strong>Precio:</strong> $<?= number_format($row['valor']) ?></p>
