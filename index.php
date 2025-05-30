@@ -174,6 +174,77 @@
   }
 }
 
+@media (max-width: 600px) {
+  .text-pressure {
+    font-size: 2.5em !important;
+    word-break: break-word;
+    flex-wrap: wrap;
+    line-height: 1.1em;
+    justify-content: center;
+    text-align: center;
+  }
+  .text-container {
+    min-height: unset;
+    margin-bottom: 1em;
+    padding: 0;
+    width: 100vw;
+    overflow-x: hidden;
+  }
+  .banner {
+    flex-direction: column;
+    align-items: center;
+    width: 100vw;
+    min-width: 0;
+    padding: 0;
+  }
+  .slider {
+    width: 100vw !important;
+    min-width: 0;
+    overflow-x: auto;
+    justify-content: center;
+    gap: 0.5em;
+  }
+  .slider .item img {
+    width: 80vw;
+    max-width: 90vw;
+    height: auto;
+    border-radius: 10px;
+  }
+  .content h1 {
+    font-size: 1.3em !important;
+    text-align: center;
+    word-break: break-word;
+  }
+  .author h2 {
+    font-size: 1em;
+    text-align: center;
+  }
+  .author p {
+    font-size: 0.95em;
+    text-align: center;
+    padding: 0 0.5em;
+  }
+  .buttons-container,
+  .banner .content,
+  .banner .author {
+    max-width: 100vw;
+    width: 100vw;
+    padding: 0 0.5em;
+    box-sizing: border-box;
+  }
+  .animated-button,
+  .btn {
+    min-width: 110px;
+    font-size: 1em;
+    padding: 10px 8px;
+    margin: 4px 0;
+  }
+  .neon-pulse {
+    padding: 0.7em 1em;
+    font-size: 1em;
+  }
+}
+
   </style>
 </head>
 

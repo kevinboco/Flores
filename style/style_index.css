@@ -101,3 +101,148 @@
 }
 
 
+/* Estilos generales para móviles */
+/* Estilos específicos para móviles */
+@media (max-width: 600px) {
+  body {
+    padding: 15px;
+    background-size: cover;
+    height: auto;
+    min-height: 100vh;
+    display: block;
+  }
+
+  /* Ajuste del texto principal */
+  .text-container {
+    margin: 20px 0;
+    padding: 0;
+    width: 100%;
+  }
+
+  .text-pressure {
+    font-size: 2rem !important;
+    flex-wrap: wrap;
+    justify-content: center;
+    line-height: 1.3;
+    text-align: center;
+    gap: 0;
+  }
+
+  .text-pressure span {
+    margin: 0 1px;
+    display: inline-block;
+  }
+
+  /* Ajuste del banner y slider */
+  .banner {
+    position: relative;
+    height: auto;
+    margin-top: 20px;
+  }
+
+  .slider {
+    position: static !important;
+    transform: none !important;
+    animation: none !important;
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 10px;
+    padding: 10px 0;
+    margin: 0 auto;
+    width: 100%;
+    height: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .slider .item {
+    position: static !important;
+    transform: none !important;
+    scroll-snap-align: center;
+    min-width: 85%;
+    height: 220px;
+    flex-shrink: 0;
+  }
+
+  .slider .item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+
+  /* Ajuste del contenido */
+  .content {
+    position: static !important;
+    transform: none !important;
+    width: 100% !important;
+    padding: 20px 0 !important;
+    text-align: center;
+  }
+
+  .content h1 {
+    font-size: 1.8rem !important;
+    padding: 0 !important;
+    margin: 10px 0;
+    color: #b97ebf !important;
+    line-height: 1.3;
+    text-align: center;
+  }
+
+  /* Ajuste de la sección de autor */
+  .author {
+    margin: 20px 0 !important;
+    text-align: center;
+    width: 100%;
+    padding: 0 10px;
+  }
+
+  .author h2 {
+    font-size: 1.3rem;
+    margin-bottom: 5px;
+  }
+
+  .author p {
+    font-size: 0.95rem;
+    line-height: 1.4;
+    margin-bottom: 10px;
+  }
+
+  /* Ajuste de botones */
+  .buttons-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin: 25px 0;
+    padding: 0 10px;
+  }
+
+  .btn.neon-pulse {
+    width: 100%;
+    max-width: 280px;
+    padding: 12px 15px !important;
+    font-size: 1rem !important;
+    margin: 5px 0 !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .btn.neon-pulse img {
+    width: 24px;
+    height: 24px;
+  }
+
+  /* Simplificar animaciones para móviles */
+  @keyframes pulse {
+    0%, 100% {
+      transform: scale(0.9);
+      font-variation-settings: 'wght' 100, 'wdth' 50, 'ital' 0;
+    }
+    50% {
+      transform: scale(1);
+      font-variation-settings: 'wght' 300, 'wdth' 100, 'ital' 0.5;
+    }
+  }
+}
