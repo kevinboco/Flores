@@ -529,7 +529,7 @@ header a {
 
 .carousel .list .item .des,
 .carousel .list .item .description {
-    font-size: 5em;      /* Cambia el tamaño del texto */
+    font-size: 3em;      /* Cambia el tamaño del texto */
     color: #f1683a;      /* Cambia el color (ejemplo: amarillo suave) */
     font-weight: 400;    /* Cambia el grosor si lo deseas */
     line-height: 1.4em;  /* Espaciado entre líneas */
