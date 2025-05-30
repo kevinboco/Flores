@@ -234,7 +234,7 @@ header a {
 
 .carousel .list .item .title,
 .carousel .list .item .topic {
-    font-size: 5em; /* Tamaño de fuente grande */
+    font-size: 3em; /* Tamaño de fuente grande */
     font-weight: bold; /* Texto en negrita */
     line-height: 1.3em; /* Espaciado entre líneas */
 }
