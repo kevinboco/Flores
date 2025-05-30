@@ -54,10 +54,14 @@ $result = $stmt->get_result();
       transform: translateY(-5px);
     }
     .card img {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
+        width: 100%;
+        height: auto;
+        object-fit: contain;
+        max-height: 300px; /* opcional: evita que se estiren demasiado las imágenes verticales */
+        display: block;
+        margin: auto;
     }
+
     .info {
       padding: 15px;
     }
