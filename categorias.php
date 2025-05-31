@@ -1,5 +1,6 @@
 <?php
 include 'conexion.php';
+include 'texto circular.php';
 $sql = "SELECT DISTINCT categoria FROM catalogo_ramos";
 $result = $conn->query($sql);
 ?>
@@ -90,6 +91,13 @@ $result = $conn->query($sql);
   <h1>Categorías de Ramos</h1>
 
   <div class="container">
+
+  <!-- Opción para ver todos los productos -->
+    <div class="card" data-aos="zoom-in" onclick="window.location.href='ver_categoria.php'">
+      <i class="bi bi-collection"></i>
+      <div class="card-text">Ver todos</div>
+    </div>
+
     <?php while($row = $result->fetch_assoc()): ?>
       <div class="card" data-aos="zoom-in" onclick="window.location.href='ver_categoria.php?categoria=<?= urlencode($row['categoria']) ?>'">
         <i class="bi bi-flower1"></i>
