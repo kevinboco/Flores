@@ -155,27 +155,7 @@ $result = $stmt->get_result();
   </div>
 
   <h1>Ramos: <?= $categoria ? htmlspecialchars($categoria) : 'Todos' ?></h1>
-  <div style="text-align:center; margin-bottom: 20px;">
-    <button onclick="toggleFiltro()" style="padding: 10px 20px; background: #d63384; color: white; border: none; border-radius: 8px; font-size: 16px;">
-      Filtrar por precio
-    </button>
-
-    <div id="filtroPrecio" style="display: none; margin-top: 20px;">
-      <form method="GET">
-        <?php if (isset($_GET['categoria'])): ?>
-          <input type="hidden" name="categoria" value="<?= htmlspecialchars($_GET['categoria']) ?>">
-        <?php endif; ?>
-
-        <label>Precio mínimo: <span id="minValor"><?= isset($_GET['min']) ? $_GET['min'] : 0 ?></span></label><br>
-        <input type="range" name="min" id="min" min="0" max="100000" step="1000" value="<?= isset($_GET['min']) ? $_GET['min'] : 0 ?>" oninput="minValor.textContent = this.value"><br><br>
-
-        <label>Precio máximo: <span id="maxValor"><?= isset($_GET['max']) ? $_GET['max'] : 100000 ?></span></label><br>
-        <input type="range" name="max" id="max" min="0" max="100000" step="1000" value="<?= isset($_GET['max']) ? $_GET['max'] : 100000 ?>" oninput="maxValor.textContent = this.value"><br><br>
-
-        <button type="submit" style="padding: 10px 20px; background: #d63384; color: white; border: none; border-radius: 8px;">Aplicar filtro</button>
-      </form>
-    </div>
-  </div>
+    
 
   <div class="container">
     <?php while($row = $result->fetch_assoc()): 
@@ -192,17 +172,12 @@ $result = $stmt->get_result();
           <p><?= htmlspecialchars($row['description']) ?></p>
         </div>
         <a class="boton-whatsapp" href="<?= $link ?>" target="_blank">💐 Lo quiero</a>
+        <a class="boton-whatsapp" style="background:#6c63ff; margin-top: -10px;" href="ver_producto.php?id=<?= $row['id'] ?>">🔍 Ver en grande</a>
       </div>
     <?php endwhile; ?>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
   <script>AOS.init({ duration: 800, once: true });</script>
-  <script>
-    function toggleFiltro() {
-      const filtro = document.getElementById('filtroPrecio');
-      filtro.style.display = (filtro.style.display === 'none') ? 'block' : 'none';
-    }
-  </script>
 </body>
 </html>
