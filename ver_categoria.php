@@ -165,7 +165,7 @@ $result = $stmt->get_result();
       $link = "https://wa.me/573215116044?text=$mensaje";
     ?>
       <div class="card" data-aos="fade-up">
-        <img src="<?= $imagen ?>" alt="<?= $titulo ?>">
+        <img src="./uploads/<?= htmlspecialchars($row['imagen']) ?>" alt="<?= htmlspecialchars($row['titulo']) ?>">
         <div class="info">
           <h3><?= $titulo ?></h3>
           <p><strong>Precio:</strong> $<?= number_format($row['valor']) ?></p>
