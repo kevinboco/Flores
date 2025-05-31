@@ -2,18 +2,36 @@
 include 'conexion.php';
 
 $categoria = $_GET['categoria'] ?? '';
+$min = isset($_GET['min']) ? (int)$_GET['min'] : 0;
+$max = isset($_GET['max']) ? (int)$_GET['max'] : 0;
 
-if ($categoria) {
-  $sql = "SELECT * FROM catalogo_ramos WHERE categoria = ?";
-  $stmt = $conn->prepare($sql);
-  $stmt->bind_param("s", $categoria);
-} else {
-  $sql = "SELECT * FROM catalogo_ramos";
-  $stmt = $conn->prepare($sql);
+$params = [];
+$types = '';
+$sql = "SELECT * FROM catalogo_ramos WHERE 1";
+
+// Filtro por categoría
+if (!empty($categoria)) {
+    $sql .= " AND categoria = ?";
+    $types .= 's';
+    $params[] = $categoria;
+}
+
+// Filtro por precio
+if ($min > 0 && $max > 0 && $min <= $max) {
+    $sql .= " AND valor BETWEEN ? AND ?";
+    $types .= 'ii';
+    $params[] = $min;
+    $params[] = $max;
+}
+
+$stmt = $conn->prepare($sql);
+if (!empty($params)) {
+    $stmt->bind_param($types, ...$params);
 }
 
 $stmt->execute();
 $result = $stmt->get_result();
+
 
 ?>
 <!DOCTYPE html>
