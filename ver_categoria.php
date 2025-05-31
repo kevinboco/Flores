@@ -162,6 +162,7 @@ $result = $stmt->get_result();
           <p><?= htmlspecialchars($row['description']) ?></p>
         </div>
         <a class="boton-whatsapp" href="<?= $link ?>" target="_blank">💐 Lo quiero</a>
+        <a class="boton-whatsapp" style="background:#6c63ff; margin-top: -10px;" href="ver_producto.php?id=<?= $row['id'] ?>">🔍 Ver en grande</a>
       </div>
     <?php endwhile; ?>
   </div>
