@@ -196,23 +196,56 @@ $result = $stmt->get_result();
   </div>
 
   <div class="container">
-    <?php while($row = $result->fetch_assoc()): 
-      $titulo = htmlspecialchars($row['titulo']);
-      $imagen = './uploads/' . htmlspecialchars($row['imagen']);
-      $mensaje = urlencode("Quiero este producto: $titulo");
-      $link = "https://wa.me/573215116044?text=$mensaje";
-    ?>
-      <div class="card" data-aos="fade-up">
-        <img src="<?= $imagen ?>" alt="<?= $titulo ?>">
-        <div class="info">
-          <h3><?= $titulo ?></h3>
-          <p><strong>Precio:</strong> $<?= number_format($row['valor']) ?></p>
-          <p><?= htmlspecialchars($row['description']) ?></p>
+          <?php while($row = $result->fetch_assoc()): 
+        $titulo = htmlspecialchars($row['titulo']);
+        $imagen = './uploads/' . htmlspecialchars($row['imagen']);
+        $mensaje = urlencode("Quiero este producto: $titulo");
+        $link = "https://wa.me/573215116044?text=$mensaje";
+      ?>
+        <div class="card" data-aos="fade-up">
+          <img src="<?= $imagen ?>" alt="<?= $titulo ?>">
+          <div class="info">
+            <h3><?= $titulo ?></h3>
+            <p><strong>Precio:</strong> $<?= number_format($row['valor']) ?></p>
+            <p><?= htmlspecialchars($row['description']) ?></p>
+
+            <button onclick="togglePersonalizar(this)" style="margin-top:10px; padding: 8px 14px; border-radius: 6px; border:none; background:#ffc107; font-weight:bold;">✨ Personalizar</button>
+
+            <div class="personalizacion" style="display:none; margin-top: 10px; font-size:14px;">
+              <label>Color de rosas:
+                <select>
+                  <option value="rojas">Rojas</option>
+                  <option value="blancas">Blancas</option>
+                  <option value="amarillas">Amarillas</option>
+                  <option value="rosadas">Rosadas</option>
+                </select>
+              </label><br><br>
+
+              <label><input type="checkbox" value="Luces (+$10.000)"> Luces (+$10.000)</label><br>
+              <label><input type="checkbox" value="Oso (+$30.000)"> Oso (+$30.000)</label><br>
+              <label><input type="checkbox" value="Corona (+$5.000)"> Corona (+$5.000)</label><br>
+              <label><input type="checkbox" value="Gorra (+$20.000)"> Gorra (+$20.000)</label><br><br>
+
+              <label>Cinta personalizada: <input type="text" placeholder="Escribe un mensaje..."></label><br><br>
+
+              <label>Tarjeta:
+                <select>
+                  <option value="">(Sin tarjeta)</option>
+                  <option value="Feliz Cumpleaños">Feliz Cumpleaños</option>
+                  <option value="Te Amo">Te Amo</option>
+                  <option value="Gracias">Gracias</option>
+                  <option value="Recupérate Pronto">Recupérate Pronto</option>
+                </select>
+              </label><br><br>
+
+              <button onclick="enviarWhatsApp(this, '<?= $titulo ?>')" style="padding: 8px 14px; border-radius: 6px; border:none; background:#25D366; color:white; font-weight:bold;">💐 Lo quiero personalizado</button>
+            </div>
+          </div>
+
+          <a class="boton-whatsapp" href="<?= $link ?>" target="_blank">💐 Lo quiero</a>
+          <a class="boton-whatsapp" style="background:#6c63ff; margin-top: -10px;" href="ver_producto.php?id=<?= $row['id'] ?>">🔍 Ver en grande</a>
         </div>
-        <a class="boton-whatsapp" href="<?= $link ?>" target="_blank">💐 Lo quiero</a>
-        <a class="boton-whatsapp" style="background:#6c63ff; margin-top: -10px;" href="ver_producto.php?id=<?= $row['id'] ?>">🔍 Ver en grande</a>
-      </div>
-    <?php endwhile; ?>
+      <?php endwhile; ?>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
@@ -223,5 +256,30 @@ $result = $stmt->get_result();
       filtro.style.display = (filtro.style.display === 'none') ? 'block' : 'none';
     }
   </script>
+  <script>
+      function togglePersonalizar(btn) {
+        const section = btn.nextElementSibling;
+        section.style.display = (section.style.display === 'none') ? 'block' : 'none';
+      }
+
+      function enviarWhatsApp(btn, titulo) {
+        const contenedor = btn.parentElement;
+        const color = contenedor.querySelector('select').value;
+        const checks = contenedor.querySelectorAll('input[type="checkbox"]:checked');
+        const cinta = contenedor.querySelector('input[type="text"]').value;
+        const tarjeta = contenedor.querySelectorAll('select')[1].value;
+
+        let extras = [];
+        if (color) extras.push(`Color: ${color}`);
+        checks.forEach(c => extras.push(c.value));
+        if (cinta) extras.push(`Cinta: "${cinta}"`);
+        if (tarjeta) extras.push(`Tarjeta: ${tarjeta}`);
+
+        const mensaje = `Quiero este producto: ${titulo}%0AExtras: ${extras.join('%0A')}`;
+        const url = `https://wa.me/573215116044?text=${mensaje}`;
+        window.open(url, '_blank');
+      }
+    </script>
+
 </body>
 </html>
