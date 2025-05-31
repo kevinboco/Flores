@@ -3,19 +3,13 @@ include 'conexion.php';
 
 $categoria = $_GET['categoria'] ?? '';
 
-if ($categoria) {
-  $sql = "SELECT * FROM catalogo_ramos WHERE categoria = ?";
-  $stmt = $conn->prepare($sql);
-  $stmt->bind_param("s", $categoria);
-} else {
-  $sql = "SELECT * FROM catalogo_ramos";
-  $stmt = $conn->prepare($sql);
-}
-
+$stmt = $conn->prepare("SELECT * FROM catalogo_ramos WHERE categoria = ?");
+$stmt->bind_param("s", $categoria);
 $stmt->execute();
 $result = $stmt->get_result();
-
 ?>
+
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
