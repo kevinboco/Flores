@@ -160,11 +160,12 @@ $result = $stmt->get_result();
   <div class="container">
     <?php while($row = $result->fetch_assoc()): 
       $titulo = htmlspecialchars($row['titulo']);
-      $imagen = './uploads/' . htmlspecialchars($row['imagen']);
+      
       $mensaje = urlencode("Quiero este producto: $titulo");
       $link = "https://wa.me/573215116044?text=$mensaje";
     ?>
       <div class="card" data-aos="fade-up">
+        
         <img src="./uploads/<?= htmlspecialchars($row['imagen']) ?>" alt="<?= htmlspecialchars($row['titulo']) ?>">
         <div class="info">
           <h3><?= $titulo ?></h3>
