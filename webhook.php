@@ -1,4 +1,6 @@
 <?php
+include 'conexion.php'; // Incluye tu conexión a la base de datos
+
 $data = file_get_contents("php://input");
 $event = json_decode($data, true);
 
@@ -7,11 +9,19 @@ if (isset($event['data'])) {
     $message = trim($event['data']['body']);
 
     if ($message === "1") {
+        // Ejemplo de consulta a la base de datos
+        $sql = "SELECT nombre_cliente FROM clientes LIMIT 1";
+        $result = $conn->query($sql);
+        $respuesta = "No hay clientes registrados.";
+        if ($row = $result->fetch_assoc()) {
+            $respuesta = "Primer cliente: " . $row['nombre_cliente'];
+        }
+
         // Prepara los datos para enviar la respuesta
         $params = [
             'token' => 'hsux4qfi6n0irjty',
             'to' => $from,
-            'body' => "perrisima"
+            'body' => $respuesta
         ];
 
         $curl = curl_init();
@@ -27,4 +37,3 @@ if (isset($event['data'])) {
     }
 }
 ?>
-
