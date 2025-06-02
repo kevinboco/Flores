@@ -9,12 +9,20 @@ if (isset($event['data'])) {
     $message = trim($event['data']['body']);
 
     if ($message === "1") {
-        // Ejemplo de consulta a la base de datos
-        $sql = "SELECT nombre_cliente FROM clientes LIMIT 1";
+        // Consulta toda la información de la tabla pedido
+        $sql = "SELECT * FROM pedido";
         $result = $conn->query($sql);
-        $respuesta = "No hay clientes registrados.";
-        if ($row = $result->fetch_assoc()) {
-            $respuesta = "Primer cliente: " . $row['nombre_cliente'];
+
+        if ($result && $result->num_rows > 0) {
+            $respuesta = "Pedidos registrados:\n";
+            while ($row = $result->fetch_assoc()) {
+                foreach ($row as $campo => $valor) {
+                    $respuesta .= ucfirst($campo) . ": " . $valor . "\n";
+                }
+                $respuesta .= "-------------------\n";
+            }
+        } else {
+            $respuesta = "Error: no hay pedidos registrados.";
         }
 
         // Prepara los datos para enviar la respuesta
