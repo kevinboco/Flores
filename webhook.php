@@ -9,7 +9,7 @@ if (isset($event['data'])) {
     $message = trim($event['data']['body']);
 
     if ($message === "1") {
-        // Consulta toda la información de la tabla pedido
+        
         $sql = "SELECT * FROM pedido";
         $result = $conn->query($sql);
 
