@@ -245,16 +245,17 @@ function siguienteEstado($estado)
                                 </a>
 
                                 <?php if ($row['estado'] == 'Listo'): ?>
-                                    <a href="https://wa.me/573043859242?text=<?= urlencode('Hola, para pedir un domicilio estoy en la cra 25 #18-40 y el pedido va para  ' . $row['direccion']) ?>"
+                                    <a href="recordatoio.php?to=573043859242&body=<?= urlencode('Hola, para pedir un domicilio estoy en la cra 25 #18-40 y el pedido va para ' . $row['direccion']) ?>"
                                         class="btn btn-outline-dark btn-sm" target="_blank">
                                         Pedir domicilio
                                     </a>
 
-                                    <a href="https://wa.me/57<?= preg_replace('/\D/', '', $row['celular']) ?>?text=<?= urlencode("Ya puede pasar por su pedido") ?>"
-                                        target="_blank" class="btn btn-outline-success btn-sm">
+                                    <a href="recordatoio.php?to=57<?= preg_replace('/\D/', '', $row['celular']) ?>&body=<?= urlencode("hola ,Ya puede pasar por su pedido") ?>"
+                                        class="btn btn-outline-success btn-sm" target="_blank">
                                         Avisar que está listo
                                     </a>
                                 <?php endif; ?>
+
                             </div>
                         </div>
                     </div>
