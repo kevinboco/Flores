@@ -1,55 +1,58 @@
 <?php
-// Guardar lo que llega al webhook (útil para depuración)
-file_put_contents("log.txt", file_get_contents("php://input") . PHP_EOL, FILE_APPEND);
+// webhook.php
 
-// Leer el JSON que envía Ultramsg
-$data = json_decode(file_get_contents("php://input"), true);
+// Incluye tu conexión a la base de datos
+include 'conexion.php';
 
-// Verifica si hay mensaje y número
-if (isset($data["body"]) && isset($data["from"])) {
-    $mensaje = strtolower(trim($data["body"]));
-    $numero = $data["from"]; // Ej: 57301xxxxxxx
+$data = file_get_contents("php://input");
+$event = json_decode($data, true);
 
-    // Conexión a base de datos
-    include("conexion.php");
+if (isset($event['data'])) {
+    // Guardar log para debugging
+    file_put_contents('log.txt', json_encode($event) . "\n", FILE_APPEND | LOCK_EX);
 
-    // Si el mensaje contiene la palabra "mañana"
-    if (strpos($mensaje, "mañana") !== false) {
-        $fecha = date("Y-m-d", strtotime("+1 day"));
-    }
-    // Si el mensaje contiene "hoy"
-    elseif (strpos($mensaje, "hoy") !== false) {
-        $fecha = date("Y-m-d");
-    }
-    // Si menciona una fecha exacta como "2025-06-03"
-    elseif (preg_match("/\d{4}-\d{2}-\d{2}/", $mensaje, $coincidencias)) {
-        $fecha = $coincidencias[0];
-    }
+    $from = $event['data']['from'];  // Número del remitente, e.g. "573016838051@c.us"
+    $message = trim($event['data']['body']);  // Texto que envió el usuario
 
-    if (isset($fecha)) {
-        $sql = "SELECT * FROM pedido WHERE fecha_entrega = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("s", $fecha);
-        $stmt->execute();
-        $result = $stmt->get_result();
+    // Solo procesar mensajes tipo chat
+    if ($event['data']['type'] == 'chat') {
 
-        $respuesta = "📦 Pedidos para $fecha:\n";
-        $hayPedidos = false;
-
-        while ($row = $result->fetch_assoc()) {
-            $hayPedidos = true;
-            $respuesta .= "\n🧍 Cliente: {$row['nombre_cliente']}\n📍 Dirección: {$row['direccion']}\n💐 Valor: {$row['valor_ramo']}\n";
+        // Ejemplo: Si el usuario escribe "¿Qué pedidos tengo para mañana?"
+        // puedes hacer un parser básico para obtener la fecha
+        $date = null;
+        if (preg_match('/mañana/i', $message)) {
+            $date = date('Y-m-d', strtotime('+1 day'));
+        } else if (preg_match('/hoy/i', $message)) {
+            $date = date('Y-m-d');
+        } else if (preg_match('/para (\d{4}-\d{2}-\d{2})/', $message, $matches)) {
+            $date = $matches[1];
         }
 
-        if (!$hayPedidos) {
-            $respuesta = "No hay pedidos programados para $fecha.";
+        // Si detectó fecha, consulta pedidos
+        if ($date) {
+            $numero = preg_replace('/\D/', '', $from); // quita todo menos números
+
+            // Consulta los pedidos para ese número y fecha
+            $sql = "SELECT nombre_cliente, direccion, valor_ramo, estado FROM pedido WHERE celular LIKE '%$numero%' AND fecha_entrega = '$date'";
+            $result = $conn->query($sql);
+
+            if ($result && $result->num_rows > 0) {
+                $reply = "Pedidos para el $date:\n";
+                while ($row = $result->fetch_assoc()) {
+                    $reply .= "- {$row['nombre_cliente']} ({$row['direccion']}), Valor: {$row['valor_ramo']}, Estado: {$row['estado']}\n";
+                }
+            } else {
+                $reply = "No tienes pedidos para el $date.";
+            }
+        } else {
+            $reply = "No entendí la fecha. Por favor escribe '¿Qué pedidos tengo para hoy?', 'mañana' o 'para YYYY-MM-DD'.";
         }
 
-        // Enviar respuesta por Ultramsg
+        // Enviar respuesta vía API UltraMSG
         $params = array(
             'token' => 'hsux4qfi6n0irjty',
-            'to' => $numero,
-            'body' => $respuesta
+            'to' => '+' . $numero,
+            'body' => $reply
         );
 
         $curl = curl_init();
@@ -58,12 +61,12 @@ if (isset($data["body"]) && isset($data["from"])) {
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_POST => true,
             CURLOPT_POSTFIELDS => http_build_query($params),
-            CURLOPT_HTTPHEADER => array("Content-Type: application/x-www-form-urlencoded")
+            CURLOPT_HTTPHEADER => array("content-type: application/x-www-form-urlencoded")
         ));
-
         $response = curl_exec($curl);
         curl_close($curl);
     }
 }
 ?>
+
 
