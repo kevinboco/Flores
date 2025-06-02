@@ -1,65 +1,69 @@
 <?php
-$input = json_decode(file_get_contents('php://input'), true);
-$numero = $input['from'] ?? '';
-$mensaje = strtolower(trim($input['body'] ?? ''));
+// Guardar lo que llega al webhook (útil para depuración)
+file_put_contents("log.txt", file_get_contents("php://input") . PHP_EOL, FILE_APPEND);
 
-if ($numero && $mensaje) {
-    require_once("conexion.php");
+// Leer el JSON que envía Ultramsg
+$data = json_decode(file_get_contents("php://input"), true);
 
-    $respuesta = "Lo siento, no entendí tu pregunta.";
+// Verifica si hay mensaje y número
+if (isset($data["body"]) && isset($data["from"])) {
+    $mensaje = strtolower(trim($data["body"]));
+    $numero = $data["from"]; // Ej: 57301xxxxxxx
 
-    // -----------------------------
-    // 🧠 DETECTAR FECHA EN EL MENSAJE
-    // -----------------------------
-    $fecha_detectada = null;
+    // Conexión a base de datos
+    include("conexion.php");
 
-    // Buscar fechas con formato: dd/mm/yyyy, dd-mm-yyyy, dd/mm, dd-mm
-    if (preg_match('/(\d{1,2})[\/\-](\d{1,2})([\/\-](\d{4}))?/', $mensaje, $partes)) {
-        $dia = str_pad($partes[1], 2, "0", STR_PAD_LEFT);
-        $mes = str_pad($partes[2], 2, "0", STR_PAD_LEFT);
-        $anio = $partes[3] ? str_replace(['/', '-'], '', $partes[3]) : date('Y'); // Si no dice el año, usa el actual
-
-        $fecha_detectada = "$anio-$mes-$dia";
+    // Si el mensaje contiene la palabra "mañana"
+    if (strpos($mensaje, "mañana") !== false) {
+        $fecha = date("Y-m-d", strtotime("+1 day"));
+    }
+    // Si el mensaje contiene "hoy"
+    elseif (strpos($mensaje, "hoy") !== false) {
+        $fecha = date("Y-m-d");
+    }
+    // Si menciona una fecha exacta como "2025-06-03"
+    elseif (preg_match("/\d{4}-\d{2}-\d{2}/", $mensaje, $coincidencias)) {
+        $fecha = $coincidencias[0];
     }
 
-    // Si se detectó una fecha, buscar los pedidos de ese día
-    if ($fecha_detectada) {
-        $sql = "SELECT nombre_cliente, direccion, valor_ramo FROM pedido WHERE fecha_entrega = ?";
-        $stmt = $conexion->prepare($sql);
-        $stmt->bind_param("s", $fecha_detectada);
+    if (isset($fecha)) {
+        $sql = "SELECT * FROM pedido WHERE fecha_entrega = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $fecha);
         $stmt->execute();
-        $resultado = $stmt->get_result();
+        $result = $stmt->get_result();
 
-        if ($resultado->num_rows > 0) {
-            $respuesta = "Pedidos para el " . date("d/m/Y", strtotime($fecha_detectada)) . ":\n";
-            while ($row = $resultado->fetch_assoc()) {
-                $respuesta .= "- " . $row['nombre_cliente'] . " (" . $row['direccion'] . "), $" . number_format($row['valor_ramo']) . "\n";
-            }
-        } else {
-            $respuesta = "No tienes pedidos para el " . date("d/m/Y", strtotime($fecha_detectada)) . ".";
+        $respuesta = "📦 Pedidos para $fecha:\n";
+        $hayPedidos = false;
+
+        while ($row = $result->fetch_assoc()) {
+            $hayPedidos = true;
+            $respuesta .= "\n🧍 Cliente: {$row['nombre_cliente']}\n📍 Dirección: {$row['direccion']}\n💐 Valor: {$row['valor_ramo']}\n";
         }
 
-        $stmt->close();
+        if (!$hayPedidos) {
+            $respuesta = "No hay pedidos programados para $fecha.";
+        }
+
+        // Enviar respuesta por Ultramsg
+        $params = array(
+            'token' => 'hsux4qfi6n0irjty',
+            'to' => $numero,
+            'body' => $respuesta
+        );
+
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://api.ultramsg.com/instance123499/messages/chat",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => http_build_query($params),
+            CURLOPT_HTTPHEADER => array("Content-Type: application/x-www-form-urlencoded")
+        ));
+
+        $response = curl_exec($curl);
+        curl_close($curl);
     }
-
-    $conexion->close();
-
-    // Enviar respuesta
-    $params = array(
-        'token' => 'hsux4qfi6n0irjty',
-        'to' => $numero,
-        'body' => $respuesta
-    );
-
-    $curl = curl_init();
-    curl_setopt_array($curl, array(
-        CURLOPT_URL => "https://api.ultramsg.com/instance123499/messages/chat",
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_POST => true,
-        CURLOPT_POSTFIELDS => http_build_query($params),
-        CURLOPT_HTTPHEADER => array("content-type: application/x-www-form-urlencoded")
-    ));
-
-    curl_exec($curl);
-    curl_close($curl);
 }
+?>
+
