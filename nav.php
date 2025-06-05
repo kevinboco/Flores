@@ -124,6 +124,13 @@
       <div class="dock-label">ver ganacias</div>
     
     </div>
+    <div class="dock-item" tabindex="0" role="button" aria-haspopup="true" aria-label="catalogo" onclick="window.location.href='calendario_pedidos.php'">
+      <div class="dock-icon">
+        <img src="privado/calendario.png" alt="Configuración" width="32" height="32" />
+      </div>
+      <div class="dock-label">ver calendario</div>
+
+    </div>
   </div>
 </div>
 
