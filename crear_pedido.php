@@ -52,6 +52,11 @@ include 'nav.php';
         <label class="form-label">Descripcion del ramo</label>
         <input type="text" name="descripcion" class="form-control" >
     </div>
+    <div class="col-md-6 position-relative">
+        <label class="form-label">Nombre del ramo</label>
+        <input type="text" name="nombre_ramo" id="nombre_ramo" class="form-control" autocomplete="off">
+        <div id="sugerencias" class="list-group"></div>
+    </div>
     <div class="col-12">
         <button type="submit" class="btn btn-success">Guardar pedido</button>
         <a href="listar_pedidos.php" class="btn btn-secondary">Ver pedidos</a>
@@ -59,5 +64,31 @@ include 'nav.php';
 </form>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+document.getElementById('nombre_ramo').addEventListener('input', function() {
+    const valor = this.value;
+    const sugerenciasDiv = document.getElementById('sugerencias');
+    if (valor.length < 2) {
+        sugerenciasDiv.innerHTML = '';
+        return;
+    }
+    fetch('buscar_ramos.php?term=' + encodeURIComponent(valor))
+        .then(res => res.json())
+        .then(data => {
+            sugerenciasDiv.innerHTML = '';
+            data.forEach(titulo => {
+                const item = document.createElement('button');
+                item.type = 'button';
+                item.className = 'list-group-item list-group-item-action';
+                item.textContent = titulo;
+                item.onclick = () => {
+                    document.getElementById('nombre_ramo').value = titulo;
+                    sugerenciasDiv.innerHTML = '';
+                };
+                sugerenciasDiv.appendChild(item);
+            });
+        });
+});
+</script>
 </body>
 </html>

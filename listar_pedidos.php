@@ -217,6 +217,7 @@ function siguienteEstado($estado)
                                     $<?= number_format($falta, 2) ?>
                                 </span><br>
                                 <strong>Estado:</strong>
+                                
                                 <span class="badge bg-<?= $estadoColor ?>"><?= $row['estado'] ?></span>
                             </p>
                             <div class="d-flex flex-wrap gap-2">
@@ -243,7 +244,13 @@ function siguienteEstado($estado)
                                 <a href="editar_pedido.php?id=<?= $row['id'] ?>" class="btn btn-outline-secondary btn-sm">
                                     Editar
                                 </a>
+                                
+                                
+                                
 
+                                 
+
+                                 
                                 <?php if ($row['estado'] == 'Listo'): ?>
                                     <a href="recordatoio.php?to=573043859242&body=<?= urlencode('Hola, para pedir un domicilio estoy en la cra 25 #18-40 y el pedido va para ' . $row['direccion']) ?>"
                                         class="btn btn-outline-dark btn-sm" target="_blank">
@@ -288,6 +295,9 @@ function siguienteEstado($estado)
             mainContent.classList.toggle('with-sidebar');
         });
     </script>
+
+
+
 
 </body>
 
