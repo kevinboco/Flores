@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pago_completo'])) {
     $stmt->execute();
 
     // Recargar la página para ver los cambios, preservando fecha
-    header("Location: ver_pedidos_dia.php" . ($fecha_filtro ? "?fecha=$fecha_filtro" : ""));
+    header("Location: ver_pedidos_dia.php" . ($fecha_filtro ? "?fecha=" . urlencode($fecha_filtro) : ""));
     exit;
 }
 
@@ -193,7 +193,7 @@ function siguienteEstado($estado)
                                     <span class="badge bg-<?= $estadoColor ?>"><?= $row['estado'] ?></span>
                                 </p>
                                 <div class="d-flex flex-wrap gap-2">
-                                    <a href="cambiar_estado.php?id=<?= $row['id'] ?>&estado=<?= siguienteEstado($row['estado']) ?>"
+                                    <a href="cambiar_estado1.php?id=<?= $row['id'] ?>&estado=<?= siguienteEstado($row['estado']) ?>&fecha=<?= urlencode($fecha_filtro) ?>"
                                         class="btn btn-outline-primary btn-sm">
                                         Pasar a <?= siguienteEstado($row['estado']) ?>
                                     </a>
@@ -262,7 +262,6 @@ function siguienteEstado($estado)
             mainContent.classList.toggle('with-sidebar');
         });
     </script>
-
 </body>
 
 </html>

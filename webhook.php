@@ -27,7 +27,7 @@ if (isset($event['data'])) {
 
         // Prepara los datos para enviar la respuesta
         $params = [
-            'token' => 'hsux4qfi6n0irjty',
+            'token' => 'hsux4qfi6n0irjty4ggg',
             'to' => $from,
             'body' => $respuesta
         ];

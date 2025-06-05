@@ -10,7 +10,7 @@ if (!$numero || !$mensaje) {
 }
 
 $params = array(
-    'token' => 'hsux4qfi6n0irjty',
+    'token' => 'hsux4qfi6n0irjty4ggg',
     'to' => '+' . $numero,
     'body' => $mensaje
 );
