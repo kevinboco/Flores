@@ -23,6 +23,8 @@ $error = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $titulo = $_POST['titulo'];
     $valor = $_POST['valor'];
+    $descripcion = $_POST['description'];
+    $categoria = $_POST['categoria'];
 
     // Si se sube nueva imagen
     if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] === UPLOAD_ERR_OK) {
@@ -31,7 +33,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $rutaDestino = 'uploads/' . $nombreArchivo;
 
         if (move_uploaded_file($archivoTmp, $rutaDestino)) {
-            // Opcional: borrar imagen vieja si quieres
             $imagenParaGuardar = $nombreArchivo;
         } else {
             $error = "Error al subir la imagen.";
@@ -41,8 +42,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (!$error) {
-        $stmt = $conn->prepare("UPDATE catalogo_ramos SET titulo=?, valor=?, imagen=? WHERE id=?");
-        $stmt->bind_param("sdsi", $titulo, $valor, $imagenParaGuardar, $id);
+        $stmt = $conn->prepare("UPDATE catalogo_ramos SET titulo=?, valor=?, imagen=?, description=?, categoria=? WHERE id=?");
+        $stmt->bind_param("sdsssi", $titulo, $valor, $imagenParaGuardar, $descripcion, $categoria, $id);
         $stmt->execute();
 
         header('Location: listar_catalogo.php');
@@ -74,6 +75,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="mb-3">
         <label class="form-label">Valor</label>
         <input type="number" name="valor" step="0.01" class="form-control" value="<?= $ramo['valor'] ?>" required>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Descripción</label>
+        <textarea name="description" class="form-control" rows="3" required><?= htmlspecialchars($ramo['description']) ?></textarea>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Categoría</label>
+        <input type="text" name="categoria" class="form-control" value="<?= htmlspecialchars($ramo['categoria']) ?>" required>
     </div>
     <div class="mb-3">
         <label class="form-label">Imagen Actual</label><br>
