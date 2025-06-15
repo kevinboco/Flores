@@ -1,13 +1,18 @@
 <?php
 include 'conexion.php';
 
-$sql = "SELECT * FROM pedido ORDER BY id DESC LIMIT 1"; // solo el más reciente
+$sql = "SELECT * FROM pedido ORDER BY id DESC";
 $result = $conn->query($sql);
 
+$pedidos = [];
+
 if ($result && $result->num_rows > 0) {
-    $pedido = $result->fetch_assoc();
-    echo "Último pedido: " . $pedido['nombre_cliente'] . ", " . $pedido['celular'] . ", " . $pedido['direccion'] . ", entrega: " . $pedido['fecha_entrega'];
-} else {
-    echo "No hay pedidos.";
+    while ($fila = $result->fetch_assoc()) {
+        $pedidos[] = $fila;
+    }
 }
+
+// Establecer cabecera para que Siri lo entienda como JSON
+header('Content-Type: application/json');
+echo json_encode($pedidos);
 ?>
