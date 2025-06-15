@@ -1,19 +1,24 @@
 <?php
-include 'conexion.php'; // Asegúrate de que este archivo contenga tu conexión a MySQL
+include 'conexion.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nombre_cliente = $_POST['nombre_cliente'] ?? '';
+    $nombre = $_POST['nombre_cliente'] ?? '';
+    $celular = $_POST['celular'] ?? '';
+    $direccion = $_POST['direccion'] ?? '';
 
-    $sql = "INSERT INTO pedido (nombre_cliente) VALUES (?)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $nombre_cliente);
+    if ($nombre !== '' && $celular !== '' && $direccion !== '') {
+        $stmt = $conn->prepare("INSERT INTO pedido (nombre_cliente, celular, direccion) VALUES (?, ?, ?)");
+        $stmt->bind_param("sss", $nombre, $celular, $direccion);
 
-    if ($stmt->execute()) {
-        echo "Guardado: $nombre_cliente";
+        if ($stmt->execute()) {
+            echo "Pedido guardado correctamente";
+        } else {
+            echo "Error al guardar el pedido";
+        }
     } else {
-        echo "Error al guardar.";
+        echo "Faltan datos";
     }
 } else {
-    echo "Método no permitido.";
+    echo "Método no permitido";
 }
 ?>
