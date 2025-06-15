@@ -177,7 +177,7 @@ function siguienteEstado($estado)
                 class="btn btn-outline-success <?= $filtro == 'Enviado' ? 'active' : '' ?>">
                 Enviado (<?= $conteo['Enviado'] ?>)
             </a>
-            <a href="index.php"
+            <a href="categorias.php"
                 class="btn btn-primary mb-4"> ir a vista de usuario 
             </a>
 
