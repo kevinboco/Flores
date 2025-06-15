@@ -7,16 +7,16 @@ $result = $conn->query($sql);
 
 // Lista de imágenes variadas de flores eternas (alta calidad)
 $imagenes_disponibles = [
-    'https://images.pexels.com/photos/4496276/pexels-photo-4496276.jpeg',
-    'https://images.pexels.com/photos/4496279/pexels-photo-4496279.jpeg',
-    'https://images.pexels.com/photos/4496281/pexels-photo-4496281.jpeg',
-    'https://images.pexels.com/photos/5699814/pexels-photo-5699814.jpeg',
-    'https://images.pexels.com/photos/5699815/pexels-photo-5699815.jpeg',
-    'https://images.pexels.com/photos/10709140/pexels-photo-10709140.jpeg',
-    'https://images.pexels.com/photos/4668570/pexels-photo-4668570.jpeg',
-    'https://images.pexels.com/photos/931177/pexels-photo-931177.jpeg',
-    'https://images.pexels.com/photos/5797906/pexels-photo-5797906.jpeg',
-    'https://images.pexels.com/photos/4496283/pexels-photo-4496283.jpeg'
+    'https://images.pexels.com/photos/4505163/pexels-photo-4505163.jpeg', // Rosas rosas
+    'https://images.pexels.com/photos/4496276/pexels-photo-4496276.jpeg', // Flores variadas
+    'https://images.pexels.com/photos/10709140/pexels-photo-10709140.jpeg', // Rosas eternas
+    'https://images.pexels.com/photos/5797906/pexels-photo-5797906.jpeg', // Flor elegante
+    'https://images.pexels.com/photos/4496283/pexels-photo-4496283.jpeg', // Rosa morada
+    'https://images.pexels.com/photos/4668570/pexels-photo-4668570.jpeg', // Flor de cerca
+    'https://images.pexels.com/photos/5957479/pexels-photo-5957479.jpeg', // Girasoles
+    'https://images.pexels.com/photos/5957482/pexels-photo-5957482.jpeg', // Tulipanes rosados
+    'https://images.pexels.com/photos/5957483/pexels-photo-5957483.jpeg', // Rosas blancas
+    'https://images.pexels.com/photos/4496279/pexels-photo-4496279.jpeg'  // Flor tipo eternas
 ];
 
 // Barajamos el arreglo de imágenes
