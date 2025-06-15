@@ -9,9 +9,8 @@ $result = $conn->query($sql);
 $imagenes = [
   'rosas' => 'https://images.pexels.com/photos/931185/pexels-photo-931185.jpeg',
   'girasoles' => 'https://images.pexels.com/photos/931179/pexels-photo-931179.jpeg',
-  'RAMOS BUCHONES  ' => 'https://images.pexels.com/photos/1903962/pexels-photo-1903962.jpeg',
+  'RAMOS BUCHONES' => 'https://images.pexels.com/photos/1903962/pexels-photo-1903962.jpeg',
   'ROSAS EN FORMA DE CORAZON' => 'https://images.pexels.com/photos/356286/pexels-photo-356286.jpeg',
-  'rosas' => 'https://images.pexels.com/photos/931162/pexels-photo-931162.jpeg',
   'RAMOS CON LUCES' => 'https://images.pexels.com/photos/1903962/pexels-photo-1903962.jpeg',
    '60000' => 'https://images.pexels.com/photos/931179/pexels-photo-931179.jpeg',
 
