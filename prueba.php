@@ -1,10 +1,26 @@
+<?php
+include 'conexion.php';
+include 'texto circular.php';
+
+$sql = "SELECT DISTINCT categoria FROM catalogo_ramos";
+$result = $conn->query($sql);
+
+// Asocia una imagen a cada categoría
+$imagenes = [
+  'Azul' => 'https://images.pexels.com/photos/931185/pexels-photo-931185.jpeg',
+  'Rojo' => 'https://images.pexels.com/photos/931179/pexels-photo-931179.jpeg',
+  'Amarillo' => 'https://images.pexels.com/photos/1903962/pexels-photo-1903962.jpeg',
+  'Mixto' => 'https://images.pexels.com/photos/356286/pexels-photo-356286.jpeg',
+  'Rosas' => 'https://images.pexels.com/photos/931162/pexels-photo-931162.jpeg',
+];
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <title>Categorías de Ramos</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+  
   <!-- AOS -->
   <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
@@ -68,6 +84,7 @@
       margin: 10px 0;
       font-size: 20px;
       color: #d63384;
+      text-transform: capitalize;
     }
 
     .card-content button {
@@ -91,99 +108,31 @@
 
 <div class="container">
 
-  <!-- Tarjeta 1 -->
+  <!-- Opción "Ver todos" -->
   <div class="card" data-aos="fade-up">
-    <img src="https://images.pexels.com/photos/931162/pexels-photo-931162.jpeg" alt="Rosas románticas">
+    <img src="https://images.pexels.com/photos/931162/pexels-photo-931162.jpeg" alt="Ver Todos">
     <div class="card-content">
-      <h3>Rosas románticas</h3>
-      <button>Ver más</button>
+      <h3>Ver Todos</h3>
+      <button onclick="location.href='ver_categoria.php'">Ver más</button>
     </div>
   </div>
 
-  <!-- Tarjeta 2 -->
-  <div class="card" data-aos="fade-up">
-    <img src="https://images.pexels.com/photos/1903962/pexels-photo-1903962.jpeg" alt="Girasoles brillantes">
-    <div class="card-content">
-      <h3>Girasoles brillantes</h3>
-      <button>Ver más</button>
+  <?php while($row = $result->fetch_assoc()): 
+    $categoria = $row['categoria'];
+    $imagen = $imagenes[$categoria] ?? 'https://images.unsplash.com/photo-1504208434309-cb69f4fe52b0'; // Imagen por defecto
+  ?>
+    <div class="card" data-aos="fade-up">
+      <img src="<?= htmlspecialchars($imagen) ?>" alt="<?= htmlspecialchars($categoria) ?>">
+      <div class="card-content">
+        <h3><?= htmlspecialchars($categoria) ?></h3>
+        <button onclick="location.href='ver_categoria.php?categoria=<?= urlencode($categoria) ?>'">Ver más</button>
+      </div>
     </div>
-  </div>
-
-  <!-- Tarjeta 3 -->
-  <div class="card" data-aos="fade-up">
-    <img src="https://images.pexels.com/photos/617278/pexels-photo-617278.jpeg" alt="Tulipanes elegantes">
-    <div class="card-content">
-      <h3>Tulipanes elegantes</h3>
-      <button>Ver más</button>
-    </div>
-  </div>
-
-  <!-- Tarjeta 4 -->
-  <div class="card" data-aos="fade-up">
-    <img src="https://images.pexels.com/photos/356286/pexels-photo-356286.jpeg" alt="Bouquet mixto">
-    <div class="card-content">
-      <h3>Ramos mixtos</h3>
-      <button>Ver más</button>
-    </div>
-  </div>
-
-  <!-- Tarjeta 5 -->
-  <div class="card" data-aos="fade-up">
-    <img src="https://images.pexels.com/photos/931179/pexels-photo-931179.jpeg" alt="Rosas blancas">
-    <div class="card-content">
-      <h3>Rosas blancas</h3>
-      <button>Ver más</button>
-    </div>
-  </div>
-
-  <!-- Tarjeta 6 -->
-  <div class="card" data-aos="fade-up">
-    <img src="https://images.pexels.com/photos/618833/pexels-photo-618833.jpeg" alt="Ramos de cumpleaños">
-    <div class="card-content">
-      <h3>Ramos de cumpleaños</h3>
-      <button>Ver más</button>
-    </div>
-  </div>
-
-  <!-- Tarjeta 7 -->
-  <div class="card" data-aos="fade-up">
-    <img src="https://images.pexels.com/photos/931185/pexels-photo-931185.jpeg" alt="Ramos primaverales">
-    <div class="card-content">
-      <h3>Ramos primaverales</h3>
-      <button>Ver más</button>
-    </div>
-  </div>
-
-  <!-- Tarjeta 8 -->
-  <div class="card" data-aos="fade-up">
-    <img src="https://images.pexels.com/photos/931176/pexels-photo-931176.jpeg" alt="Ramos para aniversario">
-    <div class="card-content">
-      <h3>Para aniversario</h3>
-      <button>Ver más</button>
-    </div>
-  </div>
-
-  <!-- Tarjeta 9 -->
-  <div class="card" data-aos="fade-up">
-    <img src="https://images.pexels.com/photos/6485767/pexels-photo-6485767.jpeg" alt="Ramos delicados">
-    <div class="card-content">
-      <h3>Ramos delicados</h3>
-      <button>Ver más</button>
-    </div>
-  </div>
-
-  <!-- Tarjeta 10 -->
-  <div class="card" data-aos="fade-up">
-    <img src="https://images.pexels.com/photos/4033089/pexels-photo-4033089.jpeg" alt="Ramos modernos">
-    <div class="card-content">
-      <h3>Ramos modernos</h3>
-      <button>Ver más</button>
-    </div>
-  </div>
+  <?php endwhile; ?>
 
 </div>
 
-<!-- AOS -->
+<!-- AOS JS -->
 <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
 <script>
   AOS.init({ duration: 1000, once: true });
