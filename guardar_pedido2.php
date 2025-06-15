@@ -5,10 +5,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nombre = $_POST['nombre_cliente'] ?? '';
     $celular = $_POST['celular'] ?? '';
     $direccion = $_POST['direccion'] ?? '';
+    $fecha_entrega = $_POST['fecha_entrega'] ?? '';
 
-    if ($nombre !== '' && $celular !== '' && $direccion !== '') {
-        $stmt = $conn->prepare("INSERT INTO pedido (nombre_cliente, celular, direccion) VALUES (?, ?, ?)");
-        $stmt->bind_param("sss", $nombre, $celular, $direccion);
+    if ($nombre !== '' && $celular !== '' && $direccion !== '' && $fecha_entrega !== '') {
+        $stmt = $conn->prepare("INSERT INTO pedido (nombre_cliente, celular, direccion, fecha_entrega) VALUES (?, ?, ?, ?)");
+        $stmt->bind_param("ssss", $nombre, $celular, $direccion, $fecha_entrega);
 
         if ($stmt->execute()) {
             echo "Pedido guardado correctamente";
