@@ -192,6 +192,7 @@ function siguienteEstado($estado)
 
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         <?php if ($result->num_rows > 0): ?>
+            
             <?php while ($row = $result->fetch_assoc()):
                 $falta = $row['valor_ramo'] - $row['cantidad_pagada'];
                 $estadoColor = $row['estado'] == "En proceso" ? "warning" : ($row['estado'] == "Listo" ? "info" : "success");
@@ -212,6 +213,11 @@ function siguienteEstado($estado)
                                 <strong>Valor:</strong> $<?= number_format($row['valor_ramo'], 2) ?><br>
                                 <strong>Pagado:</strong> $<?= number_format($row['cantidad_pagada'], 2) ?><br>
                                 <strong>Descripción:</strong> <?= htmlspecialchars($row['descripcion']) ?><br>
+                                <strong>Nombre del ramo:</strong>
+                                <a href="ver_ramo.php?titulo=<?= urlencode($row['nombre_ramo']) ?>">
+                                    <?= htmlspecialchars($row['nombre_ramo']) ?>
+                                </a><br>
+
                                 <strong>Falta por pagar:</strong>
                                 <span class="<?= $falta > 0 ? 'text-danger' : 'text-success' ?>">
                                     $<?= number_format($falta, 2) ?>
