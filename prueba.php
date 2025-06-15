@@ -5,24 +5,31 @@ include 'texto circular.php';
 $sql = "SELECT DISTINCT categoria FROM catalogo_ramos";
 $result = $conn->query($sql);
 
-// Asocia una imagen a cada categoría
-$imagenes = [
-  'rosas' => 'https://images.pexels.com/photos/931185/pexels-photo-931185.jpeg',
-  'girasoles' => 'https://images.pexels.com/photos/931179/pexels-photo-931179.jpeg',
-  'RAMOS BUCHONES' => 'https://images.pexels.com/photos/1903962/pexels-photo-1903962.jpeg',
-  'ROSAS EN FORMA DE CORAZON' => 'https://images.pexels.com/photos/356286/pexels-photo-356286.jpeg',
-  'RAMOS CON LUCES' => 'https://images.pexels.com/photos/1903962/pexels-photo-1903962.jpeg',
-   '60000' => 'https://images.pexels.com/photos/931179/pexels-photo-931179.jpeg',
-
+// Lista de imágenes variadas de flores eternas (alta calidad)
+$imagenes_disponibles = [
+    'https://images.pexels.com/photos/4496276/pexels-photo-4496276.jpeg',
+    'https://images.pexels.com/photos/4496279/pexels-photo-4496279.jpeg',
+    'https://images.pexels.com/photos/4496281/pexels-photo-4496281.jpeg',
+    'https://images.pexels.com/photos/5699814/pexels-photo-5699814.jpeg',
+    'https://images.pexels.com/photos/5699815/pexels-photo-5699815.jpeg',
+    'https://images.pexels.com/photos/10709140/pexels-photo-10709140.jpeg',
+    'https://images.pexels.com/photos/4668570/pexels-photo-4668570.jpeg',
+    'https://images.pexels.com/photos/931177/pexels-photo-931177.jpeg',
+    'https://images.pexels.com/photos/5797906/pexels-photo-5797906.jpeg',
+    'https://images.pexels.com/photos/4496283/pexels-photo-4496283.jpeg'
 ];
+
+// Barajamos el arreglo de imágenes
+shuffle($imagenes_disponibles);
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <title>Categorías de Ramos</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+
   <!-- AOS -->
   <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
@@ -64,6 +71,7 @@ $imagenes = [
       box-shadow: 0 10px 20px rgba(0,0,0,0.08);
       transition: transform 0.3s ease;
       overflow: hidden;
+      cursor: pointer;
     }
 
     .card:hover {
@@ -72,7 +80,7 @@ $imagenes = [
 
     .card img {
       width: 100%;
-      height: auto;
+      height: 220px;
       display: block;
       object-fit: cover;
     }
@@ -110,31 +118,34 @@ $imagenes = [
 
 <div class="container">
 
-  <!-- Opción "Ver todos" -->
-  <div class="card" data-aos="fade-up">
+  <!-- Tarjeta "Ver Todos" -->
+  <div class="card" data-aos="fade-up" onclick="location.href='ver_categoria.php'">
     <img src="https://images.pexels.com/photos/931162/pexels-photo-931162.jpeg" alt="Ver Todos">
     <div class="card-content">
       <h3>Ver Todos</h3>
-      <button onclick="location.href='ver_categoria.php'">Ver más</button>
+      <button>Ver más</button>
     </div>
   </div>
 
-  <?php while($row = $result->fetch_assoc()): 
-    $categoria = $row['categoria'];
-    $imagen = $imagenes[$categoria] ?? 'https://images.pexels.com/photos/931162/pexels-photo-931162.jpeg'; // Imagen por defecto
+  <?php
+  $i = 0;
+  while($row = $result->fetch_assoc()):
+    $categoria = htmlspecialchars($row['categoria']);
+    $img = $imagenes_disponibles[$i % count($imagenes_disponibles)];
+    $i++;
   ?>
-    <div class="card" data-aos="fade-up">
-      <img src="<?= htmlspecialchars($imagen) ?>" alt="<?= htmlspecialchars($categoria) ?>">
+    <div class="card" data-aos="fade-up" onclick="location.href='ver_categoria.php?categoria=<?= urlencode($categoria) ?>'">
+      <img src="<?= $img ?>" alt="<?= $categoria ?>">
       <div class="card-content">
-        <h3><?= htmlspecialchars($categoria) ?></h3>
-        <button onclick="location.href='ver_categoria.php?categoria=<?= urlencode($categoria) ?>'">Ver más</button>
+        <h3><?= $categoria ?></h3>
+        <button>Ver más</button>
       </div>
     </div>
   <?php endwhile; ?>
 
 </div>
 
-<!-- AOS JS -->
+<!-- AOS -->
 <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
 <script>
   AOS.init({ duration: 1000, once: true });
