@@ -26,7 +26,7 @@ shuffle($imagenes_disponibles); // barajamos para que no se repitan en orden
     body {
       font-family: 'Poppins', sans-serif;
       margin: 0;
-      background-color: #eaf0f6;
+      background: linear-gradient(135deg, #f9f1f7, #ffe9f0);
       color: #333;
     }
 
