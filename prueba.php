@@ -121,7 +121,7 @@ $imagenes = [
 
   <?php while($row = $result->fetch_assoc()): 
     $categoria = $row['categoria'];
-    $imagen = $imagenes[$categoria] ?? 'https://images.unsplash.com/photo-1504208434309-cb69f4fe52b0'; // Imagen por defecto
+    $imagen = $imagenes[$categoria] ?? 'https://images.pexels.com/photos/931162/pexels-photo-931162.jpeg'; // Imagen por defecto
   ?>
     <div class="card" data-aos="fade-up">
       <img src="<?= htmlspecialchars($imagen) ?>" alt="<?= htmlspecialchars($categoria) ?>">
