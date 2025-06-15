@@ -9,7 +9,6 @@ $result = $conn->query($sql);
 $carpeta = 'uploads/';
 $imagenes_disponibles = glob($carpeta . '*.{jpg,jpeg,png,gif}', GLOB_BRACE);
 shuffle($imagenes_disponibles); // barajamos para que no se repitan en orden
-
 ?>
 
 <!DOCTYPE html>
@@ -103,16 +102,16 @@ shuffle($imagenes_disponibles); // barajamos para que no se repitan en orden
 </head>
 <body>
 
-<h1>Categorías de Ramos</h1>
+<h1 data-aos="fade-down">Categorías de Ramos</h1>
 
 <div class="container">
 
   <!-- Tarjeta "Ver Todos" -->
   <div class="card" data-aos="fade-up" onclick="location.href='ver_categoria.php'">
-    <img src="https://images.pexels.com/photos/931162/pexels-photo-931162.jpeg" alt="Ver Todos">
+    <img src="https://images.pexels.com/photos/931162/pexels-photo-931162.jpeg" alt="Ver Todos" data-aos="zoom-in">
     <div class="card-content">
-      <h3>Ver Todos</h3>
-      <button>Ver más</button>
+      <h3 data-aos="fade-right" data-aos-delay="100">Ver Todos</h3>
+      <button data-aos="fade-up" data-aos-delay="200">Ver más</button>
     </div>
   </div>
 
@@ -124,10 +123,10 @@ shuffle($imagenes_disponibles); // barajamos para que no se repitan en orden
     $i++;
   ?>
     <div class="card" data-aos="fade-up" onclick="location.href='ver_categoria.php?categoria=<?= urlencode($categoria) ?>'">
-      <img src="<?= $img ?>" alt="<?= $categoria ?>">
+      <img src="<?= $img ?>" alt="<?= $categoria ?>" data-aos="zoom-in">
       <div class="card-content">
-        <h3><?= $categoria ?></h3>
-        <button>Ver más</button>
+        <h3 data-aos="fade-right" data-aos-delay="100"><?= $categoria ?></h3>
+        <button data-aos="fade-up" data-aos-delay="200">Ver más</button>
       </div>
     </div>
   <?php endwhile; ?>

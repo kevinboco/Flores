@@ -25,6 +25,10 @@ $precio = number_format($producto['valor']);
   <meta charset="UTF-8">
   <title><?= $titulo ?></title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- AOS -->
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
   <style>
     body {
       font-family: 'Poppins', sans-serif;
@@ -90,17 +94,23 @@ $precio = number_format($producto['valor']);
 </head>
 <body>
 
-  <div class="navbar">
+  <div class="navbar" data-aos="fade-down">
     <a href="javascript:history.back()">← Volver</a>
   </div>
 
-  <div class="producto">
-    <img src="<?= $imagen ?>" alt="<?= $titulo ?>">
-    <h1><?= $titulo ?></h1>
-    <p><strong>Precio:</strong> $<?= $precio ?></p>
-    <p><?= $descripcion ?></p>
-    <a class="boton-whatsapp" href="https://wa.me/573215116044?text=Quiero este producto: <?= urlencode($titulo) ?>" target="_blank">💐 Lo quiero</a>
+  <div class="producto" data-aos="zoom-in">
+    <img src="<?= $imagen ?>" alt="<?= $titulo ?>" data-aos="fade-up" data-aos-delay="100">
+    <h1 data-aos="fade-right" data-aos-delay="200"><?= $titulo ?></h1>
+    <p data-aos="fade-up" data-aos-delay="300"><strong>Precio:</strong> $<?= $precio ?></p>
+    <p data-aos="fade-up" data-aos-delay="400"><?= $descripcion ?></p>
+    <a class="boton-whatsapp" href="https://wa.me/573215116044?text=Quiero este producto: <?= urlencode($titulo) ?>" target="_blank" data-aos="fade-up" data-aos-delay="500">💐 Lo quiero</a>
   </div>
+
+  <!-- AOS -->
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    AOS.init({ duration: 1000, once: true });
+  </script>
 
 </body>
 </html>
