@@ -76,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <div class="mb-3">
         <label class="form-label">Imagen</label>
-        <input type="file" name="imagen" accept="image/*" class="form-control" required>
+        <input type="file" name="imagen" accept="image/*,video/*" class="form-control" required>
     </div>
 
     <button type="submit" class="btn btn-success">Guardar</button>
