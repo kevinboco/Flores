@@ -1,6 +1,6 @@
 <?php
 include 'conexion.php';
-include 'texto circular.php';
+
 
 $sql = "SELECT DISTINCT categoria FROM catalogo_ramos";
 $result = $conn->query($sql);
@@ -20,7 +20,8 @@ shuffle($imagenes_disponibles); // barajamos para que no se repitan en orden
 
   <!-- AOS -->
   <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
 
   <style>
     body {
@@ -30,9 +31,74 @@ shuffle($imagenes_disponibles); // barajamos para que no se repitan en orden
       color: #333;
     }
 
+    /* Encabezado mágico */
+    .titulo-magico {
+      font-family: 'Fredoka', sans-serif;
+      text-align: center;
+      margin-top: 60px;
+      font-size: 3.2rem;
+      font-weight: 700;
+      background: linear-gradient(to right, #e11d48, #db2777, #9333ea, #7c3aed);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      position: relative;
+      animation: fadeInUp 1s ease-out both;
+    }
+
+    .blob {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(to right, #e11d48, #7c3aed);
+      border-radius: 40% 60% 60% 40% / 50% 50% 60% 40%;
+      display: inline-block;
+      margin: 0 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+      animation: float 4s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0px);
+      }
+      50% {
+        transform: translateY(-12px);
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .decoracion {
+      text-align: center;
+      font-size: 2rem;
+      color: #f43f5e;
+      animation: pulse 2s infinite;
+      margin-bottom: 10px;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      50% {
+        transform: scale(1.1);
+        opacity: 0.7;
+      }
+    }
+
     h1 {
       text-align: center;
-      margin: 40px 20px 20px;
+      margin: 20px 20px 10px;
       color: #d63384;
     }
 
@@ -102,10 +168,19 @@ shuffle($imagenes_disponibles); // barajamos para que no se repitan en orden
 </head>
 <body>
 
-<h1 data-aos="fade-down">Categorías de Ramos</h1>
+<!-- Encabezado mágico -->
+<div class="decoracion">✨</div>
+<div style="text-align: center;">
+  <span class="blob"></span>
+  <span class="titulo-magico">Categorías<br>Mágicas</span>
+  <span class="blob"></span>
+</div>
+<div class="decoracion">✨</div>
+
+<!-- Título AOS -->
+
 
 <div class="container">
-
   <!-- Tarjeta "Ver Todos" -->
   <div class="card" data-aos="fade-up" onclick="location.href='ver_categoria.php'">
     <img src="https://images.pexels.com/photos/931162/pexels-photo-931162.jpeg" alt="Ver Todos" data-aos="zoom-in">
@@ -130,7 +205,6 @@ shuffle($imagenes_disponibles); // barajamos para que no se repitan en orden
       </div>
     </div>
   <?php endwhile; ?>
-
 </div>
 
 <!-- AOS -->
