@@ -164,6 +164,34 @@ shuffle($imagenes_disponibles); // barajamos para que no se repitan en orden
     .card-content button:hover {
       background-color: #b3246e;
     }
+    .frase-magica {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 30px 50px;
+      text-align: center;
+      font-size: 1.7rem;
+      color: #3b3b3b;
+      background: linear-gradient(90deg, #fde5f3, #fbeeff);
+      border-radius: 100px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+      font-family: 'Poppins', sans-serif;
+      line-height: 1.6;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      backdrop-filter: blur(6px);
+      animation: fadeUp 1s ease-out both;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -176,6 +204,12 @@ shuffle($imagenes_disponibles); // barajamos para que no se repitan en orden
   <span class="blob"></span>
 </div>
 <div class="decoracion">✨</div>
+
+<div class="frase-magica" data-aos="fade-in" data-aos-delay="100">
+  Descubre un universo de belleza floral donde cada pétalo<br>
+  cuenta una historia única y mágica
+</div>
+
 
 <!-- Título AOS -->
 
