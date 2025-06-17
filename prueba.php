@@ -473,6 +473,7 @@ shuffle($imagenes_disponibles);
             card.addEventListener('mouseleave', function() {
                 this.style.zIndex = '1';
                 this.style.transform = '';
+                
             });
         });
     </script>
