@@ -3,13 +3,10 @@ include 'conexion.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nombre = $_POST['nombre_cliente'] ?? '';
-    $celular = $_POST['celular'] ?? '';
-    $direccion = $_POST['direccion'] ?? '';
-    
 
-    if ($nombre !== '' && $celular !== '' && $direccion !== '') {
-        $stmt = $conn->prepare("INSERT INTO pedido (nombre_cliente, celular, direccion) VALUES (?, ?, ?)");
-        $stmt->bind_param("sss", $nombre, $celular, $direccion);
+    if ($nombre !== '') {
+        $stmt = $conn->prepare("INSERT INTO pedido (nombre_cliente) VALUES (?)");
+        $stmt->bind_param("s", $nombre);
 
         if ($stmt->execute()) {
             echo "Pedido guardado correctamente";
@@ -17,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo "Error al guardar el pedido";
         }
     } else {
-        echo "Faltan datos";
+        echo "Falta el nombre del cliente";
     }
 } else {
     echo "Método no permitido";
