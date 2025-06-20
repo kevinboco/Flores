@@ -19,7 +19,18 @@ shuffle($imagenes_disponibles); // barajamos para que no se repitan en orden
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Categorías de Ramos</title>
+      <!-- Título atractivo y con palabras clave -->
+    <title>Flores Personalizadas | Ramos mágicos en Melany Variedades La Guajira</title>
+
+    <!-- Descripción para Google (max. ~160 caracteres) -->
+    <meta name="description" content="Descubre ramos de flores únicos con mariposas, luces y detalles mágicos. Entregas en La Guajira. Hechos con amor en Melany Variedades.">
+
+    <!-- Palabras clave para posicionamiento (opcional en SEO moderno, pero puede ayudar) -->
+    <meta name="keywords" content="flores, ramos, rosas, regalos personalizados, La Guajira, Melany Variedades, Maicao, detalles mágicos, flores con luces, ramos con mariposas">
+
+    <!-- Canónica: URL principal -->
+    <link rel="canonical" href="https://melany-variedades.shop/flores/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- AOS -->
