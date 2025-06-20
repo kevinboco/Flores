@@ -1,5 +1,7 @@
 <?php
 include 'conexion.php';
+$fecha = date('Y-m-d H:i:s');
+$conn->query("INSERT INTO visitas_catalogo (fecha) VALUES ('$fecha')");
 
 
 $sql = "SELECT DISTINCT categoria FROM catalogo_ramos";
