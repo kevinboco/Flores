@@ -1,5 +1,7 @@
 <?php
 include 'conexion.php';
+date_default_timezone_set('America/Bogota');
+
 $fecha = date('Y-m-d H:i:s');
 $conn->query("INSERT INTO visitas_catalogo (fecha) VALUES ('$fecha')");
 
