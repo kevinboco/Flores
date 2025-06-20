@@ -4,6 +4,7 @@ include 'conexion.php';
 $categoria = $_GET['categoria'] ?? '';
 $min = isset($_GET['min']) ? (int)$_GET['min'] : 0;
 $max = isset($_GET['max']) ? (int)$_GET['max'] : 0;
+$nombre = $_GET['nombre'] ?? '';
 
 $params = [];
 $types = '';
@@ -22,11 +23,16 @@ if ($min > 0 && $max > 0 && $min <= $max) {
     $params[] = $max;
 }
 
+if (!empty($nombre)) {
+    $sql .= " AND titulo LIKE ?";
+    $types .= 's';
+    $params[] = '%' . $nombre . '%';
+}
+
 $stmt = $conn->prepare($sql);
 if (!empty($params)) {
     $stmt->bind_param($types, ...$params);
 }
-
 $stmt->execute();
 $result = $stmt->get_result();
 ?>
@@ -73,6 +79,72 @@ $result = $stmt->get_result();
       color: #d63384;
       font-size: 30px;
     }
+
+    .toggle-btn {
+      padding: 12px 20px;
+      background: #d63384;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-weight: bold;
+      font-size: 15px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      margin: 10px;
+    }
+
+    .toggle-btn:hover {
+      background: #a61e65;
+    }
+
+    .filtro-form {
+      max-width: 1100px;
+      margin: 10px auto;
+      padding: 25px;
+      border-radius: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+
+
+    .filtro-grupo {
+      display: flex;
+      flex-direction: column;
+      min-width: 200px;
+    }
+
+    .filtro-grupo label {
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #d63384;
+    }
+
+    .filtro-grupo input {
+      padding: 10px 14px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 14px;
+    }
+
+    .filtro-grupo button {
+      padding: 12px 20px;
+      background: #d63384;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 15px;
+      transition: background 0.3s ease;
+    }
+
+    .filtro-grupo button:hover {
+      background: #a61e65;
+    }
+
     .container {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -81,6 +153,7 @@ $result = $stmt->get_result();
       max-width: 1200px;
       margin: auto;
     }
+
     .card {
       background: white;
       border-radius: 18px;
@@ -90,29 +163,35 @@ $result = $stmt->get_result();
       flex-direction: column;
       transition: transform 0.3s, box-shadow 0.3s;
     }
+
     .card:hover {
       transform: translateY(-5px);
       box-shadow: 0 12px 28px rgba(0,0,0,0.12);
     }
+
     .card img, .card video {
       width: 100%;
       height: auto;
       object-fit: cover;
       aspect-ratio: 4/3;
     }
+
     .info {
       padding: 20px;
       flex: 1;
     }
+
     .info h3 {
       margin: 0 0 10px;
       font-size: 20px;
       color: #d63384;
     }
+
     .info p {
       margin: 5px 0;
       font-size: 15px;
     }
+
     .boton-whatsapp {
       background: #25D366;
       color: white;
@@ -129,10 +208,12 @@ $result = $stmt->get_result();
       animation: pulse 2s infinite;
       display: inline-block;
     }
+
     .boton-whatsapp:hover {
       background: #1ebe5c;
       transform: scale(1.05);
     }
+
     @keyframes pulse {
       0%, 100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.5); }
       50% { box-shadow: 0 0 0 10px rgba(37, 211, 102, 0); }
@@ -141,9 +222,55 @@ $result = $stmt->get_result();
 </head>
 <body>
 <div class="navbar">
-  <a href="categorias.php">Volver a categorías</a>
+  <a href="index.php">Volver a categorías</a>
 </div>
+
 <h1>Ramos: <?= $categoria ? htmlspecialchars($categoria) : 'Todos' ?></h1>
+
+<!-- Botones -->
+<div class="filtro-form">
+  <button type="button" class="toggle-btn" onclick="toggleFiltro('precio')">💰 Filtrar por precio</button>
+  <button type="button" class="toggle-btn" onclick="toggleFiltro('nombre')">🔍 Filtrar por nombre</button>
+</div>
+
+<!-- Formulario precio -->
+<form method="GET" class="filtro-form" id="form-precio" style="display: <?= ($min > 0 || $max > 0) ? 'flex' : 'none' ?>;">
+  <input type="hidden" name="categoria" value="<?= htmlspecialchars($categoria) ?>">
+  <?php if (!empty($nombre)) : ?>
+    <input type="hidden" name="nombre" value="<?= htmlspecialchars($nombre) ?>">
+  <?php endif; ?>
+  <div class="filtro-grupo">
+    <label for="min">💰 Precio mínimo</label>
+    <input type="number" name="min" id="min" value="<?= $min ?>" placeholder="Ej: 20000">
+  </div>
+  <div class="filtro-grupo">
+    <label for="max">💰 Precio máximo</label>
+    <input type="number" name="max" id="max" value="<?= $max ?>" placeholder="Ej: 100000">
+  </div>
+  <div class="filtro-grupo">
+    <button type="submit">Aplicar filtros</button>
+  </div>
+</form>
+
+<!-- Formulario nombre -->
+<form method="GET" class="filtro-form" id="form-nombre" style="display: <?= (!empty($nombre)) ? 'flex' : 'none' ?>;">
+  <input type="hidden" name="categoria" value="<?= htmlspecialchars($categoria) ?>">
+  <?php if ($min > 0) : ?>
+    <input type="hidden" name="min" value="<?= $min ?>">
+  <?php endif; ?>
+  <?php if ($max > 0) : ?>
+    <input type="hidden" name="max" value="<?= $max ?>">
+  <?php endif; ?>
+  <div class="filtro-grupo">
+    <label for="nombre">🔍 Buscar por nombre</label>
+    <input type="text" name="nombre" id="nombre" value="<?= htmlspecialchars($nombre) ?>" placeholder="Ej: Rosas con mariposa">
+  </div>
+  <div class="filtro-grupo">
+    <button type="submit">Buscar</button>
+  </div>
+</form>
+
+<!-- Catálogo -->
 <div class="container">
 <?php while($row = $result->fetch_assoc()):
   $titulo = htmlspecialchars($row['titulo']);
@@ -174,10 +301,20 @@ $result = $stmt->get_result();
 
 <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
 <script>
-  AOS.init({
-    duration: 800,
-    once: true
-  });
+  AOS.init({ duration: 800, once: true });
+
+  function toggleFiltro(tipo) {
+    const formPrecio = document.getElementById('form-precio');
+    const formNombre = document.getElementById('form-nombre');
+
+    if (tipo === 'precio') {
+      formPrecio.style.display = (formPrecio.style.display === 'none' || !formPrecio.style.display) ? 'flex' : 'none';
+    }
+
+    if (tipo === 'nombre') {
+      formNombre.style.display = (formNombre.style.display === 'none' || !formNombre.style.display) ? 'flex' : 'none';
+    }
+  }
 </script>
 </body>
 </html>

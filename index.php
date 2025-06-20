@@ -1,334 +1,255 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php
+include 'conexion.php';
+date_default_timezone_set('America/Bogota');
 
+$fecha = date('Y-m-d H:i:s');
+$conn->query("INSERT INTO visitas_catalogo (fecha) VALUES ('$fecha')");
+
+
+$sql = "SELECT DISTINCT categoria FROM catalogo_ramos";
+$result = $conn->query($sql);
+
+// Leer imágenes locales desde carpeta uploads/
+$carpeta = 'uploads/';
+$imagenes_disponibles = glob($carpeta . '*.{jpg,jpeg,png,gif}', GLOB_BRACE);
+shuffle($imagenes_disponibles); // barajamos para que no se repitan en orden
+?>
+
+<!DOCTYPE html>
+<html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <title>Animación con Botones Separados</title>
-  <link rel="stylesheet" href="style/style_index.css">
+  <meta charset="UTF-8">
+  <title>Categorías de Ramos</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- AOS -->
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
+
   <style>
     body {
-      background: url('uploads/63a7cb6a-ba55-4583-9daf-971cd26453e5.jpeg') no-repeat center center;
-      background-size: contain;
-      color: white;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      height: 100vh;
+      font-family: 'Poppins', sans-serif;
       margin: 0;
-      padding: 2em 1em 4em;
-      /* padding abajo para espacio de botones */
-      font-family: 'Compressa VF', sans-serif;
+      background: linear-gradient(135deg, #f9f1f7, #ffe9f0);
+      color: #333;
     }
 
-    /* Contenedor fijo para el texto animado */
-    .text-container {
-      width: 100%;
-      max-width: 900px;
-      min-height: 20vw;
-      /* fija la altura mínima para evitar que cambie con escala */
-      display: flex;
-      justify-content: center;
-      margin-bottom: 3em;
-      /* espacio fijo antes de botones */
-    }
-
-    .text-pressure {
-      font-family: 'Compressa VF';
-      font-size: 10vw;
-      text-transform: uppercase;
-      display: flex;
-      gap: 0.1em;
-      /* Para que no cambie el tamaño del contenedor al hacer scale */
-      transform-origin: center bottom;
-    }
-
-    .text-pressure span {
-      font-variation-settings: 'wght' 100, 'wdth' 50, 'ital' 0;
-      display: inline-block;
-      animation: pulse 10s ease-in-out infinite;
-    }
-
-    .text-pressure.stroke span {
-      color: white;
-      position: relative;
-    }
-
-    .text-pressure.stroke span::after {
-      content: attr(data-char);
-      position: absolute;
-      left: 0;
-      top: 0;
+    /* Encabezado mágico */
+    .titulo-magico {
+      font-family: 'Fredoka', sans-serif;
+      text-align: center;
+      margin-top: 60px;
+      font-size: 3.2rem;
+      font-weight: 700;
+      background: linear-gradient(to right, #e11d48, #db2777, #9333ea, #7c3aed);
+      -webkit-background-clip: text;
+      background-clip: text;
       color: transparent;
-      -webkit-text-stroke: 2px black;
-      z-index: -1;
+      position: relative;
+      animation: fadeInUp 1s ease-out both;
+    }
+
+    .blob {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(to right, #e11d48, #7c3aed);
+      border-radius: 40% 60% 60% 40% / 50% 50% 60% 40%;
+      display: inline-block;
+      margin: 0 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+      animation: float 4s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0px);
+      }
+      50% {
+        transform: translateY(-12px);
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .decoracion {
+      text-align: center;
+      font-size: 2rem;
+      color: #f43f5e;
+      animation: pulse 2s infinite;
+      margin-bottom: 10px;
     }
 
     @keyframes pulse {
-      0% {
-        font-variation-settings: 'wght' 100, 'wdth' 50, 'ital' 0;
+      0%, 100% {
         transform: scale(1);
+        opacity: 1;
       }
-
       50% {
-        font-variation-settings: 'wght' 500, 'wdth' 200, 'ital' 1;
-        transform: scale(1.2);
-      }
-
-      100% {
-        font-variation-settings: 'wght' 100, 'wdth' 50, 'ital' 0;
-        transform: scale(0.5);
+        transform: scale(1.1);
+        opacity: 0.7;
       }
     }
 
-    /* Contenedor de botones separado */
-    .buttons-container {
-      display: flex;
-      gap: 1em;
-      justify-content: center;
+    h1 {
+      text-align: center;
+      margin: 20px 20px 10px;
+      color: #d63384;
+    }
+
+    .container {
+      column-count: 2;
+      column-gap: 30px;
+      padding: 40px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    @media (min-width: 768px) {
+      .container {
+        column-count: 3;
+      }
+    }
+
+    .card {
+      background: white;
+      border-radius: 20px;
+      margin-bottom: 30px;
+      display: inline-block;
       width: 100%;
-      max-width: 900px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+      transition: transform 0.3s ease;
+      overflow: hidden;
+      cursor: pointer;
     }
 
-    .animated-button {
-      background: linear-gradient(135deg, #6b8ce3, #4a90e2);
+    .card:hover {
+      transform: translateY(-6px);
+    }
+
+    .card img {
+      width: 100%;
+      height: 220px;
+      display: block;
+      object-fit: cover;
+    }
+
+    .card-content {
+      padding: 20px;
+      text-align: center;
+    }
+
+    .card-content h3 {
+      margin: 10px 0;
+      font-size: 20px;
+      color: #d63384;
+      text-transform: capitalize;
+    }
+
+    .card-content button {
+      background-color: #d63384;
       color: white;
       border: none;
-      padding: 14px 28px;
-      font-size: 18px;
-      font-weight: 600;
+      padding: 10px 20px;
       border-radius: 12px;
       cursor: pointer;
-      margin: 8px 0;
-      box-shadow: 0 6px 12px rgba(74, 144, 226, 0.4);
-      transition:
-        transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-        box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-        background-position 0.5s ease;
-      background-size: 200% 200%;
-      background-position: left center;
-      opacity: 0;
-      transform: translateY(100px);
+      transition: background-color 0.3s;
     }
 
-    .animated-button:hover {
-      transform: scale(1.08);
-      box-shadow: 0 10px 20px rgba(74, 144, 226, 0.6);
-      background-position: right center;
+    .card-content button:hover {
+      background-color: #b3246e;
+    }
+    .frase-magica {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 30px 50px;
+      text-align: center;
+      font-size: 1.7rem;
+      color: #3b3b3b;
+      background: linear-gradient(90deg, #fde5f3, #fbeeff);
+      border-radius: 100px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+      font-family: 'Poppins', sans-serif;
+      line-height: 1.6;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      backdrop-filter: blur(6px);
+      animation: fadeUp 1s ease-out both;
     }
 
-    .animated-button:active {
-      transform: scale(0.95);
-      box-shadow: 0 4px 10px rgba(74, 144, 226, 0.8);
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
-
-    .animated-button.animate-up {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    .btn {
-  position: relative;
-  padding: 1.5rem 3rem;
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #fff;
-  background: none;
-  border: none;
-  cursor: pointer;
-  overflow: hidden;
-  transition: all 0.4s ease;
-  min-width: 200px;
-  z-index: 1;
-}
-
-.neon-pulse {
-  background: #000;
-  border: 2px solid #0ff;
-  box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
-  overflow: visible;
-}
-
-.neon-pulse::before,
-.neon-pulse::after {
-  content: "";
-  position: absolute;
-  inset: -4px;
-  border: 2px solid #0ff;
-  border-radius: inherit;
-  animation: pulseOut 2s ease-out infinite;
-  opacity: 0;
-}
-
-.neon-pulse::after {
-  animation-delay: 1s;
-}
-
-@keyframes pulseOut {
-  0% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(1.5);
-    opacity: 0;
-  }
-}
-
-@media (max-width: 600px) {
-  .text-pressure {
-    font-size: 2.5em !important;
-    word-break: break-word;
-    flex-wrap: wrap;
-    line-height: 1.1em;
-    justify-content: center;
-    text-align: center;
-  }
-  .text-container {
-    min-height: unset;
-    margin-bottom: 1em;
-    padding: 0;
-    width: 100vw;
-    overflow-x: hidden;
-  }
-  .banner {
-    flex-direction: column;
-    align-items: center;
-    width: 100vw;
-    min-width: 0;
-    padding: 0;
-  }
-  .slider {
-    width: 100vw !important;
-    min-width: 0;
-    overflow-x: auto;
-    justify-content: center;
-    gap: 0.5em;
-  }
-  .slider .item img {
-    width: 80vw;
-    max-width: 90vw;
-    height: auto;
-    border-radius: 10px;
-  }
-  .content h1 {
-    font-size: 1.3em !important;
-    text-align: center;
-    word-break: break-word;
-  }
-  .author h2 {
-    font-size: 1em;
-    text-align: center;
-  }
-  .author p {
-    font-size: 0.95em;
-    text-align: center;
-    padding: 0 0.5em;
-  }
-  .buttons-container,
-  .banner .content,
-  .banner .author {
-    max-width: 100vw;
-    width: 100vw;
-    padding: 0 0.5em;
-    box-sizing: border-box;
-  }
-  .animated-button,
-  .btn {
-    min-width: 110px;
-    font-size: 1em;
-    padding: 10px 8px;
-    margin: 4px 0;
-  }
-  .neon-pulse {
-    padding: 0.7em 1em;
-    font-size: 1em;
-  }
-}
 
   </style>
 </head>
-
 <body>
-  
 
-  <div class="text-container">
-    <h1 class="text-pressure stroke">
-      <span data-char="M">M</span>
-      <span data-char="E">E</span>
-      <span data-char="L">L</span>
-      <span data-char="A">A</span>
-      <span data-char="N">N</span>
-      <span data-char="Y">Y</span>
-      <span data-char=""> </span>
-      <span data-char="V">V</span>
-      <span data-char="A">A</span>
-      <span data-char="R">R</span>
-      <span data-char="I">I</span>
-      <span data-char="E">E</span>
-      <span data-char="D">D</span>
-    </h1>
-  </div>
-  
-  <div class="banner">
-    <div class="slider" style="--quantity: 8">
-      <div class="item" style="--position: 1"><img src="image/1.jpg" alt=""></div>
-      <div class="item" style="--position: 2"><img src="image/2.jpg" alt=""></div>
-      <div class="item" style="--position: 3"><img src="image/3.jpg" alt=""></div>
-      <div class="item" style="--position: 4"><img src="image/4.jpg" alt=""></div>
-      <div class="item" style="--position: 5"><img src="image/5.jpg" alt=""></div>
-      
-      <div class="item" style="--position: 6"><img src="image/6.jpg" alt=""></div>
-      <div class="item" style="--position: 7"><img src="image/7.jpg" alt=""></div>
-      <div class="item" style="--position: 8"><img src="image/8.jpg" alt=""></div>
-    </div>
+<!-- Encabezado mágico -->
+<div class="decoracion">✨</div>
+<div style="text-align: center;">
+  <span class="blob"></span>
+  <span class="titulo-magico">Categorías<br>Mágicas</span>
+  <span class="blob"></span>
+</div>
+<div class="decoracion">✨</div>
 
-    <div class="content">
-    <h1 data-content="">Rosas eternas</h1>
-  </div>
-  
-  <div class="author">
-    <h2>melany</h2>
-    <p><b>ramos y fechas especiales</b></p>
-    <p>En cada fecha especial, las flores no son solo un detalle: son un símbolo de cariño, un homenaje a la vida y una forma elegante de estar presente, incluso en la distancia.
+<div class="frase-magica" data-aos="fade-in" data-aos-delay="100">
+  Descubre un universo de belleza floral donde cada pétalo<br>
+  cuenta una historia única y mágica
+</div>
 
-</p>
-  </div>
-  <div class="model"></div>
-  </div>
-  
-  <div style="margin-top: 2em; text-align: center;">
-    <div style="display: inline-flex; gap: 1.5em; align-items: center;">
-      <button class="btn neon-pulse" onclick="window.location.href='catalogousuario.php'">
-        <img src="privado/catalogar2.png" alt="Buscar" width="32" height="32" />
-        <span>catálogo</span>
-      </button>
-      <button class="btn neon-pulse" onclick="window.location.href='https://wa.me/573215116044?text=Hola%2C+estoy+interesado+en+el+catálogo'">
-        <img src="privado/whatsapp.png" alt="Buscar" width="32" height="32" />
-        <span>whatsapp</span>
-      </button>
+
+<!-- Título AOS -->
+
+
+<div class="container">
+  <!-- Tarjeta "Ver Todos" -->
+  <div class="card" data-aos="fade-up" onclick="location.href='ver_categoria.php'">
+    <img src="https://images.pexels.com/photos/931162/pexels-photo-931162.jpeg" alt="Ver Todos" data-aos="zoom-in">
+    <div class="card-content">
+      <h3 data-aos="fade-right" data-aos-delay="100">Ver Todos</h3>
+      <button data-aos="fade-up" data-aos-delay="200">Ver más</button>
     </div>
   </div>
 
+  <?php
+  $i = 0;
+  while($row = $result->fetch_assoc()):
+    $categoria = htmlspecialchars($row['categoria']);
+    $img = $imagenes_disponibles[$i % count($imagenes_disponibles)];
+    $i++;
+  ?>
+    <div class="card" data-aos="fade-up" onclick="location.href='ver_categoria.php?categoria=<?= urlencode($categoria) ?>'">
+      <img src="<?= $img ?>" alt="<?= $categoria ?>" data-aos="zoom-in">
+      <div class="card-content">
+        <h3 data-aos="fade-right" data-aos-delay="100"><?= $categoria ?></h3>
+        <button data-aos="fade-up" data-aos-delay="200">Ver más</button>
+      </div>
+    </div>
+  <?php endwhile; ?>
+</div>
 
-
-
-
-
-  <style>
-    .dock-outer {
-      transition: transform 0.6s ease-in-out;
-    }
-  </style>
-
-  <script>
-    window.addEventListener('load', () => {
-      const dock = document.querySelector('.dock-outer');
-      if (dock) {
-        dock.style.transform = 'translateY(-40px)'; // súbelo 40px
-      }
-    });
-  </script>
+<!-- AOS -->
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script>
+  AOS.init({ duration: 1000, once: true });
+</script>
 
 </body>
-
 </html>
