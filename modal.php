@@ -32,8 +32,10 @@
       display: none;
       position: fixed;
       z-index: 999;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       background-color: rgba(0, 0, 0, 0.5);
       justify-content: center;
       align-items: center;
@@ -53,7 +55,8 @@
 
     .cerrar {
       position: absolute;
-      top: 10px; right: 15px;
+      top: 10px;
+      right: 15px;
       font-size: 22px;
       font-weight: bold;
       cursor: pointer;
@@ -61,12 +64,12 @@
 
     .modal-contenido img {
       max-width: 100%;
-      max-height: 60vh; /* Ajusta según tu gusto */
+      max-height: 60vh;
       object-fit: contain;
       display: block;
       margin: 0 auto;
+      border-radius: 10px;
     }
-
 
     .color-opciones {
       margin-top: 15px;
@@ -94,35 +97,45 @@
 </head>
 <body>
 
-<button class="boton-personalizar" onclick="abrirModal()">Colores disponibles</button>
+  <button class="boton-personalizar" onclick="abrirModal(this)">Personalizar</button>
 
-<div class="modal" id="modalPersonalizar">
-  <div class="modal-contenido">
-    <span class="cerrar" onclick="cerrarModal()">&times;</span>
-    <h3>Elige el color del ramo</h3>
-    <img id="imagenRamo" src="privado/flor_blanco.jpeg" alt="Ramo">
+  <div class="modal" id="modalPersonalizar">
+    <div class="modal-contenido">
+      <span class="cerrar" onclick="cerrarModal()">&times;</span>
+      <h3>Elige el color del ramo</h3>
+      <img id="imagenRamo" src="privado/flor_blanco.jpeg" alt="Ramo">
 
-    <div class="color-opciones">
-      <div class="color-opcion" style="background:yellow;" onclick="cambiarImagen('privado/flor amarillo.jpeg')"></div>
-      <div class="color-opcion" style="background:white;" onclick="cambiarImagen('privado/flor blanco.jpeg')"></div>
+      <div class="color-opciones">
+        <div class="color-opcion" style="background:yellow;" onclick="cambiarImagen('privado/flor amarillo.jpeg')"></div>
+        <div class="color-opcion" style="background:white;" onclick="cambiarImagen('privado/flor blanco.jpeg')"></div>
+      </div>
     </div>
   </div>
-</div>
 
-<script>
-  function abrirModal() {
-    document.getElementById('modalPersonalizar').style.display = 'flex';
-    document.getElementById('imagenRamo').src = 'privado/flor amarillo.jpeg';
-  }
+  <script>
+    function abrirModal(boton) {
+      const modal = document.getElementById('modalPersonalizar');
+      modal.style.display = 'flex';
 
-  function cerrarModal() {
-    document.getElementById('modalPersonalizar').style.display = 'none';
-  }
+      // Desactivar scroll del fondo
+      document.body.style.overflow = 'hidden';
 
-  function cambiarImagen(ruta) {
-    document.getElementById('imagenRamo').src = ruta;
-  }
-</script>
+      // Cargar imagen por defecto
+      document.getElementById('imagenRamo').src = 'privado/flor amarillo.jpeg';
+    }
+
+    function cerrarModal() {
+      const modal = document.getElementById('modalPersonalizar');
+      modal.style.display = 'none';
+
+      // Restaurar scroll del fondo
+      document.body.style.overflow = '';
+    }
+
+    function cambiarImagen(ruta) {
+      document.getElementById('imagenRamo').src = ruta;
+    }
+  </script>
 
 </body>
 </html>
