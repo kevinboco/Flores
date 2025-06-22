@@ -116,34 +116,29 @@ $result = $stmt->get_result();
       margin: 5px 0;
       font-size: 15px;
     }
-    .info .botones {
+    .botones-ramos {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
+      justify-content: center;
+      gap: 8px;
       margin-top: 10px;
     }
-    .boton-whatsapp, .boton-personalizar {
+    .botones-ramos a,
+    .botones-ramos button {
+      flex: 1 1 auto;
+      min-width: 100px;
+      text-align: center;
       padding: 10px 16px;
       border-radius: 8px;
       font-weight: bold;
       font-size: 16px;
       cursor: pointer;
       text-decoration: none;
-      border: none;
-      white-space: nowrap;
     }
-    .boton-whatsapp {
-      background: #25D366;
-      color: white;
-    }
-    .boton-personalizar {
-      background-color: #e91e63;
-      color: white;
-    }
-    .ver-grande {
-      background: #6c63ff;
-      color: white;
-    }
+    .boton-whatsapp { background: #25D366; color: white; }
+    .boton-personalizar { background-color: #e91e63; color: white; border: none; }
+    .ver-grande { background: #6c63ff; color: white; }
+
     .modal {
       display: none;
       position: fixed;
@@ -160,7 +155,7 @@ $result = $stmt->get_result();
       border-radius: 10px;
       padding: 15px;
       width: 90%;
-      max-width: 320px;
+      max-width: 300px;
       position: relative;
       text-align: center;
     }
@@ -215,7 +210,7 @@ $result = $stmt->get_result();
       <h3><?= $titulo ?></h3>
       <p><strong>Precio:</strong> $<?= number_format($row['valor']) ?></p>
       <p><?= htmlspecialchars($row['description']) ?></p>
-      <div class="botones">
+      <div class="botones-ramos">
         <a class="boton-whatsapp" href="https://wa.me/573215116044?text=<?= urlencode("Quiero este producto: $titulo") ?>" target="_blank">💐 Lo quiero</a>
         <button class="boton-personalizar" onclick="abrirModal('<?= $titulo ?>')">🎨 Personalizar</button>
         <a class="boton-whatsapp ver-grande" href="ver_producto.php?id=<?= $row['id'] ?>">🔍 Ver en grande</a>
