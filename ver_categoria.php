@@ -118,21 +118,19 @@ $result = $stmt->get_result();
     }
     .botones-ramos {
       display: flex;
-      justify-content: space-between;
-      gap: 6px;
-      margin-top: 10px;
       flex-wrap: nowrap;
-      flex-direction: row;
+      justify-content: space-between;
+      gap: 8px;
+      margin-top: 10px;
     }
     .botones-ramos a,
     .botones-ramos button {
       flex: 1;
-      padding: 10px 12px;
+      padding: 10px 8px;
       border-radius: 8px;
       font-weight: bold;
-      font-size: 14px;
+      font-size: 15px;
       cursor: pointer;
-      text-align: center;
       text-decoration: none;
       white-space: nowrap;
     }
@@ -156,7 +154,7 @@ $result = $stmt->get_result();
       border-radius: 10px;
       padding: 15px;
       width: 90%;
-      max-width: 280px;
+      max-width: 300px;
       position: relative;
       text-align: center;
     }
@@ -193,7 +191,7 @@ $result = $stmt->get_result();
 <div class="navbar">
   <a href="index.php">Volver a categorías</a>
 </div>
-<h1 data-aos="zoom-in">Ramos: <?= $categoria ? htmlspecialchars($categoria) : 'Todos' ?></h1>
+<h1>Ramos: <?= $categoria ? htmlspecialchars($categoria) : 'Todos' ?></h1>
 <div class="container">
 <?php while($row = $result->fetch_assoc()):
   $titulo = htmlspecialchars($row['titulo']);
@@ -201,16 +199,16 @@ $result = $stmt->get_result();
   $extension = strtolower(pathinfo($archivo, PATHINFO_EXTENSION));
   $es_video = in_array($extension, ['mp4', 'webm', 'ogg']);
 ?>
-  <div class="card" data-aos="fade-up">
+  <div class="card" data-aos="zoom-in">
     <?php if ($es_video): ?>
       <video autoplay muted loop playsinline><source src="<?= $archivo ?>" type="video/<?= $extension ?>"></video>
     <?php else: ?>
       <img src="<?= $archivo ?>" alt="<?= $titulo ?>">
     <?php endif; ?>
-    <div class="info" data-aos="fade-up" data-aos-delay="200">
-      <h3><?= $titulo ?></h3>
-      <p><strong>Precio:</strong> $<?= number_format($row['valor']) ?></p>
-      <p><?= htmlspecialchars($row['description']) ?></p>
+    <div class="info">
+      <h3 data-aos="fade-right"><?= $titulo ?></h3>
+      <p data-aos="fade-left"><strong>Precio:</strong> $<?= number_format($row['valor']) ?></p>
+      <p data-aos="fade-up"><?= htmlspecialchars($row['description']) ?></p>
       <div class="botones-ramos">
         <a class="boton-whatsapp" href="https://wa.me/573215116044?text=<?= urlencode("Quiero este producto: $titulo") ?>" target="_blank">💐 Lo quiero</a>
         <button class="boton-personalizar" onclick="abrirModal('<?= $titulo ?>')">🎨 Personalizar</button>
@@ -266,6 +264,6 @@ function actualizarEnlaceWhatsapp() {
 }
 </script>
 <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
-<script>AOS.init({ duration: 1200, easing: 'ease-out-cubic', once: true });</script>
+<script>AOS.init({ duration: 800, once: true });</script>
 </body>
 </html>
