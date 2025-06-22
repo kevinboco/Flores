@@ -116,15 +116,21 @@ $result = $stmt->get_result();
       margin: 5px 0;
       font-size: 15px;
     }
+    .info .botones {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
     .boton-whatsapp, .boton-personalizar {
-      display: inline-block;
-      margin: 10px 5px 0 0;
       padding: 10px 16px;
       border-radius: 8px;
       font-weight: bold;
       font-size: 16px;
       cursor: pointer;
       text-decoration: none;
+      border: none;
+      white-space: nowrap;
     }
     .boton-whatsapp {
       background: #25D366;
@@ -133,7 +139,6 @@ $result = $stmt->get_result();
     .boton-personalizar {
       background-color: #e91e63;
       color: white;
-      border: none;
     }
     .ver-grande {
       background: #6c63ff;
@@ -155,7 +160,7 @@ $result = $stmt->get_result();
       border-radius: 10px;
       padding: 15px;
       width: 90%;
-      max-width: 340px;
+      max-width: 320px;
       position: relative;
       text-align: center;
     }
@@ -210,9 +215,11 @@ $result = $stmt->get_result();
       <h3><?= $titulo ?></h3>
       <p><strong>Precio:</strong> $<?= number_format($row['valor']) ?></p>
       <p><?= htmlspecialchars($row['description']) ?></p>
-      <a class="boton-whatsapp" href="https://wa.me/573215116044?text=<?= urlencode("Quiero este producto: $titulo") ?>" target="_blank">💐 Lo quiero</a>
-      <button class="boton-personalizar" onclick="abrirModal('<?= $titulo ?>')">🎨 Personalizar</button>
-      <a class="boton-whatsapp ver-grande" href="ver_producto.php?id=<?= $row['id'] ?>">🔍 Ver en grande</a>
+      <div class="botones">
+        <a class="boton-whatsapp" href="https://wa.me/573215116044?text=<?= urlencode("Quiero este producto: $titulo") ?>" target="_blank">💐 Lo quiero</a>
+        <button class="boton-personalizar" onclick="abrirModal('<?= $titulo ?>')">🎨 Personalizar</button>
+        <a class="boton-whatsapp ver-grande" href="ver_producto.php?id=<?= $row['id'] ?>">🔍 Ver en grande</a>
+      </div>
     </div>
   </div>
 <?php endwhile; ?>
