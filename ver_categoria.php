@@ -294,6 +294,10 @@ $result = $stmt->get_result();
       <p data-aos="fade-right" data-aos-delay="300"><?= htmlspecialchars($row['description']) ?></p>
       <a class="boton-whatsapp" href="<?= $link ?>" target="_blank" data-aos="zoom-in" data-aos-delay="400">💐 Lo quiero</a>
       <a class="boton-whatsapp" style="background:#6c63ff" href="ver_producto.php?id=<?= $row['id'] ?>" data-aos="zoom-in" data-aos-delay="500">🔍 Ver en grande</a>
+      <?php
+       include 'modal.php'; 
+      
+      ?>
     </div>
   </div>
 <?php endwhile; ?>
