@@ -118,22 +118,23 @@ $result = $stmt->get_result();
     }
     .botones-ramos {
       display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 8px;
+      justify-content: space-between;
+      gap: 6px;
       margin-top: 10px;
+      flex-wrap: nowrap;
+      flex-direction: row;
     }
     .botones-ramos a,
     .botones-ramos button {
-      flex: 1 1 auto;
-      min-width: 100px;
-      text-align: center;
-      padding: 10px 16px;
+      flex: 1;
+      padding: 10px 12px;
       border-radius: 8px;
       font-weight: bold;
-      font-size: 16px;
+      font-size: 14px;
       cursor: pointer;
+      text-align: center;
       text-decoration: none;
+      white-space: nowrap;
     }
     .boton-whatsapp { background: #25D366; color: white; }
     .boton-personalizar { background-color: #e91e63; color: white; border: none; }
@@ -155,7 +156,7 @@ $result = $stmt->get_result();
       border-radius: 10px;
       padding: 15px;
       width: 90%;
-      max-width: 300px;
+      max-width: 280px;
       position: relative;
       text-align: center;
     }
@@ -192,7 +193,7 @@ $result = $stmt->get_result();
 <div class="navbar">
   <a href="index.php">Volver a categorías</a>
 </div>
-<h1>Ramos: <?= $categoria ? htmlspecialchars($categoria) : 'Todos' ?></h1>
+<h1 data-aos="zoom-in">Ramos: <?= $categoria ? htmlspecialchars($categoria) : 'Todos' ?></h1>
 <div class="container">
 <?php while($row = $result->fetch_assoc()):
   $titulo = htmlspecialchars($row['titulo']);
@@ -200,13 +201,13 @@ $result = $stmt->get_result();
   $extension = strtolower(pathinfo($archivo, PATHINFO_EXTENSION));
   $es_video = in_array($extension, ['mp4', 'webm', 'ogg']);
 ?>
-  <div class="card">
+  <div class="card" data-aos="fade-up">
     <?php if ($es_video): ?>
       <video autoplay muted loop playsinline><source src="<?= $archivo ?>" type="video/<?= $extension ?>"></video>
     <?php else: ?>
       <img src="<?= $archivo ?>" alt="<?= $titulo ?>">
     <?php endif; ?>
-    <div class="info">
+    <div class="info" data-aos="fade-up" data-aos-delay="200">
       <h3><?= $titulo ?></h3>
       <p><strong>Precio:</strong> $<?= number_format($row['valor']) ?></p>
       <p><?= htmlspecialchars($row['description']) ?></p>
@@ -265,6 +266,6 @@ function actualizarEnlaceWhatsapp() {
 }
 </script>
 <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
-<script>AOS.init({ duration: 800, once: true });</script>
+<script>AOS.init({ duration: 1200, easing: 'ease-out-cubic', once: true });</script>
 </body>
 </html>
