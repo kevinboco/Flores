@@ -79,7 +79,6 @@ $result = $stmt->get_result();
       color: #d63384;
       font-size: 30px;
     }
-
     .toggle-btn {
       padding: 12px 20px;
       background: #d63384;
@@ -92,11 +91,9 @@ $result = $stmt->get_result();
       transition: background 0.3s ease;
       margin: 10px;
     }
-
     .toggle-btn:hover {
       background: #a61e65;
     }
-
     .filtro-form {
       max-width: 1100px;
       margin: 10px auto;
@@ -107,20 +104,16 @@ $result = $stmt->get_result();
       gap: 20px;
       justify-content: center;
     }
-
-
     .filtro-grupo {
       display: flex;
       flex-direction: column;
       min-width: 200px;
     }
-
     .filtro-grupo label {
       font-weight: 600;
       margin-bottom: 6px;
       color: #d63384;
     }
-
     .filtro-grupo input {
       padding: 10px 14px;
       border: 1px solid #ddd;
@@ -128,7 +121,6 @@ $result = $stmt->get_result();
       font-family: 'Poppins', sans-serif;
       font-size: 14px;
     }
-
     .filtro-grupo button {
       padding: 12px 20px;
       background: #d63384;
@@ -140,11 +132,9 @@ $result = $stmt->get_result();
       font-size: 15px;
       transition: background 0.3s ease;
     }
-
     .filtro-grupo button:hover {
       background: #a61e65;
     }
-
     .container {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -153,7 +143,6 @@ $result = $stmt->get_result();
       max-width: 1200px;
       margin: auto;
     }
-
     .card {
       background: white;
       border-radius: 18px;
@@ -163,40 +152,34 @@ $result = $stmt->get_result();
       flex-direction: column;
       transition: transform 0.3s, box-shadow 0.3s;
     }
-
     .card:hover {
       transform: translateY(-5px);
       box-shadow: 0 12px 28px rgba(0,0,0,0.12);
     }
-
     .card img, .card video {
       width: 100%;
       height: auto;
       object-fit: cover;
       aspect-ratio: 4/3;
     }
-
     .info {
       padding: 20px;
       flex: 1;
     }
-
     .info h3 {
       margin: 0 0 10px;
       font-size: 20px;
       color: #d63384;
     }
-
     .info p {
       margin: 5px 0;
       font-size: 15px;
     }
-
     .boton-whatsapp {
       background: #25D366;
       color: white;
       padding: 10px 16px;
-      margin: 15px 0 10px;
+      margin: 10px 5px 5px 0;
       text-align: center;
       border: none;
       border-radius: 8px;
@@ -208,15 +191,80 @@ $result = $stmt->get_result();
       animation: pulse 2s infinite;
       display: inline-block;
     }
-
     .boton-whatsapp:hover {
       background: #1ebe5c;
       transform: scale(1.05);
     }
-
     @keyframes pulse {
       0%, 100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.5); }
       50% { box-shadow: 0 0 0 10px rgba(37, 211, 102, 0); }
+    }
+
+    /* Botón personalizar */
+    .boton-personalizar {
+      display: inline-block;
+      margin: 10px 5px;
+      padding: 10px 16px;
+      background-color: #e91e63;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
+      padding: 10px;
+    }
+
+    .modal-contenido {
+      background: white;
+      border-radius: 10px;
+      padding: 15px;
+      max-width: 420px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      position: relative;
+      text-align: center;
+    }
+
+    .cerrar {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 22px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .modal-contenido img {
+      max-width: 100%;
+      max-height: 60vh;
+      object-fit: contain;
+      border-radius: 10px;
+    }
+
+    .color-opciones {
+      margin-top: 15px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .color-opcion {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 2px solid #555;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -227,13 +275,11 @@ $result = $stmt->get_result();
 
 <h1>Ramos: <?= $categoria ? htmlspecialchars($categoria) : 'Todos' ?></h1>
 
-<!-- Botones -->
 <div class="filtro-form">
   <button type="button" class="toggle-btn" onclick="toggleFiltro('precio')">💰 Filtrar por precio</button>
   <button type="button" class="toggle-btn" onclick="toggleFiltro('nombre')">🔍 Filtrar por nombre</button>
 </div>
 
-<!-- Formulario precio -->
 <form method="GET" class="filtro-form" id="form-precio" style="display: <?= ($min > 0 || $max > 0) ? 'flex' : 'none' ?>;">
   <input type="hidden" name="categoria" value="<?= htmlspecialchars($categoria) ?>">
   <?php if (!empty($nombre)) : ?>
@@ -241,36 +287,30 @@ $result = $stmt->get_result();
   <?php endif; ?>
   <div class="filtro-grupo">
     <label for="min">💰 Precio mínimo</label>
-    <input type="number" name="min" id="min" value="<?= $min ?>" placeholder="Ej: 20000">
+    <input type="number" name="min" value="<?= $min ?>">
   </div>
   <div class="filtro-grupo">
     <label for="max">💰 Precio máximo</label>
-    <input type="number" name="max" id="max" value="<?= $max ?>" placeholder="Ej: 100000">
+    <input type="number" name="max" value="<?= $max ?>">
   </div>
   <div class="filtro-grupo">
     <button type="submit">Aplicar filtros</button>
   </div>
 </form>
 
-<!-- Formulario nombre -->
 <form method="GET" class="filtro-form" id="form-nombre" style="display: <?= (!empty($nombre)) ? 'flex' : 'none' ?>;">
   <input type="hidden" name="categoria" value="<?= htmlspecialchars($categoria) ?>">
-  <?php if ($min > 0) : ?>
-    <input type="hidden" name="min" value="<?= $min ?>">
-  <?php endif; ?>
-  <?php if ($max > 0) : ?>
-    <input type="hidden" name="max" value="<?= $max ?>">
-  <?php endif; ?>
+  <?php if ($min > 0): ?><input type="hidden" name="min" value="<?= $min ?>"><?php endif; ?>
+  <?php if ($max > 0): ?><input type="hidden" name="max" value="<?= $max ?>"><?php endif; ?>
   <div class="filtro-grupo">
     <label for="nombre">🔍 Buscar por nombre</label>
-    <input type="text" name="nombre" id="nombre" value="<?= htmlspecialchars($nombre) ?>" placeholder="Ej: Rosas con mariposa">
+    <input type="text" name="nombre" value="<?= htmlspecialchars($nombre) ?>">
   </div>
   <div class="filtro-grupo">
     <button type="submit">Buscar</button>
   </div>
 </form>
 
-<!-- Catálogo -->
 <div class="container">
 <?php while($row = $result->fetch_assoc()):
   $titulo = htmlspecialchars($row['titulo']);
@@ -282,27 +322,33 @@ $result = $stmt->get_result();
 ?>
   <div class="card" data-aos="fade-up">
     <?php if ($es_video): ?>
-      <video autoplay muted loop playsinline>
-        <source src="<?= $archivo ?>" type="video/<?= $extension ?>">
-      </video>
+      <video autoplay muted loop playsinline><source src="<?= $archivo ?>" type="video/<?= $extension ?>"></video>
     <?php else: ?>
       <img src="<?= $archivo ?>" alt="<?= $titulo ?>">
     <?php endif; ?>
     <div class="info">
-      <h3 data-aos="fade-right" data-aos-delay="100"><?= $titulo ?></h3>
-      <p data-aos="fade-right" data-aos-delay="200"><strong>Precio:</strong> $<?= number_format($row['valor']) ?></p>
-      <p data-aos="fade-right" data-aos-delay="300"><?= htmlspecialchars($row['description']) ?></p>
-      <a class="boton-whatsapp" href="<?= $link ?>" target="_blank" data-aos="zoom-in" data-aos-delay="400">💐 Lo quiero</a>
-      <a class="boton-whatsapp" style="background:#6c63ff" href="ver_producto.php?id=<?= $row['id'] ?>" data-aos="zoom-in" data-aos-delay="500">🔍 Ver en grande</a>
-      
+      <h3><?= $titulo ?></h3>
+      <p><strong>Precio:</strong> $<?= number_format($row['valor']) ?></p>
+      <p><?= htmlspecialchars($row['description']) ?></p>
+      <a class="boton-whatsapp" href="<?= $link ?>" target="_blank">💐 Lo quiero</a>
+      <a class="boton-whatsapp" style="background:#6c63ff" href="ver_producto.php?id=<?= $row['id'] ?>">🔍 Ver en grande</a>
+      <button class="boton-personalizar" onclick="abrirModal()">🎨 Personalizar</button>
     </div>
-    
   </div>
 <?php endwhile; ?>
-<?php
-       include 'modal.php'; 
-      
-?>
+</div>
+
+<!-- Modal -->
+<div class="modal" id="modalPersonalizar">
+  <div class="modal-contenido">
+    <span class="cerrar" onclick="cerrarModal()">&times;</span>
+    <h3>Elige el color del ramo</h3>
+    <img id="imagenRamo" src="privado/flor amarillo.jpeg" alt="Ramo">
+    <div class="color-opciones">
+      <div class="color-opcion" style="background:yellow;" onclick="cambiarImagen('privado/flor amarillo.jpeg')"></div>
+      <div class="color-opcion" style="background:white;" onclick="cambiarImagen('privado/flor blanco.jpeg')"></div>
+    </div>
+  </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
@@ -312,14 +358,23 @@ $result = $stmt->get_result();
   function toggleFiltro(tipo) {
     const formPrecio = document.getElementById('form-precio');
     const formNombre = document.getElementById('form-nombre');
+    if (tipo === 'precio') formPrecio.style.display = formPrecio.style.display === 'none' ? 'flex' : 'none';
+    if (tipo === 'nombre') formNombre.style.display = formNombre.style.display === 'none' ? 'flex' : 'none';
+  }
 
-    if (tipo === 'precio') {
-      formPrecio.style.display = (formPrecio.style.display === 'none' || !formPrecio.style.display) ? 'flex' : 'none';
-    }
+  function abrirModal() {
+    document.getElementById('modalPersonalizar').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    document.getElementById('imagenRamo').src = 'privado/flor amarillo.jpeg';
+  }
 
-    if (tipo === 'nombre') {
-      formNombre.style.display = (formNombre.style.display === 'none' || !formNombre.style.display) ? 'flex' : 'none';
-    }
+  function cerrarModal() {
+    document.getElementById('modalPersonalizar').style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  function cambiarImagen(ruta) {
+    document.getElementById('imagenRamo').src = ruta;
   }
 </script>
 </body>
