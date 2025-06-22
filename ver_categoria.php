@@ -118,14 +118,14 @@ $result = $stmt->get_result();
     }
     .botones-ramos {
       display: flex;
-      flex-wrap: nowrap;
+      flex-wrap: wrap;
       justify-content: space-between;
       gap: 8px;
       margin-top: 10px;
     }
     .botones-ramos a,
     .botones-ramos button {
-      flex: 1;
+      flex: 1 1 30%;
       padding: 10px 8px;
       border-radius: 8px;
       font-weight: bold;
@@ -133,6 +133,7 @@ $result = $stmt->get_result();
       cursor: pointer;
       text-decoration: none;
       white-space: nowrap;
+      box-sizing: border-box;
     }
     .boton-whatsapp { background: #25D366; color: white; }
     .boton-personalizar { background-color: #e91e63; color: white; border: none; }
