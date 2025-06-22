@@ -77,62 +77,6 @@ $result = $stmt->get_result();
       color: #d63384;
       font-size: 30px;
     }
-    .toggle-btn {
-      padding: 12px 20px;
-      background: #d63384;
-      color: white;
-      border: none;
-      border-radius: 10px;
-      font-weight: bold;
-      font-size: 15px;
-      cursor: pointer;
-      transition: background 0.3s ease;
-      margin: 10px;
-    }
-    .toggle-btn:hover {
-      background: #a61e65;
-    }
-    .filtro-form {
-      max-width: 1100px;
-      margin: 10px auto;
-      padding: 25px;
-      border-radius: 16px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      justify-content: center;
-    }
-    .filtro-grupo {
-      display: flex;
-      flex-direction: column;
-      min-width: 200px;
-    }
-    .filtro-grupo label {
-      font-weight: 600;
-      margin-bottom: 6px;
-      color: #d63384;
-    }
-    .filtro-grupo input {
-      padding: 10px 14px;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      font-family: 'Poppins', sans-serif;
-      font-size: 14px;
-    }
-    .filtro-grupo button {
-      padding: 12px 20px;
-      background: #d63384;
-      color: white;
-      border: none;
-      border-radius: 10px;
-      font-weight: bold;
-      cursor: pointer;
-      font-size: 15px;
-      transition: background 0.3s ease;
-    }
-    .filtro-grupo button:hover {
-      background: #a61e65;
-    }
     .container {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -210,7 +154,8 @@ $result = $stmt->get_result();
       background: white;
       border-radius: 10px;
       padding: 15px;
-      max-width: 420px;
+      width: 90%;
+      max-width: 340px;
       position: relative;
       text-align: center;
     }
