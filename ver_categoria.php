@@ -63,8 +63,6 @@ $result = $stmt->get_result();
       color: #d63384;
       font-weight: bold;
       font-size: 16px;
-      display: flex;
-      align-items: center;
     }
     .navbar a:hover {
       color: #a61e65;
@@ -164,7 +162,6 @@ $result = $stmt->get_result();
     }
     .info {
       padding: 20px;
-      flex: 1;
     }
     .info h3 {
       margin: 0 0 10px;
@@ -175,44 +172,29 @@ $result = $stmt->get_result();
       margin: 5px 0;
       font-size: 15px;
     }
-    .boton-whatsapp {
-      background: #25D366;
-      color: white;
+    .boton-whatsapp, .boton-personalizar {
+      display: inline-block;
+      margin: 10px 5px 0 0;
       padding: 10px 16px;
-      margin: 10px 5px 5px 0;
-      text-align: center;
-      border: none;
       border-radius: 8px;
       font-weight: bold;
       font-size: 16px;
       cursor: pointer;
       text-decoration: none;
-      transition: background 0.3s, transform 0.3s;
-      animation: pulse 2s infinite;
-      display: inline-block;
     }
-    .boton-whatsapp:hover {
-      background: #1ebe5c;
-      transform: scale(1.05);
+    .boton-whatsapp {
+      background: #25D366;
+      color: white;
     }
-    @keyframes pulse {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.5); }
-      50% { box-shadow: 0 0 0 10px rgba(37, 211, 102, 0); }
-    }
-
-    /* Botón personalizar */
     .boton-personalizar {
-      display: inline-block;
-      margin: 10px 5px;
-      padding: 10px 16px;
       background-color: #e91e63;
       color: white;
       border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      cursor: pointer;
     }
-
+    .ver-grande {
+      background: #6c63ff;
+      color: white;
+    }
     .modal {
       display: none;
       position: fixed;
@@ -224,17 +206,14 @@ $result = $stmt->get_result();
       align-items: center;
       padding: 10px;
     }
-
     .modal-contenido {
       background: white;
       border-radius: 10px;
       padding: 15px;
       max-width: 420px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.2);
       position: relative;
       text-align: center;
     }
-
     .cerrar {
       position: absolute;
       top: 10px;
@@ -243,14 +222,11 @@ $result = $stmt->get_result();
       font-weight: bold;
       cursor: pointer;
     }
-
     .modal-contenido img {
       max-width: 100%;
       max-height: 60vh;
-      object-fit: contain;
       border-radius: 10px;
     }
-
     .color-opciones {
       margin-top: 15px;
       display: flex;
@@ -258,7 +234,6 @@ $result = $stmt->get_result();
       flex-wrap: wrap;
       gap: 10px;
     }
-
     .color-opcion {
       width: 36px;
       height: 36px;
@@ -272,55 +247,15 @@ $result = $stmt->get_result();
 <div class="navbar">
   <a href="index.php">Volver a categorías</a>
 </div>
-
 <h1>Ramos: <?= $categoria ? htmlspecialchars($categoria) : 'Todos' ?></h1>
-
-<div class="filtro-form">
-  <button type="button" class="toggle-btn" onclick="toggleFiltro('precio')">💰 Filtrar por precio</button>
-  <button type="button" class="toggle-btn" onclick="toggleFiltro('nombre')">🔍 Filtrar por nombre</button>
-</div>
-
-<form method="GET" class="filtro-form" id="form-precio" style="display: <?= ($min > 0 || $max > 0) ? 'flex' : 'none' ?>;">
-  <input type="hidden" name="categoria" value="<?= htmlspecialchars($categoria) ?>">
-  <?php if (!empty($nombre)) : ?>
-    <input type="hidden" name="nombre" value="<?= htmlspecialchars($nombre) ?>">
-  <?php endif; ?>
-  <div class="filtro-grupo">
-    <label for="min">💰 Precio mínimo</label>
-    <input type="number" name="min" value="<?= $min ?>">
-  </div>
-  <div class="filtro-grupo">
-    <label for="max">💰 Precio máximo</label>
-    <input type="number" name="max" value="<?= $max ?>">
-  </div>
-  <div class="filtro-grupo">
-    <button type="submit">Aplicar filtros</button>
-  </div>
-</form>
-
-<form method="GET" class="filtro-form" id="form-nombre" style="display: <?= (!empty($nombre)) ? 'flex' : 'none' ?>;">
-  <input type="hidden" name="categoria" value="<?= htmlspecialchars($categoria) ?>">
-  <?php if ($min > 0): ?><input type="hidden" name="min" value="<?= $min ?>"><?php endif; ?>
-  <?php if ($max > 0): ?><input type="hidden" name="max" value="<?= $max ?>"><?php endif; ?>
-  <div class="filtro-grupo">
-    <label for="nombre">🔍 Buscar por nombre</label>
-    <input type="text" name="nombre" value="<?= htmlspecialchars($nombre) ?>">
-  </div>
-  <div class="filtro-grupo">
-    <button type="submit">Buscar</button>
-  </div>
-</form>
-
 <div class="container">
 <?php while($row = $result->fetch_assoc()):
   $titulo = htmlspecialchars($row['titulo']);
   $archivo = './uploads/' . htmlspecialchars($row['imagen']);
   $extension = strtolower(pathinfo($archivo, PATHINFO_EXTENSION));
   $es_video = in_array($extension, ['mp4', 'webm', 'ogg']);
-  $mensaje = urlencode("Quiero este producto: $titulo");
-  $link = "https://wa.me/573215116044?text=$mensaje";
 ?>
-  <div class="card" data-aos="fade-up">
+  <div class="card">
     <?php if ($es_video): ?>
       <video autoplay muted loop playsinline><source src="<?= $archivo ?>" type="video/<?= $extension ?>"></video>
     <?php else: ?>
@@ -330,17 +265,16 @@ $result = $stmt->get_result();
       <h3><?= $titulo ?></h3>
       <p><strong>Precio:</strong> $<?= number_format($row['valor']) ?></p>
       <p><?= htmlspecialchars($row['description']) ?></p>
-      <a class="boton-whatsapp" href="<?= $link ?>" target="_blank">💐 Lo quiero</a>
-      <a class="boton-whatsapp" style="background:#6c63ff" href="ver_producto.php?id=<?= $row['id'] ?>">🔍 Ver en grande</a>
-      <button class="boton-personalizar" onclick="abrirModal()">🎨 Personalizar</button>
+      <a class="boton-whatsapp" href="https://wa.me/573215116044?text=<?= urlencode("Quiero este producto: $titulo") ?>" target="_blank">💐 Lo quiero</a>
+      <button class="boton-personalizar" onclick="abrirModal('<?= $titulo ?>')">🎨 Personalizar</button>
+      <a class="boton-whatsapp ver-grande" href="ver_producto.php?id=<?= $row['id'] ?>">🔍 Ver en grande</a>
     </div>
   </div>
 <?php endwhile; ?>
 </div>
 
-<!-- Modal -->
-<div class="modal" id="modalPersonalizar">
-  <div class="modal-contenido">
+<div class="modal" id="modalPersonalizar" onclick="cerrarModal()">
+  <div class="modal-contenido" onclick="event.stopPropagation()">
     <span class="cerrar" onclick="cerrarModal()">&times;</span>
     <h3>Elige el color del ramo</h3>
     <img id="imagenRamo" src="privado/flor amarillo.jpeg" alt="Ramo">
@@ -348,34 +282,42 @@ $result = $stmt->get_result();
       <div class="color-opcion" style="background:yellow;" onclick="cambiarImagen('privado/flor amarillo.jpeg')"></div>
       <div class="color-opcion" style="background:white;" onclick="cambiarImagen('privado/flor blanco.jpeg')"></div>
     </div>
+    <a id="botonWhatsappModal" class="boton-whatsapp" target="_blank">💐 Lo quiero con este color</a>
   </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
 <script>
-  AOS.init({ duration: 800, once: true });
+let tituloActual = "";
+let colorSeleccionado = "amarillo";
 
-  function toggleFiltro(tipo) {
-    const formPrecio = document.getElementById('form-precio');
-    const formNombre = document.getElementById('form-nombre');
-    if (tipo === 'precio') formPrecio.style.display = formPrecio.style.display === 'none' ? 'flex' : 'none';
-    if (tipo === 'nombre') formNombre.style.display = formNombre.style.display === 'none' ? 'flex' : 'none';
-  }
+function abrirModal(titulo) {
+  tituloActual = titulo;
+  colorSeleccionado = "amarillo";
+  document.getElementById('imagenRamo').src = 'privado/flor amarillo.jpeg';
+  document.getElementById('modalPersonalizar').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+  actualizarEnlaceWhatsapp();
+}
 
-  function abrirModal() {
-    document.getElementById('modalPersonalizar').style.display = 'flex';
-    document.body.style.overflow = 'hidden';
-    document.getElementById('imagenRamo').src = 'privado/flor amarillo.jpeg';
-  }
+function cerrarModal() {
+  document.getElementById('modalPersonalizar').style.display = 'none';
+  document.body.style.overflow = '';
+}
 
-  function cerrarModal() {
-    document.getElementById('modalPersonalizar').style.display = 'none';
-    document.body.style.overflow = '';
-  }
+function cambiarImagen(ruta) {
+  document.getElementById('imagenRamo').src = ruta;
+  if (ruta.includes("amarillo")) colorSeleccionado = "amarillo";
+  else if (ruta.includes("blanco")) colorSeleccionado = "blanco";
+  actualizarEnlaceWhatsapp();
+}
 
-  function cambiarImagen(ruta) {
-    document.getElementById('imagenRamo').src = ruta;
-  }
+function actualizarEnlaceWhatsapp() {
+  const mensaje = `Quiero este ramo: ${tituloActual} en color ${colorSeleccionado}`;
+  const enlace = `https://wa.me/573215116044?text=${encodeURIComponent(mensaje)}`;
+  document.getElementById('botonWhatsappModal').href = enlace;
+}
 </script>
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script>AOS.init({ duration: 800, once: true });</script>
 </body>
 </html>
