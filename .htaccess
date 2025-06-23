@@ -1,0 +1,4 @@
+RewriteEngine On
+RewriteBase /flores/
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /index\.php\ HTTP/
+RewriteRule ^index\.php$ https://melany-variedades.shop/flores/ [R=301,L]
