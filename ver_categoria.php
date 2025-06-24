@@ -198,14 +198,18 @@ $result = $stmt->get_result();
   $titulo = htmlspecialchars($row['titulo']);
   $archivo = './uploads/' . htmlspecialchars($row['imagen']);
   $extension = strtolower(pathinfo($archivo, PATHINFO_EXTENSION));
-  $es_video = in_array($extension, ['mp4', 'webm', 'ogg']);
+  $es_video = in_array($extension, ['mp4', 'webm', 'ogg', 'mov']);
 ?>
   <div class="card" data-aos="zoom-in">
     <?php if ($es_video): ?>
-      <video autoplay muted loop playsinline><source src="<?= $archivo ?>" type="video/<?= $extension ?>"></video>
+      <video autoplay muted loop playsinline controls>
+        <source src="<?= $archivo ?>" type="video/<?= $extension === 'mov' ? 'quicktime' : $extension ?>">
+        Tu navegador no soporta el video.
+      </video>
     <?php else: ?>
       <img src="<?= $archivo ?>" alt="<?= $titulo ?>">
     <?php endif; ?>
+
     <div class="info">
       <h3 data-aos="fade-right"><?= $titulo ?></h3>
       <p data-aos="fade-left"><strong>Precio:</strong> $<?= number_format($row['valor']) ?></p>
