@@ -226,8 +226,11 @@ $result = $stmt->get_result();
     <h3>Elige el color del ramo</h3>
     <img id="imagenRamo" src="privado/flor amarillo.jpeg" alt="Ramo">
     <div class="color-opciones">
-      <div class="color-opcion" style="background:yellow;" onclick="cambiarImagen('privado/flor amarillo.jpeg')"></div>
+      <div class="color-opcion" style="background:yellow;" onclick="cambiarImagen('privado/flor amarilla.jpeg')"></div>
       <div class="color-opcion" style="background:white;" onclick="cambiarImagen('privado/flor blanco.jpeg')"></div>
+      <div class="color-opcion" style="background:blue;" onclick="cambiarImagen('privado/flor azul.jpeg')"></div>
+      <div class="color-opcion" style="background:pink;" onclick="cambiarImagen('privado/flor fuccia.jpeg')"></div>
+      <div class="color-opcion" style="background:red;" onclick="cambiarImagen('privado/flor roja.jpeg')"></div>
     </div>
     <a id="botonWhatsappModal" class="boton-whatsapp" target="_blank">💐 Lo quiero con este color</a>
   </div>
@@ -240,7 +243,7 @@ let colorSeleccionado = "amarillo";
 function abrirModal(titulo) {
   tituloActual = titulo;
   colorSeleccionado = "amarillo";
-  document.getElementById('imagenRamo').src = 'privado/flor amarillo.jpeg';
+  document.getElementById('imagenRamo').src = 'privado/flor amarilla.jpeg';
   document.getElementById('modalPersonalizar').style.display = 'flex';
   document.body.style.overflow = 'hidden';
   actualizarEnlaceWhatsapp();
