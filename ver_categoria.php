@@ -202,14 +202,10 @@ $result = $stmt->get_result();
 ?>
   <div class="card" data-aos="zoom-in">
     <?php if ($es_video): ?>
-      <video autoplay muted loop playsinline controls>
-        <source src="<?= $archivo ?>" type="video/<?= $extension === 'mov' ? 'quicktime' : $extension ?>">
-        Tu navegador no soporta el video.
-      </video>
+      <video autoplay muted loop playsinline><source src="<?= $archivo ?>" type="video/<?= $extension ?>"></video>
     <?php else: ?>
       <img src="<?= $archivo ?>" alt="<?= $titulo ?>">
     <?php endif; ?>
-
     <div class="info">
       <h3 data-aos="fade-right"><?= $titulo ?></h3>
       <p data-aos="fade-left"><strong>Precio:</strong> $<?= number_format($row['valor']) ?></p>
