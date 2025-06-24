@@ -202,7 +202,11 @@ $result = $stmt->get_result();
 ?>
   <div class="card" data-aos="zoom-in">
     <?php if ($es_video): ?>
-      <video autoplay muted loop playsinline><source src="<?= $archivo ?>" type="video/<?= $extension ?>"></video>
+      <video autoplay muted loop playsinline controls>
+      <source src="<?= $archivo ?>" type="<?= $extension === 'mov' ? 'video/quicktime' : 'video/' . $extension ?>">
+      Tu navegador no soporta la reproducción de este video.
+    </video>
+
     <?php else: ?>
       <img src="<?= $archivo ?>" alt="<?= $titulo ?>">
     <?php endif; ?>
