@@ -5,32 +5,32 @@ date_default_timezone_set('America/Bogota');
 $fecha = date('Y-m-d H:i:s');
 $conn->query("INSERT INTO visitas_catalogo (fecha) VALUES ('$fecha')");
 
-
+// Obtener categorías únicas
 $sql = "SELECT DISTINCT categoria FROM catalogo_ramos";
 $result = $conn->query($sql);
 
-// Leer imágenes locales desde carpeta uploads/
-$carpeta = 'uploads/';
-$imagenes_disponibles = glob($carpeta . '*.{jpg,jpeg,png,gif}', GLOB_BRACE);
-shuffle($imagenes_disponibles); // barajamos para que no se repitan en orden
+// Asociar imagen por categoría
+$imagenes_categoria = [];
+$sql_imgs = "SELECT categoria, imagen FROM catalogo_ramos WHERE imagen IS NOT NULL AND imagen != '' GROUP BY categoria";
+$res_imgs = $conn->query($sql_imgs);
+
+while ($fila = $res_imgs->fetch_assoc()) {
+    $cat = $fila['categoria'];
+    $img_path = $fila['imagen'];
+    if (file_exists($img_path)) {
+        $imagenes_categoria[$cat] = $img_path;
+    }
+}
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-      <!-- Título atractivo y con palabras clave -->
-    <title>Flores Personalizadas | Ramos mágicos en Melany Variedades La Guajira</title>
-
-    <!-- Descripción para Google (max. ~160 caracteres) -->
-    <meta name="description" content="Descubre ramos de flores únicos con mariposas, luces y detalles mágicos. Entregas en La Guajira. Hechos con amor en Melany Variedades.">
-
-    <!-- Palabras clave para posicionamiento (opcional en SEO moderno, pero puede ayudar) -->
-    <meta name="keywords" content="flores, ramos, rosas, regalos personalizados, La Guajira, Melany Variedades, Maicao, detalles mágicos, flores con luces, ramos con mariposas">
-
-    <!-- Canónica: URL principal -->
-    <link rel="canonical" href="https://melany-variedades.shop/flores/" />
-
+  <title>Flores Personalizadas | Ramos mágicos en Melany Variedades La Guajira</title>
+  <meta name="description" content="Descubre ramos de flores únicos con mariposas, luces y detalles mágicos. Entregas en La Guajira. Hechos con amor en Melany Variedades.">
+  <meta name="keywords" content="flores, ramos, rosas, regalos personalizados, La Guajira, Melany Variedades, Maicao, detalles mágicos, flores con luces, ramos con mariposas">
+  <link rel="canonical" href="https://melany-variedades.shop/flores/" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- AOS -->
@@ -46,7 +46,6 @@ shuffle($imagenes_disponibles); // barajamos para que no se repitan en orden
       color: #333;
     }
 
-    /* Encabezado mágico */
     .titulo-magico {
       font-family: 'Fredoka', sans-serif;
       text-align: center;
@@ -73,23 +72,13 @@ shuffle($imagenes_disponibles); // barajamos para que no se repitan en orden
     }
 
     @keyframes float {
-      0%, 100% {
-        transform: translateY(0px);
-      }
-      50% {
-        transform: translateY(-12px);
-      }
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-12px); }
     }
 
     @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .decoracion {
@@ -101,14 +90,8 @@ shuffle($imagenes_disponibles); // barajamos para que no se repitan en orden
     }
 
     @keyframes pulse {
-      0%, 100% {
-        transform: scale(1);
-        opacity: 1;
-      }
-      50% {
-        transform: scale(1.1);
-        opacity: 0.7;
-      }
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.1); opacity: 0.7; }
     }
 
     h1 {
@@ -179,6 +162,7 @@ shuffle($imagenes_disponibles); // barajamos para que no se repitan en orden
     .card-content button:hover {
       background-color: #b3246e;
     }
+
     .frase-magica {
       max-width: 1000px;
       margin: 40px auto;
@@ -197,16 +181,9 @@ shuffle($imagenes_disponibles); // barajamos para que no se repitan en orden
     }
 
     @keyframes fadeUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
-
   </style>
 </head>
 <body>
@@ -225,10 +202,6 @@ shuffle($imagenes_disponibles); // barajamos para que no se repitan en orden
   cuenta una historia única y mágica
 </div>
 
-
-<!-- Título AOS -->
-
-
 <div class="container">
   <!-- Tarjeta "Ver Todos" -->
   <div class="card" data-aos="fade-up" onclick="location.href='ver_categoria.php'">
@@ -239,12 +212,9 @@ shuffle($imagenes_disponibles); // barajamos para que no se repitan en orden
     </div>
   </div>
 
-  <?php
-  $i = 0;
-  while($row = $result->fetch_assoc()):
+  <?php while($row = $result->fetch_assoc()):
     $categoria = htmlspecialchars($row['categoria']);
-    $img = $imagenes_disponibles[$i % count($imagenes_disponibles)];
-    $i++;
+    $img = isset($imagenes_categoria[$categoria]) ? $imagenes_categoria[$categoria] : 'uploads/default.jpg'; // imagen por defecto
   ?>
     <div class="card" data-aos="fade-up" onclick="location.href='ver_categoria.php?categoria=<?= urlencode($categoria) ?>'">
       <img src="<?= $img ?>" alt="<?= $categoria ?>" data-aos="zoom-in">
