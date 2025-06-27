@@ -165,6 +165,22 @@ $result = $conn->query($sql);
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
+    .barra-fija-inferior {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: linear-gradient(to right, #ffe4f1, #f0abfc);
+      color: #7c2d12;
+      text-align: center;
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 12px;
+      box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+      z-index: 9999;
+      font-family: 'Poppins', sans-serif;
+    }
+
   </style>
 </head>
 <body>
@@ -226,6 +242,9 @@ $result = $conn->query($sql);
 <script>
   AOS.init({ duration: 1000, once: true });
 </script>
+<div class="barra-fija-inferior">
+  👉 ¡Explora más! Da clic en cualquier categoría para ver todos los ramos mágicos relacionados ✨
+</div>
 
 </body>
 </html>
