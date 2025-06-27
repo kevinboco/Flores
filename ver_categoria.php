@@ -219,25 +219,34 @@ $result = $stmt->get_result();
     💰 Filtrar por Precio
   </button>
 </div>
+<?php if (!empty($categoria) || $min > 0 || $max > 0 || !empty($nombre)): ?>
+  <div style="text-align: center; margin: 20px;">
+    <a href="ver_categoria.php?categoria=<?= urlencode($categoria) ?>" style="background: #ffcad4; color: #721c24; padding: 10px 20px; border-radius: 10px; text-decoration: none; font-weight: bold; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+      ❌ Quitar filtros y ver todos los ramos
+    </a>
+  </div>
+<?php endif; ?>
+
 
 <!-- Formulario de filtro por nombre -->
-<div id="filtro-nombre" style="display:none; max-width: 500px; margin: 0 auto 20px; padding: 20px; background: #fff; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1);" data-aos="fade-up">
-  <form method="GET" action="">
+<div id="filtro-nombre" style="display:none; width: 90%; max-width: 500px; margin: 0 auto 20px; padding: 20px; background: #fff; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); box-sizing: border-box;" data-aos="fade-up">
+  <form method="GET" action="" style="display: flex; flex-direction: column; gap: 12px;">
     <input type="hidden" name="categoria" value="<?= htmlspecialchars($categoria) ?>">
-    <input type="text" name="nombre" placeholder="Escribe el nombre..." value="<?= htmlspecialchars($nombre) ?>" style="width: 100%; padding: 12px; font-size: 16px; border: 2px solid #d63384; border-radius: 10px; margin-bottom: 10px;">
+    <input type="text" name="nombre" placeholder="Escribe el nombre..." value="<?= htmlspecialchars($nombre) ?>" style="padding: 12px; font-size: 16px; border: 2px solid #d63384; border-radius: 10px; box-sizing: border-box; width: 100%;">
     <button type="submit" style="padding: 10px 20px; background-color: #d63384; color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer;">Filtrar</button>
   </form>
 </div>
 
 <!-- Formulario de filtro por precio -->
-<div id="filtro-precio" style="display:none; max-width: 500px; margin: 0 auto 20px; padding: 20px; background: #fff; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1);" data-aos="fade-up">
-  <form method="GET" action="">
+<div id="filtro-precio" style="display:none; width: 90%; max-width: 500px; margin: 0 auto 20px; padding: 20px; background: #fff; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); box-sizing: border-box;" data-aos="fade-up">
+  <form method="GET" action="" style="display: flex; flex-direction: column; gap: 12px;">
     <input type="hidden" name="categoria" value="<?= htmlspecialchars($categoria) ?>">
-    <input type="number" name="min" placeholder="Precio mínimo" value="<?= $min ?>" style="width: 100%; padding: 12px; font-size: 16px; border: 2px solid #6c63ff; border-radius: 10px; margin-bottom: 10px;">
-    <input type="number" name="max" placeholder="Precio máximo" value="<?= $max ?>" style="width: 100%; padding: 12px; font-size: 16px; border: 2px solid #6c63ff; border-radius: 10px; margin-bottom: 10px;">
+    <input type="number" name="min" placeholder="Precio mínimo" value="<?= $min ?>" style="padding: 12px; font-size: 16px; border: 2px solid #6c63ff; border-radius: 10px; box-sizing: border-box; width: 100%;">
+    <input type="number" name="max" placeholder="Precio máximo" value="<?= $max ?>" style="padding: 12px; font-size: 16px; border: 2px solid #6c63ff; border-radius: 10px; box-sizing: border-box; width: 100%;">
     <button type="submit" style="padding: 10px 20px; background-color: #6c63ff; color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer;">Filtrar</button>
   </form>
 </div>
+
 
 
 
