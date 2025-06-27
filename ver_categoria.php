@@ -187,12 +187,21 @@ $result = $stmt->get_result();
       cursor: pointer;
     }
     .barra-fija-inferior.whatsapp {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
       background: linear-gradient(to right, #e0f2fe, #d8b4fe);
       color: #1e3a8a;
       font-size: 0.95rem;
-      padding: 10px;
-      box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.08);
+      padding: 12px;
+      text-align: center;
+      font-weight: bold;
+      z-index: 9999;
+      font-family: 'Poppins', sans-serif;
+      box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
     }
+
 
   </style>
 </head>
