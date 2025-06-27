@@ -273,5 +273,9 @@ function actualizarEnlaceWhatsapp() {
 </script>
 <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
 <script>AOS.init({ duration: 800, once: true });</script>
+<div class="barra-fija-inferior whatsapp">
+  📲 ¿Te gustó algún ramo? Haz clic en lo !quiero! y te llevaremos a WhatsApp con el nombre del producto listo para consultar ✨
+</div>
+
 </body>
 </html>
