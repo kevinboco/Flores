@@ -186,6 +186,14 @@ $result = $stmt->get_result();
       border: 2px solid #555;
       cursor: pointer;
     }
+    .barra-fija-inferior.whatsapp {
+      background: linear-gradient(to right, #e0f2fe, #d8b4fe);
+      color: #1e3a8a;
+      font-size: 0.95rem;
+      padding: 10px;
+      box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.08);
+    }
+
   </style>
 </head>
 <body>
