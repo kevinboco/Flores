@@ -209,17 +209,30 @@ $result = $stmt->get_result();
 <div class="navbar">
   <a href="index.php">Volver a categorías</a>
 </div>
-<h1>Ramos: <?= $categoria ? htmlspecialchars($categoria) : 'Todos' ?></h1>
+<h1 data-aos="fade-down">Ramos: <?= $categoria ? htmlspecialchars($categoria) : 'Todos' ?></h1>
+
 <!-- Botones de filtros -->
 <div style="max-width: 900px; margin: 20px auto; text-align: center;">
-  <button onclick="toggleFiltro('nombre')" style="padding: 10px 20px; margin: 10px; border: none; background-color: #d63384; color: white; border-radius: 10px; font-weight: bold; cursor: pointer;">
+  <button onclick="toggleFiltro('nombre')" data-aos="zoom-in" data-aos-delay="100" style="padding: 10px 20px; margin: 10px; border: none; background-color: #d63384; color: white; border-radius: 10px; font-weight: bold; cursor: pointer;">
     🔍 Filtrar por Nombre
   </button>
-  <button onclick="toggleFiltro('precio')" style="padding: 10px 20px; margin: 10px; border: none; background-color: #6c63ff; color: white; border-radius: 10px; font-weight: bold; cursor: pointer;">
+  <button onclick="toggleFiltro('precio')" data-aos="zoom-in" data-aos-delay="100" style="padding: 10px 20px; margin: 10px; border: none; background-color: #6c63ff; color: white; border-radius: 10px; font-weight: bold; cursor: pointer;">
     💰 Filtrar por Precio
   </button>
 </div>
-<?php if (!empty($categoria) || $min > 0 || $max > 0 || !empty($nombre)): ?>
+<?php
+// Verificamos si hay filtros ACTIVOS diferentes a la categoría actual
+$hayFiltrosActivos = false;
+
+if (
+    (!empty($nombre)) ||
+    ($min > 0 || $max > 0)
+) {
+    $hayFiltrosActivos = true;
+}
+
+if ($hayFiltrosActivos):
+?>
   <div style="text-align: center; margin: 20px;">
     <a href="ver_categoria.php?categoria=<?= urlencode($categoria) ?>" style="background: #ffcad4; color: #721c24; padding: 10px 20px; border-radius: 10px; text-decoration: none; font-weight: bold; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
       ❌ Quitar filtros y ver todos los ramos
@@ -228,8 +241,9 @@ $result = $stmt->get_result();
 <?php endif; ?>
 
 
+
 <!-- Formulario de filtro por nombre -->
-<div id="filtro-nombre" style="display:none; width: 90%; max-width: 500px; margin: 0 auto 20px; padding: 20px; background: #fff; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); box-sizing: border-box;" data-aos="fade-up">
+<div id="filtro-nombre"  style="display:none; width: 90%; max-width: 500px; margin: 0 auto 20px; padding: 20px; background: #fff; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); box-sizing: border-box;" data-aos="fade-up" data-aos-delay="100">
   <form method="GET" action="" style="display: flex; flex-direction: column; gap: 12px;">
     <input type="hidden" name="categoria" value="<?= htmlspecialchars($categoria) ?>">
     <input type="text" name="nombre" placeholder="Escribe el nombre..." value="<?= htmlspecialchars($nombre) ?>" style="padding: 12px; font-size: 16px; border: 2px solid #d63384; border-radius: 10px; box-sizing: border-box; width: 100%;">
