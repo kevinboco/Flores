@@ -210,6 +210,38 @@ $result = $stmt->get_result();
   <a href="index.php">Volver a categorías</a>
 </div>
 <h1>Ramos: <?= $categoria ? htmlspecialchars($categoria) : 'Todos' ?></h1>
+<!-- Botones de filtros -->
+<div style="max-width: 900px; margin: 20px auto; text-align: center;">
+  <button onclick="toggleFiltro('nombre')" style="padding: 10px 20px; margin: 10px; border: none; background-color: #d63384; color: white; border-radius: 10px; font-weight: bold; cursor: pointer;">
+    🔍 Filtrar por Nombre
+  </button>
+  <button onclick="toggleFiltro('precio')" style="padding: 10px 20px; margin: 10px; border: none; background-color: #6c63ff; color: white; border-radius: 10px; font-weight: bold; cursor: pointer;">
+    💰 Filtrar por Precio
+  </button>
+</div>
+
+<!-- Formulario de filtro por nombre -->
+<div id="filtro-nombre" style="display:none; max-width: 500px; margin: 0 auto 20px; padding: 20px; background: #fff; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1);" data-aos="fade-up">
+  <form method="GET" action="">
+    <input type="hidden" name="categoria" value="<?= htmlspecialchars($categoria) ?>">
+    <input type="text" name="nombre" placeholder="Escribe el nombre..." value="<?= htmlspecialchars($nombre) ?>" style="width: 100%; padding: 12px; font-size: 16px; border: 2px solid #d63384; border-radius: 10px; margin-bottom: 10px;">
+    <button type="submit" style="padding: 10px 20px; background-color: #d63384; color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer;">Filtrar</button>
+  </form>
+</div>
+
+<!-- Formulario de filtro por precio -->
+<div id="filtro-precio" style="display:none; max-width: 500px; margin: 0 auto 20px; padding: 20px; background: #fff; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1);" data-aos="fade-up">
+  <form method="GET" action="">
+    <input type="hidden" name="categoria" value="<?= htmlspecialchars($categoria) ?>">
+    <input type="number" name="min" placeholder="Precio mínimo" value="<?= $min ?>" style="width: 100%; padding: 12px; font-size: 16px; border: 2px solid #6c63ff; border-radius: 10px; margin-bottom: 10px;">
+    <input type="number" name="max" placeholder="Precio máximo" value="<?= $max ?>" style="width: 100%; padding: 12px; font-size: 16px; border: 2px solid #6c63ff; border-radius: 10px; margin-bottom: 10px;">
+    <button type="submit" style="padding: 10px 20px; background-color: #6c63ff; color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer;">Filtrar</button>
+  </form>
+</div>
+
+
+
+
 <div class="container">
 <?php while($row = $result->fetch_assoc()):
   $titulo = htmlspecialchars($row['titulo']);
@@ -293,6 +325,19 @@ function actualizarEnlaceWhatsapp() {
 <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
 <script>AOS.init({ duration: 800, once: true });</script>
 
+<script>
+  function toggleFiltro(tipo) {
+    const nombreDiv = document.getElementById("filtro-nombre");
+    const precioDiv = document.getElementById("filtro-precio");
 
+    if (tipo === "nombre") {
+      nombreDiv.style.display = nombreDiv.style.display === "none" ? "block" : "none";
+      precioDiv.style.display = "none";
+    } else if (tipo === "precio") {
+      precioDiv.style.display = precioDiv.style.display === "none" ? "block" : "none";
+      nombreDiv.style.display = "none";
+    }
+  }
+</script>
 </body>
 </html>
