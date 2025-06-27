@@ -8,19 +8,6 @@ $conn->query("INSERT INTO visitas_catalogo (fecha) VALUES ('$fecha')");
 // Obtener categorías únicas
 $sql = "SELECT DISTINCT categoria FROM catalogo_ramos";
 $result = $conn->query($sql);
-
-// Asociar imagen por categoría
-$imagenes_categoria = [];
-$sql_imgs = "SELECT categoria, imagen FROM catalogo_ramos WHERE imagen IS NOT NULL AND imagen != '' GROUP BY categoria";
-$res_imgs = $conn->query($sql_imgs);
-
-while ($fila = $res_imgs->fetch_assoc()) {
-    $cat = $fila['categoria'];
-    $img_path = $fila['imagen'];
-    if (file_exists($img_path)) {
-        $imagenes_categoria[$cat] = $img_path;
-    }
-}
 ?>
 
 <!DOCTYPE html>
@@ -92,12 +79,6 @@ while ($fila = $res_imgs->fetch_assoc()) {
     @keyframes pulse {
       0%, 100% { transform: scale(1); opacity: 1; }
       50% { transform: scale(1.1); opacity: 0.7; }
-    }
-
-    h1 {
-      text-align: center;
-      margin: 20px 20px 10px;
-      color: #d63384;
     }
 
     .container {
@@ -188,7 +169,6 @@ while ($fila = $res_imgs->fetch_assoc()) {
 </head>
 <body>
 
-<!-- Encabezado mágico -->
 <div class="decoracion">✨</div>
 <div style="text-align: center;">
   <span class="blob"></span>
@@ -214,10 +194,25 @@ while ($fila = $res_imgs->fetch_assoc()) {
 
   <?php while($row = $result->fetch_assoc()):
     $categoria = htmlspecialchars($row['categoria']);
-    $img = isset($imagenes_categoria[$categoria]) ? $imagenes_categoria[$categoria] : 'uploads/default.jpg'; // imagen por defecto
+
+    // Buscar nombre de imagen real asociada
+    $sqlImg = "SELECT imagen FROM catalogo_ramos WHERE categoria = ? AND imagen IS NOT NULL AND imagen != '' LIMIT 1";
+    $stmt = $conn->prepare($sqlImg);
+    $stmt->bind_param("s", $categoria);
+    $stmt->execute();
+    $stmt->bind_result($imgNombre);
+    $stmt->fetch();
+    $stmt->close();
+
+    // Construir ruta de imagen
+    if ($imgNombre && file_exists("uploads/" . $imgNombre)) {
+      $imgPath = "uploads/" . $imgNombre;
+    } else {
+      $imgPath = "uploads/default.jpg";
+    }
   ?>
     <div class="card" data-aos="fade-up" onclick="location.href='ver_categoria.php?categoria=<?= urlencode($categoria) ?>'">
-      <img src="<?= $img ?>" alt="<?= $categoria ?>" data-aos="zoom-in">
+      <img src="<?= $imgPath ?>" alt="<?= $categoria ?>" data-aos="zoom-in">
       <div class="card-content">
         <h3 data-aos="fade-right" data-aos-delay="100"><?= $categoria ?></h3>
         <button data-aos="fade-up" data-aos-delay="200">Ver más</button>
