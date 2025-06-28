@@ -147,18 +147,25 @@ $result = $stmt->get_result();
       width: 100%; height: 100%;
       background-color: rgba(0, 0, 0, 0.5);
       justify-content: center;
-       align-items: flex-start; /* En lugar de center */
+      align-items: flex-start;
       padding: 10px;
+      overflow-y: auto; /* ✅ esto permite desplazarse si se pasa de altura */
     }
+
     .modal-contenido {
       background: white;
       border-radius: 10px;
       padding: 15px;
       width: 90%;
-      max-width: 300px;
+      max-width: 400px;
+      margin: 20px auto; /* ✅ agrega espacio y centra */
+      box-sizing: border-box;
+      max-height: none;  /* ✅ elimina restricciones de alto */
+      overflow: visible; /* ✅ permite que todo el contenido se muestre */
       position: relative;
       text-align: center;
     }
+
     .cerrar {
       position: absolute;
       top: 10px;
@@ -307,7 +314,18 @@ if ($hayFiltrosActivos):
       <div class="color-opcion" style="background:blue;" onclick="cambiarImagen('privado/flor azul.jpeg')"></div>
       <div class="color-opcion" style="background:pink;" onclick="cambiarImagen('privado/flor fuccia.jpeg')"></div>
       <div class="color-opcion" style="background:red;" onclick="cambiarImagen('privado/flor roja.jpeg')"></div>
+      
     </div>
+    <div style="margin-top: 20px;">
+      <label for="textoCinta" style="font-weight: bold; display: block; margin-bottom: 10px;">Texto en la cinta personalizada:</label>
+      <input type="text" id="textoCinta" placeholder="Escribe tu mensaje..." oninput="actualizarTextoCinta()" style="padding: 10px; width: 100%; border: 2px solid #d63384; border-radius: 8px; font-size: 15px; box-sizing: border-box;">
+    </div>
+
+    <div style="margin-top: 20px; position: relative; display: inline-block;">
+      <img src="privado/cinta_personalizada.png" id="imagenCinta" alt="Cinta personalizada" style="max-width: 100%; border-radius: 10px;">
+      <div id="textoSobreCinta" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-weight: bold; font-size: 18px; color: black; text-shadow: 1px 1px 2px white;"></div>
+    </div>
+
     <a id="botonWhatsappModal" class="boton-whatsapp" target="_blank">💐 Lo quiero con este color</a>
   </div>
 </div>
@@ -318,14 +336,33 @@ if ($hayFiltrosActivos):
 let tituloActual = "";
 let colorSeleccionado = "amarillo";
 
+let textoCinta = "";
+
+function actualizarTextoCinta() {
+  textoCinta = document.getElementById("textoCinta").value;
+  document.getElementById("textoSobreCinta").innerText = textoCinta;
+  actualizarEnlaceWhatsapp();
+}
+
+function actualizarEnlaceWhatsapp() {
+  const mensaje = `Quiero este ramo: ${tituloActual} en color ${colorSeleccionado}` +
+                  (textoCinta ? ` con el texto: "${textoCinta}" en la cinta personalizada` : '');
+  const enlace = `https://wa.me/573215116044?text=${encodeURIComponent(mensaje)}`;
+  document.getElementById('botonWhatsappModal').href = enlace;
+}
+
 function abrirModal(titulo) {
   tituloActual = titulo;
   colorSeleccionado = "amarillo";
-  document.getElementById('imagenRamo').src = 'privado/flor amarilla.jpeg';
-  document.getElementById('modalPersonalizar').style.display = 'flex';
-  document.body.style.overflow = 'hidden';
+  textoCinta = "";
+  document.getElementById("imagenRamo").src = "privado/flor amarilla.jpeg";
+  document.getElementById("modalPersonalizar").style.display = "flex";
+  document.body.style.overflow = "hidden";
+  document.getElementById("textoCinta").value = "";
+  document.getElementById("textoSobreCinta").innerText = "";
   actualizarEnlaceWhatsapp();
 }
+
 
 function cerrarModal() {
   document.getElementById('modalPersonalizar').style.display = 'none';
