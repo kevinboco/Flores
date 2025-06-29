@@ -380,10 +380,16 @@ function cambiarImagen(ruta) {
 }
 
 function actualizarEnlaceWhatsapp() {
-  const mensaje = `Quiero este ramo: ${tituloActual} en color ${colorSeleccionado}`;
+  let mensaje = `Quiero este ramo: ${tituloActual} en color ${colorSeleccionado}`;
+
+  if (textoCinta) {
+    mensaje += ` con el texto: "${textoCinta}" en la cinta personalizada (costo adicional de $10.000)`;
+  }
+
   const enlace = `https://wa.me/573215116044?text=${encodeURIComponent(mensaje)}`;
   document.getElementById('botonWhatsappModal').href = enlace;
 }
+
 </script>
 <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
 <script>AOS.init({ duration: 800, once: true });</script>
