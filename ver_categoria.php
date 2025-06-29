@@ -158,13 +158,20 @@ $result = $stmt->get_result();
       padding: 15px;
       width: 90%;
       max-width: 400px;
-      margin: 20px auto; /* ✅ agrega espacio y centra */
+      margin: 20px auto;
       box-sizing: border-box;
-      max-height: none;  /* ✅ elimina restricciones de alto */
-      overflow: visible; /* ✅ permite que todo el contenido se muestre */
+      max-height: none;
+      overflow: visible;
       position: relative;
       text-align: center;
+
+      animation: fadeInModal 0.4s ease; /* 👈 Aquí se agrega */
+      
     }
+    .modal-contenido.fade-out {
+      animation: fadeOutModal 0.3s ease forwards;
+    }
+
 
     .cerrar {
       position: absolute;
@@ -208,6 +215,27 @@ $result = $stmt->get_result();
       font-family: 'Poppins', sans-serif;
       box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
     }
+    @keyframes fadeInModal {
+      from {
+        opacity: 0;
+        transform: scale(0.9) translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+    @keyframes fadeOutModal {
+      from {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+      to {
+        opacity: 0;
+        transform: scale(0.9) translateY(-20px);
+      }
+    }
+
 
 
   </style>
@@ -318,7 +346,7 @@ if ($hayFiltrosActivos):
     </div>
     <div style="margin-top: 20px;">
       <label for="textoCinta" style="font-weight: bold; display: block; margin-bottom: 10px;">Texto en la cinta personalizada:</label>
-      <input type="text" id="textoCinta" placeholder="Escribe tu mensaje..." oninput="actualizarTextoCinta()" style="padding: 10px; width: 100%; border: 2px solid #d63384; border-radius: 8px; font-size: 15px; box-sizing: border-box;">
+      <input type="text" id="textoCinta" placeholder="Escribe tu mensaje...valor adicional $10.000" oninput="actualizarTextoCinta()" style="padding: 10px; width: 100%; border: 2px solid #d63384; border-radius: 8px; font-size: 15px; box-sizing: border-box;">
     </div>
 
     <div style="margin-top: 20px; position: relative; display: inline-block;">
@@ -366,10 +394,19 @@ function abrirModal(titulo) {
 }
 
 function cerrarModal() {
-  document.getElementById('modalPersonalizar').style.display = 'none';
-  document.body.style.overflow = '';
-  document.getElementById("barraWhatsapp").style.display = "block"; // 👈 Muestra barra
+  const modal = document.getElementById('modalPersonalizar');
+  const contenido = modal.querySelector('.modal-contenido');
+
+  contenido.classList.add('fade-out');
+
+  setTimeout(() => {
+    modal.style.display = 'none';
+    contenido.classList.remove('fade-out');
+    document.body.style.overflow = '';
+    document.getElementById("barraWhatsapp").style.display = "block";
+  }, 300); // debe coincidir con la duración de fadeOutModal
 }
+
 
 
 function cambiarImagen(ruta) {
