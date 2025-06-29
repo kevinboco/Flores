@@ -329,7 +329,8 @@ if ($hayFiltrosActivos):
     <a id="botonWhatsappModal" class="boton-whatsapp" target="_blank">💐 Lo quiero con este color</a>
   </div>
 </div>
-<div class="barra-fija-inferior whatsapp">
+<div id="barraWhatsapp" class="barra-fija-inferior whatsapp">
+
   📲 ¿Te gustó algún ramo? Haz clic en lo !quiero! y te llevaremos a WhatsApp con el nombre del producto listo para consultar ✨
 </div>
 <script>
@@ -360,14 +361,16 @@ function abrirModal(titulo) {
   document.body.style.overflow = "hidden";
   document.getElementById("textoCinta").value = "";
   document.getElementById("textoSobreCinta").innerText = "";
+  document.getElementById("barraWhatsapp").style.display = "none"; // 👈 Oculta barra
   actualizarEnlaceWhatsapp();
 }
-
 
 function cerrarModal() {
   document.getElementById('modalPersonalizar').style.display = 'none';
   document.body.style.overflow = '';
+  document.getElementById("barraWhatsapp").style.display = "block"; // 👈 Muestra barra
 }
+
 
 function cambiarImagen(ruta) {
   document.getElementById('imagenRamo').src = ruta;
