@@ -153,7 +153,7 @@ $result = $stmt->get_result();
     }
 
     .modal-contenido {
-      background: white;
+      background: pink;
       border-radius: 10px;
       padding: 15px;
       width: 90%;
@@ -182,7 +182,7 @@ $result = $stmt->get_result();
       cursor: pointer;
     }
     .modal-contenido img {
-      max-width: 100%;
+      max-width: 50%;
       max-height: 60vh;
       border-radius: 10px;
     }
@@ -235,7 +235,7 @@ $result = $stmt->get_result();
         transform: scale(0.9) translateY(-20px);
       }
     }
-
+    
 
 
   </style>
