@@ -10,23 +10,35 @@ $historial_file = 'historial_ajuste.txt';
 // Procesar formulario
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $cantidad = floatval($_POST['cantidad']);
-    $accion = $_POST['accion'];
+    $accion   = $_POST['accion'] ?? 'subir';
 
-    if ($accion === 'subir') {
-        $sql = "UPDATE pedido SET valor_ramo = valor_ramo + ?";
-        $mensaje = "Subiste a todos los precios $" . number_format($cantidad, 0);
-    } elseif ($accion === 'bajar') {
-        $sql = "UPDATE pedido SET valor_ramo = GREATEST(0, valor_ramo - ?)";
-        $mensaje = "Restaste a todos los precios $" . number_format($cantidad, 0);
+    if ($cantidad <= 0) {
+        $mensaje = "La cantidad debe ser mayor a 0";
+    } else {
+        if ($accion === 'subir') {
+            $sql = "UPDATE catalogo_ramos SET valor = valor + ?";
+            $mensaje = "Subiste a todos los precios $" . number_format($cantidad, 0);
+        } elseif ($accion === 'bajar') {
+            $sql = "UPDATE catalogo_ramos SET valor = GREATEST(0, valor - ?)";
+            $mensaje = "Bajaste a todos los precios $" . number_format($cantidad, 0);
+        }
+
+        $conn->query("SET SQL_SAFE_UPDATES = 0"); // por si está activado
+
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("d", $cantidad);
+        $stmt->execute();
+        $afectadas = $stmt->affected_rows;
+
+        $mensaje .= " | Filas afectadas: {$afectadas}";
+
+        file_put_contents($historial_file, $mensaje);
     }
-
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("d", $cantidad);
-    $stmt->execute();
-
-    file_put_contents($historial_file, $mensaje);
 }
-$ultima_accion = file_exists($historial_file) ? file_get_contents($historial_file) : "No has realizado ajustes todavía.";
+
+$ultima_accion = file_exists($historial_file)
+    ? file_get_contents($historial_file)
+    : "No has realizado ajustes todavía.";
 ?>
 
 <!DOCTYPE html>
@@ -46,7 +58,7 @@ $ultima_accion = file_exists($historial_file) ? file_get_contents($historial_fil
     </style>
 </head>
 <body class="container py-5">
-    <h2 class="mb-4">Ajustar precios de todos los pedidos</h2>
+    <h2 class="mb-4">Ajustar precios de todos los ramos</h2>
 
     <?php if ($mensaje): ?>
         <div class="alert alert-success"><?= $mensaje ?></div>
@@ -59,7 +71,7 @@ $ultima_accion = file_exists($historial_file) ? file_get_contents($historial_fil
     <form method="post" class="card p-4 shadow-sm">
         <div class="mb-3">
             <label for="cantidad" class="form-label">¿Cuánto deseas ajustar?</label>
-            <input type="number" name="cantidad" id="cantidad" step="1000" class="form-control" required>
+            <input type="number" name="cantidad" id="cantidad" step="100" class="form-control" required>
         </div>
         <div class="mb-3">
             <label class="form-label">Acción</label>
@@ -72,3 +84,4 @@ $ultima_accion = file_exists($historial_file) ? file_get_contents($historial_fil
     </form>
 </body>
 </html>
+
